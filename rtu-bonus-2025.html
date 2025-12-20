@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTU 2025 Winter Bonus Analysis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-primary: #F5F0E8;
+            --color-bg-secondary: #EBE4D8;
+            --color-bg-inverse: #2C1810;
+            --color-text-primary: #2C1810;
+            --color-text-secondary: #4A3428;
+            --color-text-muted: #6B5A4E;
+            --color-text-inverse: #F5F0E8;
+            --color-accent-primary: #C17F59;
+            --color-accent-secondary: #8B4513;
+            --color-semantic-success: #4A7C59;
+            --color-semantic-danger: #8B3A3A;
+            --color-border: rgba(44, 24, 16, 0.12);
+            --color-shadow: rgba(44, 24, 16, 0.08);
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem;
+            --space-6: 1.5rem; --space-8: 2rem; --space-12: 3rem; --space-20: 5rem; --space-24: 6rem;
+            --container-max: 1200px;
+            --container-padding: clamp(1.5rem, 5vw, 4rem);
+            --radius-md: 0.5rem; --radius-lg: 1rem; --radius-full: 9999px;
+            --shadow-md: 0 4px 12px var(--color-shadow);
+            --shadow-xl: 0 20px 40px var(--color-shadow);
+            --transition-fast: 150ms ease; --transition-normal: 300ms ease;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); background: var(--color-bg-primary); color: var(--color-text-primary); line-height: 1.7; font-size: 16px; }
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 1000; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary)); width: 0%; transition: width 50ms ease-out; }
+        .sticky-nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(245, 240, 232, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--color-border); padding: var(--space-4) var(--container-padding); z-index: 999; transform: translateY(-100%); transition: transform var(--transition-normal); }
+        .sticky-nav.visible { transform: translateY(0); }
+        .sticky-nav-inner { max-width: var(--container-max); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .sticky-nav-logo { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; }
+        .sticky-nav-links { display: flex; gap: var(--space-6); }
+        .sticky-nav-links a { color: var(--color-text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color var(--transition-fast); }
+        .sticky-nav-links a:hover, .sticky-nav-links a.active { color: var(--color-accent-primary); }
+        .btn-export { background: var(--color-bg-inverse); color: var(--color-text-inverse); border: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-full); font-size: 0.8rem; font-weight: 500; cursor: pointer; }
+        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: var(--space-24) var(--container-padding); position: relative; }
+        .hero-content { max-width: var(--container-max); margin: 0 auto; width: 100%; }
+        .hero-badge { display: inline-block; padding: var(--space-2) var(--space-4); border: 1px solid var(--color-accent-primary); border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent-primary); margin-bottom: var(--space-6); }
+        .hero h1 { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 700; line-height: 1.1; margin-bottom: var(--space-6); }
+        .hero-subtitle { font-size: clamp(1.1rem, 2vw, 1.4rem); color: var(--color-text-secondary); max-width: 700px; margin-bottom: var(--space-8); }
+        .hero-meta { display: flex; gap: var(--space-8); flex-wrap: wrap; font-size: 0.9rem; color: var(--color-text-muted); }
+        .scroll-indicator { position: absolute; bottom: var(--space-8); left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: var(--space-2); color: var(--color-text-muted); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+        section { padding: var(--space-20) var(--container-padding); }
+        .section-inner { max-width: var(--container-max); margin: 0 auto; }
+        .section-number { display: block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-accent-primary); margin-bottom: var(--space-4); }
+        section h2 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; margin-bottom: var(--space-6); }
+        section > .section-inner > p:first-of-type { font-size: 1.15rem; color: var(--color-text-secondary); max-width: 800px; margin-bottom: var(--space-12); }
+        h3 { font-family: var(--font-display); font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 500; margin: var(--space-12) 0 var(--space-6); }
+        h4 { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: var(--space-3); }
+        p { margin-bottom: var(--space-4); color: var(--color-text-secondary); }
+        .bg-secondary { background: var(--color-bg-secondary); }
+        .bg-inverse { background: var(--color-bg-inverse); color: var(--color-text-inverse); }
+        .bg-inverse h2, .bg-inverse h3, .bg-inverse p { color: var(--color-text-inverse); }
+        .bg-inverse .section-number { color: var(--color-accent-primary); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-6); margin: var(--space-8) 0; }
+        .stat-card { background: white; padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); text-align: center; }
+        .stat-card.highlight { background: var(--color-bg-inverse); color: var(--color-text-inverse); }
+        .stat-card.success { background: var(--color-semantic-success); color: white; }
+        .stat-number { font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; line-height: 1.1; margin-bottom: var(--space-2); }
+        .stat-label { font-size: 0.8rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.8; }
+        .stat-change { font-size: 0.85rem; margin-top: var(--space-2); color: var(--color-semantic-success); font-weight: 500; }
+        .stat-card.highlight .stat-change, .stat-card.success .stat-change { color: rgba(255,255,255,0.9); }
+        .table-wrapper { background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); overflow: hidden; margin: var(--space-8) 0; }
+        table { width: 100%; border-collapse: collapse; }
+        thead { background: var(--color-bg-inverse); color: var(--color-text-inverse); }
+        th { padding: var(--space-4) var(--space-6); text-align: left; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+        td { padding: var(--space-4) var(--space-6); border-bottom: 1px solid var(--color-border); font-size: 0.95rem; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background: var(--color-bg-primary); }
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+        .positive { color: var(--color-semantic-success); font-weight: 600; }
+        .negative { color: var(--color-semantic-danger); font-weight: 600; }
+        .neutral { color: var(--color-text-muted); }
+        .highlight-box { background: white; border-left: 4px solid var(--color-accent-primary); padding: var(--space-6); border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: var(--space-8) 0; box-shadow: var(--shadow-md); }
+        .highlight-box.critical { border-left-color: var(--color-semantic-danger); background: #FDF8F6; }
+        .highlight-box.success { border-left-color: var(--color-semantic-success); background: #F6FDF8; }
+        .highlight-box h4 { color: var(--color-text-primary); margin-bottom: var(--space-3); }
+        .highlight-box p { margin-bottom: 0; font-size: 1.05rem; }
+        .highlight-box p:not(:last-child) { margin-bottom: var(--space-3); }
+        .action-list { list-style: none; margin: var(--space-6) 0; }
+        .action-list li { padding: var(--space-4) 0; padding-left: var(--space-8); position: relative; border-bottom: 1px solid var(--color-border); }
+        .action-list li:last-child { border-bottom: none; }
+        .action-list li::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; border: 2px solid var(--color-accent-primary); border-radius: 50%; }
+        .action-list li strong { color: var(--color-text-primary); }
+        .scenario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--space-6); margin: var(--space-8) 0; }
+        .scenario-card { background: white; border-radius: var(--radius-lg); padding: var(--space-8); box-shadow: var(--shadow-md); position: relative; transition: all var(--transition-normal); }
+        .scenario-card:hover { box-shadow: var(--shadow-xl); transform: translateY(-4px); }
+        .scenario-card.recommended { border: 2px solid var(--color-accent-primary); }
+        .scenario-card.recommended::before { content: '★ RECOMMENDED'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--color-accent-primary); color: white; padding: var(--space-1) var(--space-4); border-radius: var(--radius-full); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; }
+        .scenario-card h3 { margin: 0 0 var(--space-2); font-size: 1.5rem; }
+        .scenario-total { font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; color: var(--color-accent-secondary); margin-bottom: var(--space-6); }
+        .scenario-breakdown { background: var(--color-bg-primary); border-radius: var(--radius-md); padding: var(--space-4); margin-bottom: var(--space-6); }
+        .scenario-row { display: flex; justify-content: space-between; padding: var(--space-2) 0; font-size: 0.9rem; }
+        .scenario-row.subtotal { border-top: 1px dashed var(--color-border); margin-top: var(--space-2); padding-top: var(--space-3); font-weight: 600; }
+        .scenario-pros, .scenario-cons { margin-bottom: var(--space-4); }
+        .scenario-pros h4, .scenario-cons h4 { font-size: 0.7rem; margin-bottom: var(--space-2); }
+        .scenario-pros ul, .scenario-cons ul { list-style: none; font-size: 0.85rem; }
+        .scenario-pros li, .scenario-cons li { padding: var(--space-1) 0; padding-left: var(--space-6); position: relative; }
+        .scenario-pros li::before { content: '✓'; position: absolute; left: 0; color: var(--color-semantic-success); font-weight: 600; }
+        .scenario-cons li::before { content: '✗'; position: absolute; left: 0; color: var(--color-semantic-danger); font-weight: 600; }
+        .risk-badge { display: inline-block; padding: var(--space-1) var(--space-3); border-radius: var(--radius-full); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        .risk-low { background: #D4EDDA; color: #155724; }
+        .risk-medium { background: #FFF3CD; color: #856404; }
+        .risk-high { background: #F8D7DA; color: #721C24; }
+        .rules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-4); margin: var(--space-8) 0; }
+        .rule-card { background: white; border-left: 4px solid var(--color-bg-inverse); padding: var(--space-4) var(--space-6); border-radius: 0 var(--radius-md) var(--radius-md) 0; box-shadow: var(--shadow-md); }
+        .rule-card.soft { border-left-color: var(--color-text-muted); opacity: 0.9; }
+        .rule-number { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: var(--space-1); }
+        .rule-text { font-weight: 600; color: var(--color-text-primary); margin-bottom: var(--space-2); font-size: 0.95rem; }
+        .rule-limit { font-size: 0.85rem; color: var(--color-accent-secondary); }
+        .allocation-section { background: white; border-radius: var(--radius-lg); padding: var(--space-8); margin: var(--space-8) 0; box-shadow: var(--shadow-md); }
+        .allocation-section h4 { font-size: 1rem; font-weight: 600; color: var(--color-text-primary); margin-bottom: var(--space-6); display: flex; align-items: center; gap: var(--space-3); }
+        .allocation-section h4 .icon { font-size: 1.3rem; }
+        .closing-content { text-align: center; max-width: 800px; margin: 0 auto; }
+        .closing-stats { display: flex; justify-content: center; gap: var(--space-12); flex-wrap: wrap; margin-bottom: var(--space-8); }
+        .closing-stat { text-align: center; }
+        .closing-stat .number { font-family: var(--font-display); font-size: 3rem; font-weight: 700; color: var(--color-accent-primary); }
+        .closing-stat .label { font-size: 0.85rem; opacity: 0.8; margin-top: var(--space-2); }
+        .checklist { background: rgba(255,255,255,0.1); border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-8); text-align: left; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .checklist h4 { color: var(--color-text-inverse); text-align: center; margin-bottom: var(--space-4); }
+        .checklist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+        .checklist label { display: flex; align-items: center; gap: var(--space-3); font-size: 0.9rem; cursor: pointer; }
+        .checklist input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--color-accent-primary); }
+        .footer { text-align: center; padding: var(--space-8) var(--container-padding); color: var(--color-text-muted); font-size: 0.85rem; border-top: 1px solid var(--color-border); }
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        @media print { .progress-container, .sticky-nav, .scroll-indicator, .btn-export { display: none !important; } section { page-break-inside: avoid; padding: 2rem 1rem; } .hero { min-height: auto; padding: 3rem 1rem; } body { font-size: 11pt; } }
+        @media (max-width: 768px) { .sticky-nav-links { display: none; } .stats-grid { grid-template-columns: repeat(2, 1fr); } .scenario-grid { grid-template-columns: 1fr; } .checklist-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+    <nav class="sticky-nav" id="stickyNav">
+        <div class="sticky-nav-inner">
+            <div class="sticky-nav-logo">RTU Bonus Analysis</div>
+            <div class="sticky-nav-links">
+                <a href="#turnaround">Turnaround</a>
+                <a href="#principles">Principles</a>
+                <a href="#constraints">Constraints</a>
+                <a href="#scenarios">Scenarios</a>
+                <a href="#allocation">Allocation</a>
+            </div>
+            <button class="btn-export" onclick="window.print()">Export PDF</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">Winter 2025</span>
+            <h1>RTU Bonus<br>Determination</h1>
+            <p class="hero-subtitle">A framework for rewarding a breakthrough year while maintaining the financial discipline required for long-term growth. At its core, this is a balance-sheet rebuilding vs reward allocation decision.</p>
+            <div class="hero-meta">
+                <span>Prepared for Noah & Davy Kishi</span>
+                <span>December 2025</span>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+        </div>
+    </section>
+
+    <section id="turnaround">
+        <div class="section-inner">
+            <span class="section-number">01 — The Turnaround</span>
+            <h2>2025 Was a Breakthrough Year</h2>
+            <p>After two consecutive years of losses and mounting 債務超過, RTU achieved profitability for the first time since COVID subsidies ended. This wasn't luck—it was execution.</p>
+            <div class="stats-grid fade-in">
+                <div class="stat-card"><div class="stat-number">¥277M</div><div class="stat-label">2025 Revenue</div><div class="stat-change">+48% YoY</div></div>
+                <div class="stat-card success"><div class="stat-number">¥23.3M</div><div class="stat-label">経常利益</div><div class="stat-change">First profit in 3 years</div></div>
+                <div class="stat-card highlight"><div class="stat-number">¥18.9M</div><div class="stat-label">純資産</div><div class="stat-change">債務超過解消 ✓</div></div>
+                <div class="stat-card"><div class="stat-number">¥99M</div><div class="stat-label">Total Debt</div><div class="stat-change">¥1.17M/month service</div></div>
+            </div>
+            <h3>What Drove the Turnaround</h3>
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead><tr><th>Channel</th><th class="text-right">2024</th><th class="text-right">2025</th><th class="text-right">Growth</th><th>Who Drove It</th></tr></thead>
+                    <tbody>
+                        <tr><td>Amazon TC</td><td class="text-right">¥91M</td><td class="text-right">¥118M</td><td class="text-right positive">+30%</td><td>Mermie (goal was +25%)</td></tr>
+                        <tr><td>Shopify</td><td class="text-right">¥12M</td><td class="text-right">¥21M</td><td class="text-right positive">+69%</td><td>New channel scaling</td></tr>
+                        <tr><td>楽天</td><td class="text-right">¥21M</td><td class="text-right">¥35M</td><td class="text-right positive">+67%</td><td>Masaki's turnaround</td></tr>
+                        <tr><td>Amazon ODE</td><td class="text-right">¥23M</td><td class="text-right">¥31M</td><td class="text-right positive">+35%</td><td>Product expansion</td></tr>
+                        <tr><td>Roastery</td><td class="text-right">—</td><td class="text-right">2x volume</td><td class="text-right positive">Doubled</td><td>Sharon + 3 new hires</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3>The Three-Year Story</h3>
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead><tr><th>Year</th><th class="text-right">Revenue</th><th class="text-right">経常利益</th><th class="text-right">純資産</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>2023</td><td class="text-right">¥166M</td><td class="text-right negative">-¥2.5M</td><td class="text-right negative">-¥1.8M</td><td><span class="negative">債務超過 began</span></td></tr>
+                        <tr><td>2024</td><td class="text-right">¥187M</td><td class="text-right negative">-¥2.6M</td><td class="text-right negative">-¥4.4M</td><td><span class="negative">債務超過 deepened</span></td></tr>
+                        <tr><td>2025</td><td class="text-right">¥277M</td><td class="text-right positive">+¥23.3M</td><td class="text-right positive">+¥18.9M</td><td><span class="positive">Turnaround achieved</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="principles" class="bg-secondary">
+        <div class="section-inner">
+            <span class="section-number">02 — Core Principles</span>
+            <h2>The Non-Negotiables</h2>
+            <p>Before determining any bonus amounts, we anchor to three principles that override all other considerations.</p>
+            <div class="highlight-box critical fade-in">
+                <h4>THE THREE NON-NEGOTIABLES</h4>
+                <p><strong>1. Cash flow is king.</strong> You cannot spend money you don't have. Paper profits mean nothing if you can't make payroll.</p>
+                <p><strong>2. Maintain borrowing capacity.</strong> Build and maintain a balance sheet that allows RTU to borrow whenever growth opportunities arise.</p>
+                <p><strong>3. Long-term growth over short-term reward.</strong> Sustainability first. The company must be stronger after bonuses, not weaker.</p>
+            </div>
+            <h3>Why Borrowing Capacity Matters</h3>
+            <p>RTU is a growth company. The renovation, roastery expansion, new products—all require capital. The goal isn't to borrow now. The goal is to <em>always be able to borrow when opportunities arise</em>.</p>
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead><tr><th>What Banks Evaluate</th><th>Target</th><th>RTU Current</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>純資産 (Equity)</td><td>Positive and growing</td><td>¥18.9M</td><td><span class="positive">✓ Just escaped 債務超過</span></td></tr>
+                        <tr><td>自己資本比率</td><td>>10% preferred</td><td>12.1%</td><td><span class="positive">✓ Healthy</span></td></tr>
+                        <tr><td>経常利益</td><td>Consistently positive</td><td>¥23.3M</td><td><span class="positive">✓ First profitable year</span></td></tr>
+                        <tr><td>Debt/Equity</td><td><5x preferred</td><td>~5.2x</td><td><span class="neutral">⚠ Borderline</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="highlight-box fade-in">
+                <h4>THE CRITICAL QUESTION BANKS WILL ASK</h4>
+                <p>"Was 2025 a one-time fluke, or is this company actually stable now?"</p>
+                <p>Banks won't see ¥23M profit—they'll see ¥15M from operations (after adjusting for ¥7.7M 雑収入) and a history of losses. Large bonuses immediately after escaping 債務超過 could signal poor judgment. Keep 純資産 above ¥10M to demonstrate discipline.</p>
+            </div>
+            <h3>Five Operating Rules</h3>
+            <div class="rules-grid fade-in">
+                <div class="rule-card"><div class="rule-number">Rule 1</div><div class="rule-text">Never return to 債務超過</div><div class="rule-limit">純資産 must stay >¥10M</div></div>
+                <div class="rule-card"><div class="rule-number">Rule 2</div><div class="rule-text">Never pay bonuses you can't cash</div><div class="rule-limit">Max ~¥13M based on liquidity</div></div>
+                <div class="rule-card soft"><div class="rule-number">Rule 3 (Soft)</div><div class="rule-text">社員 bonus ≥ 役員 × 0.7</div><div class="rule-limit">Target ≥¥4.2M 社員 pool</div></div>
+                <div class="rule-card"><div class="rule-number">Rule 4</div><div class="rule-text">Top performers get 2-3x average</div><div class="rule-limit">Not 10x—team cohesion matters</div></div>
+                <div class="rule-card"><div class="rule-number">Rule 5</div><div class="rule-text">New hires earn into full bonus</div><div class="rule-limit">50-70% of baseline in year one</div></div>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-top: var(--space-4);"><strong>Note on Rule 3:</strong> This is a soft rule because 役員 bonus (¥6M) is hardwired via 事前確定届出給与 and cannot be changed. In a loss year, Rules 1 and 2 would take precedence—you cannot pay out if you are in the red.</p>
+        </div>
+    </section>
+
+    <section id="constraints">
+        <div class="section-inner">
+            <span class="section-number">03 — Cash Flow Reality</span>
+            <h2>What We Actually Have</h2>
+            <p>Profitability on paper is not the same as cash in the bank. RTU is profitable but cash-constrained. Here's the reality.</p>
+            <h3>Current Position</h3>
+            <div class="stats-grid fade-in">
+                <div class="stat-card"><div class="stat-number">¥26.2M</div><div class="stat-label">Available Cash</div><div class="stat-change">現金 + 普通預金</div></div>
+                <div class="stat-card"><div class="stat-number">¥29.3M</div><div class="stat-label">Receivables</div><div class="stat-change">楽天 ¥16.7M, Square ¥5.1M</div></div>
+                <div class="stat-card"><div class="stat-number">¥30.4M</div><div class="stat-label">Payables</div><div class="stat-change">未払金, 買掛金, loans</div></div>
+                <div class="stat-card highlight"><div class="stat-number">¥25.1M</div><div class="stat-label">Net Position</div><div class="stat-change">After obligations</div></div>
+            </div>
+            <h3>Required Reserves</h3>
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead><tr><th>Reserve</th><th class="text-right">Amount</th><th>Rationale</th></tr></thead>
+                    <tbody>
+                        <tr><td>3-month debt service</td><td class="text-right">¥3.5M</td><td>Safety net for loan payments</td></tr>
+                        <tr><td>Operating buffer</td><td class="text-right">¥6.5M</td><td>Payroll, suppliers, unexpected</td></tr>
+                        <tr><td>Renovation deposit</td><td class="text-right">¥2.0M</td><td>If needed before grant decision</td></tr>
+                        <tr style="background: var(--color-bg-secondary);"><td><strong>Minimum Reserve</strong></td><td class="text-right"><strong>¥12.0M</strong></td><td></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="highlight-box success fade-in">
+                <h4>MAXIMUM BONUS CAPACITY</h4>
+                <p style="font-size: 1.3rem;">Net Position <strong>¥25.1M</strong> − Required Reserves <strong>¥12.0M</strong> = <strong style="color: var(--color-accent-secondary);">¥13.1M Maximum</strong></p>
+                <p>This is the hard ceiling based on cash. Scenarios above ¥13M require careful receivables timing.</p>
+            </div>
+            <h3>This Year's Fixed Constraints</h3>
+            <ul class="action-list fade-in">
+                <li><strong>役員 bonus:</strong> ¥6.0M total (Noah ¥3M + Davy ¥3M) — 事前確定届出給与 already filed, cannot change</li>
+                <li><strong>Minimum 純資産:</strong> ¥10M after bonuses — banking credibility threshold</li>
+                <li><strong>Maximum total:</strong> ~¥13M — cash availability constraint</li>
+                <li><strong>Target 社員 pool:</strong> ≥¥4.2M — soft rule (70% of 役員)</li>
+            </ul>
+            <div class="highlight-box fade-in">
+                <h4>THEREFORE</h4>
+                <p>社員 pool ranges from <strong>¥4M</strong> (conservative) to <strong>¥8M</strong> (aggressive).</p>
+                <p>Total bonus ranges from <strong>¥10M</strong> to <strong>¥14M</strong>.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="scenarios" class="bg-secondary">
+        <div class="section-inner">
+            <span class="section-number">04 — Three Scenarios</span>
+            <h2>Choosing the Right Balance</h2>
+            <p>Each scenario balances rewarding performance against maintaining financial strength. All three are defensible—the choice reflects your priorities.</p>
+            <div class="scenario-grid fade-in">
+                <div class="scenario-card">
+                    <h3>Conservative</h3>
+                    <div class="scenario-total">¥10M Total</div>
+                    <div class="scenario-breakdown">
+                        <div class="scenario-row"><span>Noah</span><span>¥3.0M</span></div>
+                        <div class="scenario-row"><span>Davy</span><span>¥3.0M</span></div>
+                        <div class="scenario-row subtotal"><span>役員 Total</span><span>¥6.0M</span></div>
+                        <div class="scenario-row"><span>Managers (3)</span><span>¥2.5M</span></div>
+                        <div class="scenario-row"><span>Other 社員 (10)</span><span>¥1.5M</span></div>
+                        <div class="scenario-row subtotal"><span>社員 Total</span><span>¥4.0M</span></div>
+                    </div>
+                    <div class="scenario-pros"><h4 style="color: var(--color-semantic-success);">Pros</h4><ul><li>純資産 stays at ¥14.9M</li><li>Maximum cash buffer</li><li>Strongest bank position</li></ul></div>
+                    <div class="scenario-cons"><h4 style="color: var(--color-semantic-danger);">Cons</h4><ul><li>社員 slightly below 70% soft rule</li><li>Retention risk for top performers</li></ul></div>
+                    <span class="risk-badge risk-low">Low Risk</span>
+                </div>
+                <div class="scenario-card recommended">
+                    <h3>Moderate</h3>
+                    <div class="scenario-total">¥12M Total</div>
+                    <div class="scenario-breakdown">
+                        <div class="scenario-row"><span>Noah</span><span>¥3.0M</span></div>
+                        <div class="scenario-row"><span>Davy</span><span>¥3.0M</span></div>
+                        <div class="scenario-row subtotal"><span>役員 Total</span><span>¥6.0M</span></div>
+                        <div class="scenario-row"><span>Managers (3)</span><span>¥3.5M</span></div>
+                        <div class="scenario-row"><span>Other 社員 (10)</span><span>¥2.5M</span></div>
+                        <div class="scenario-row subtotal"><span>社員 Total</span><span>¥6.0M</span></div>
+                    </div>
+                    <div class="scenario-pros"><h4 style="color: var(--color-semantic-success);">Pros</h4><ul><li>Matches 役員 100% (exceeds soft rule)</li><li>Managers +75% from 2024</li><li>純資産 stays >¥12M</li></ul></div>
+                    <div class="scenario-cons"><h4 style="color: var(--color-semantic-danger);">Cons</h4><ul><li>Less margin for surprise costs</li><li>Tighter if grant denied</li></ul></div>
+                    <span class="risk-badge risk-medium">Medium Risk</span>
+                </div>
+                <div class="scenario-card">
+                    <h3>Aggressive</h3>
+                    <div class="scenario-total">¥14M Total</div>
+                    <div class="scenario-breakdown">
+                        <div class="scenario-row"><span>Noah</span><span>¥3.0M</span></div>
+                        <div class="scenario-row"><span>Davy</span><span>¥3.0M</span></div>
+                        <div class="scenario-row subtotal"><span>役員 Total</span><span>¥6.0M</span></div>
+                        <div class="scenario-row"><span>Managers (3)</span><span>¥4.5M</span></div>
+                        <div class="scenario-row"><span>Other 社員 (10)</span><span>¥3.5M</span></div>
+                        <div class="scenario-row subtotal"><span>社員 Total</span><span>¥8.0M</span></div>
+                    </div>
+                    <div class="scenario-pros"><h4 style="color: var(--color-semantic-success);">Pros</h4><ul><li>Maximum recognition</li><li>Strongest retention signal</li><li>Managers +125% from 2024</li></ul></div>
+                    <div class="scenario-cons"><h4 style="color: var(--color-semantic-danger);">Cons</h4><ul><li>純資産 drops to ¥10.9M</li><li>Exceeds cash ceiling slightly</li><li>May concern banks</li></ul></div>
+                    <span class="risk-badge risk-high">High Risk</span>
+                </div>
+            </div>
+            <h3>Impact Comparison</h3>
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead><tr><th>Metric</th><th class="text-center">Conservative</th><th class="text-center">Moderate</th><th class="text-center">Aggressive</th></tr></thead>
+                    <tbody>
+                        <tr><td>Total Payout</td><td class="text-center">¥10M</td><td class="text-center"><strong>¥12M</strong></td><td class="text-center">¥14M</td></tr>
+                        <tr><td>Ending 純資産</td><td class="text-center positive">¥14.9M</td><td class="text-center positive">¥12.9M</td><td class="text-center neutral">¥10.9M</td></tr>
+                        <tr><td>Manager Pool vs 2024</td><td class="text-center">+25%</td><td class="text-center"><strong>+75%</strong></td><td class="text-center">+125%</td></tr>
+                        <tr><td>Other 社員 vs 2024</td><td class="text-center">+50%</td><td class="text-center"><strong>+150%</strong></td><td class="text-center">+250%</td></tr>
+                        <tr><td>Cash Buffer After</td><td class="text-center positive">Comfortable</td><td class="text-center neutral">Adequate</td><td class="text-center negative">Tight</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="allocation">
+        <div class="section-inner">
+            <span class="section-number">05 — Detailed Allocation</span>
+            <h2>Individual Breakdown</h2>
+            <p>Using the Moderate scenario (¥12M total) as the recommended baseline. Adjust proportionally for other scenarios.</p>
+            <div class="allocation-section fade-in">
+                <h4><span class="icon">👔</span> 役員 Allocation (Fixed)</h4>
+                <table>
+                    <thead><tr><th>Recipient</th><th class="text-right">Amount</th><th>Notes</th></tr></thead>
+                    <tbody>
+                        <tr><td>Noah</td><td class="text-right"><strong>¥3,000,000</strong></td><td>50% per 届出</td></tr>
+                        <tr><td>Davy</td><td class="text-right"><strong>¥3,000,000</strong></td><td>50% per 届出</td></tr>
+                        <tr style="background: var(--color-bg-secondary);"><td><strong>Total</strong></td><td class="text-right"><strong>¥6,000,000</strong></td><td>Cannot change—already filed</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="allocation-section fade-in">
+                <h4><span class="icon">⭐</span> Manager Allocation</h4>
+                <p style="color: var(--color-text-muted); margin-bottom: var(--space-6);">The three managers drove the turnaround. They warrant significant recognition.</p>
+                <table>
+                    <thead><tr><th>Manager</th><th class="text-right">2024</th><th class="text-center">Conservative</th><th class="text-center">Moderate</th><th class="text-center">Aggressive</th><th>Contribution</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Mermie</strong> (40%)</td><td class="text-right">¥750K</td><td class="text-center">¥1,000K</td><td class="text-center">¥1,400K</td><td class="text-center">¥1,800K</td><td>Amazon +30%</td></tr>
+                        <tr><td><strong>Sharon</strong> (33%)</td><td class="text-right">¥750K</td><td class="text-center">¥825K</td><td class="text-center">¥1,150K</td><td class="text-center">¥1,500K</td><td>Roastery 2x</td></tr>
+                        <tr><td><strong>Masaki</strong> (27%)</td><td class="text-right">¥500K</td><td class="text-center">¥675K</td><td class="text-center">¥950K</td><td class="text-center">¥1,200K</td><td>楽天 turnaround</td></tr>
+                        <tr style="background: var(--color-bg-secondary);"><td><strong>Total</strong></td><td class="text-right">¥2.0M</td><td class="text-center"><strong>¥2.5M</strong></td><td class="text-center"><strong>¥3.5M</strong></td><td class="text-center"><strong>¥4.5M</strong></td><td></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="allocation-section fade-in">
+                <h4><span class="icon">👥</span> Other 社員 Allocation</h4>
+                <div class="highlight-box" style="margin: var(--space-4) 0;"><h4>BASELINE RULES</h4><p>• Existing (>1 year): Full baseline • New hires (full year): 70% • Partial year: 50% • Performance: ±30%</p></div>
+                <table>
+                    <thead><tr><th>Employee</th><th class="text-right">2024</th><th>Status</th><th class="text-center">Cons.</th><th class="text-center">Mod.</th><th class="text-center">Agg.</th></tr></thead>
+                    <tbody>
+                        <tr><td>Jay</td><td class="text-right">¥200K</td><td>Steady</td><td class="text-center">¥120K</td><td class="text-center">¥200K</td><td class="text-center">¥280K</td></tr>
+                        <tr><td>Kenchan</td><td class="text-right">¥150K</td><td class="negative">Poor attitude</td><td class="text-center">¥70K</td><td class="text-center">¥100K</td><td class="text-center">¥140K</td></tr>
+                        <tr><td>Honoka</td><td class="text-right">¥150K</td><td>Maternity</td><td class="text-center">¥100K</td><td class="text-center">¥150K</td><td class="text-center">¥200K</td></tr>
+                        <tr><td>Yusuke</td><td class="text-right">¥250K</td><td class="positive">Hard worker</td><td class="text-center">¥200K</td><td class="text-center">¥350K</td><td class="text-center">¥450K</td></tr>
+                        <tr><td>Sakura</td><td class="text-right">¥250K</td><td>Tenacious</td><td class="text-center">¥180K</td><td class="text-center">¥300K</td><td class="text-center">¥400K</td></tr>
+                        <tr><td>Amagayakun</td><td class="text-right neutral">New</td><td>70% — solid</td><td class="text-center">¥160K</td><td class="text-center">¥280K</td><td class="text-center">¥380K</td></tr>
+                        <tr><td>Sean</td><td class="text-right neutral">New</td><td class="negative">70% — slow</td><td class="text-center">¥80K</td><td class="text-center">¥130K</td><td class="text-center">¥180K</td></tr>
+                        <tr><td>Subin</td><td class="text-right neutral">New</td><td class="positive">70% — strong</td><td class="text-center">¥150K</td><td class="text-center">¥250K</td><td class="text-center">¥340K</td></tr>
+                        <tr><td>Uju</td><td class="text-right neutral">New</td><td>70%</td><td class="text-center">¥70K</td><td class="text-center">¥110K</td><td class="text-center">¥150K</td></tr>
+                        <tr><td>Nae</td><td class="text-right neutral">New</td><td class="positive">50% — partial</td><td class="text-center">¥100K</td><td class="text-center">¥180K</td><td class="text-center">¥250K</td></tr>
+                        <tr style="background: var(--color-bg-secondary);"><td><strong>Subtotal</strong></td><td></td><td></td><td class="text-center">¥1,230K</td><td class="text-center">¥2,050K</td><td class="text-center">¥2,770K</td></tr>
+                        <tr style="background: var(--color-bg-secondary);"><td>Buffer</td><td></td><td></td><td class="text-center">¥270K</td><td class="text-center">¥450K</td><td class="text-center">¥730K</td></tr>
+                        <tr style="background: var(--color-bg-inverse); color: var(--color-text-inverse);"><td><strong>Total</strong></td><td></td><td></td><td class="text-center"><strong>¥1.5M</strong></td><td class="text-center"><strong>¥2.5M</strong></td><td class="text-center"><strong>¥3.5M</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-inverse">
+        <div class="section-inner">
+            <div class="closing-content">
+                <span class="section-number">Recommendation</span>
+                <h2>The Moderate Path</h2>
+                <div class="closing-stats fade-in">
+                    <div class="closing-stat"><div class="number">¥6M</div><div class="label">役員 (Fixed)</div></div>
+                    <div class="closing-stat"><div class="number">¥6M</div><div class="label">社員</div></div>
+                    <div class="closing-stat"><div class="number">¥12M</div><div class="label">Total</div></div>
+                </div>
+                <p style="font-size: 1.1rem; max-width: 700px; margin: 0 auto var(--space-8);">Rewards a breakthrough year meaningfully while keeping 純資産 above ¥12M. Managers up 75%. All employees receive increases. The company emerges stronger.</p>
+                <div class="checklist fade-in">
+                    <h4>DECISION CHECKLIST</h4>
+                    <div class="checklist-grid">
+                        <label><input type="checkbox"> Confirm 繰越欠損金 (別表七)</label>
+                        <label><input type="checkbox"> Confirm December sales</label>
+                        <label><input type="checkbox"> Verify receivables timing</label>
+                        <label><input type="checkbox"> Finalize manager splits</label>
+                        <label><input type="checkbox"> Finalize 社員 splits</label>
+                        <label><input type="checkbox"> Prepare communication</label>
+                        <label><input type="checkbox"> Schedule payment date</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>RTU 2025 Winter Bonus Analysis • December 2025</p>
+        <p>Data: MoneyForward exports, internal budgets, 2024 bonus records</p>
+        <p style="margin-top: 0.5rem; font-size: 0.75rem;">Note: 純資産 figures assume ~¥10M 繰越欠損金 (confirm from 別表七). 法人事業税 deductible following year.</p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => { const s = document.body.scrollTop || document.documentElement.scrollTop; const h = document.documentElement.scrollHeight - document.documentElement.clientHeight; document.getElementById('progressBar').style.width = (s/h)*100 + '%'; });
+        const nav = document.getElementById('stickyNav'); window.addEventListener('scroll', () => { nav.classList.toggle('visible', window.scrollY > 500); });
+        const secs = document.querySelectorAll('section[id]'), links = document.querySelectorAll('.sticky-nav-links a');
+        const obs = new IntersectionObserver(e => e.forEach(en => { if(en.isIntersecting) links.forEach(l => { l.classList.remove('active'); if(l.getAttribute('href')==='#'+en.target.id) l.classList.add('active'); }); }), {rootMargin:'-20% 0px -70% 0px'});
+        secs.forEach(s => obs.observe(s));
+        const fadeObs = new IntersectionObserver(e => e.forEach(en => { if(en.isIntersecting) en.target.classList.add('visible'); }), {threshold:0.1});
+        document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+        document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'}); }));
+    </script>
+</body>
+</html>
