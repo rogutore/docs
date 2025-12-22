@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTU 2025年度 法人税最適化分析</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-primary: #F5F0E8;
+            --color-bg-secondary: #EBE4D8;
+            --color-bg-tertiary: #D9CFC0;
+            --color-bg-inverse: #2C1810;
+            --color-text-primary: #2C1810;
+            --color-text-secondary: #4A3428;
+            --color-text-muted: #6B5A4E;
+            --color-text-inverse: #F5F0E8;
+            --color-accent-primary: #C17F59;
+            --color-accent-secondary: #8B4513;
+            --color-semantic-success: #4A7C59;
+            --color-semantic-warning: #B8860B;
+            --color-semantic-danger: #C94444;
+            --color-border: rgba(44, 24, 16, 0.12);
+            --color-shadow: rgba(44, 24, 16, 0.08);
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', 'Noto Sans JP', -apple-system, sans-serif;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --container-max: 1200px;
+            --container-padding: clamp(1.5rem, 5vw, 4rem);
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --shadow-md: 0 4px 12px var(--color-shadow);
+            --shadow-lg: 0 8px 24px var(--color-shadow);
+            --transition-normal: 300ms ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--color-bg-secondary);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary));
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(245, 240, 232, 0.95);
+            backdrop-filter: blur(10px);
+            padding: var(--space-4) var(--container-padding);
+            z-index: 999;
+            transform: translateY(-100%);
+            transition: transform var(--transition-normal);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .nav.visible { transform: translateY(0); }
+
+        .nav-inner {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-6);
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color var(--transition-normal);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active { color: var(--color-accent-primary); }
+
+        .btn-print {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: opacity var(--transition-normal);
+        }
+
+        .btn-print:hover { opacity: 0.9; }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--space-20) var(--container-padding);
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border: 1px solid var(--color-text-primary);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-6);
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: var(--space-6);
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin-bottom: var(--space-8);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: var(--space-6);
+            margin-top: var(--space-8);
+        }
+
+        .hero-stat {
+            background: white;
+            padding: var(--space-6);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+
+        .hero-stat-number {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-accent-primary);
+        }
+
+        .hero-stat-label {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: var(--space-8);
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+        }
+
+        .scroll-indicator::after {
+            content: '';
+            display: block;
+            width: 1px;
+            height: 40px;
+            background: var(--color-text-muted);
+            margin: var(--space-4) auto 0;
+            animation: scroll-bounce 2s infinite;
+        }
+
+        @keyframes scroll-bounce {
+            0%, 100% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(10px); opacity: 0.5; }
+        }
+
+        section {
+            padding: var(--space-16) var(--container-padding);
+        }
+
+        .section-inner {
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+
+        .section-number {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-accent-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 600;
+            margin-bottom: var(--space-6);
+        }
+
+        section h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+            font-weight: 500;
+            margin: var(--space-8) 0 var(--space-4);
+            color: var(--color-text-primary);
+        }
+
+        section p {
+            color: var(--color-text-secondary);
+            max-width: 800px;
+            margin-bottom: var(--space-4);
+        }
+
+        .bg-secondary { background: var(--color-bg-secondary); }
+        
+        .bg-inverse {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        .bg-inverse h2,
+        .bg-inverse h3,
+        .bg-inverse p { color: var(--color-text-inverse); }
+
+        .bg-inverse .section-number { color: var(--color-accent-primary); }
+
+        .highlight-box {
+            background: white;
+            padding: var(--space-6);
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--color-accent-primary);
+            margin: var(--space-6) 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .highlight-box.critical {
+            border-left-color: var(--color-semantic-danger);
+        }
+
+        .highlight-box.success {
+            border-left-color: var(--color-semantic-success);
+        }
+
+        .highlight-box h4 {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-4);
+        }
+
+        .highlight-box p {
+            margin-bottom: 0;
+            color: var(--color-text-primary);
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin: var(--space-6) 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        th, td {
+            padding: var(--space-4);
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        th {
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.02em;
+        }
+
+        td { font-size: 0.95rem; }
+
+        tr:last-child td { border-bottom: none; }
+
+        tbody tr:hover { background: var(--color-bg-primary); }
+
+        .text-right { text-align: right; }
+
+        .text-success { color: var(--color-semantic-success); }
+        .text-warning { color: var(--color-semantic-warning); }
+        .text-danger { color: var(--color-semantic-danger); }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-6);
+            margin: var(--space-8) 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: var(--space-6);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+        }
+
+        .stat-card-number {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-accent-primary);
+        }
+
+        .stat-card-label {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            margin-top: var(--space-4);
+        }
+
+        .action-list {
+            list-style: none;
+            margin: var(--space-6) 0;
+        }
+
+        .action-list li {
+            padding: var(--space-4) 0;
+            border-bottom: 1px solid var(--color-border);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .action-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 1.4rem;
+            width: 8px;
+            height: 8px;
+            border: 2px solid var(--color-accent-primary);
+            border-radius: 50%;
+        }
+
+        .action-list li:last-child { border-bottom: none; }
+
+        .action-list strong {
+            color: var(--color-text-primary);
+        }
+
+        .tier-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .tier-high {
+            background: #E8F5E9;
+            color: var(--color-semantic-success);
+        }
+
+        .tier-medium {
+            background: #FFF8E1;
+            color: var(--color-semantic-warning);
+        }
+
+        .tier-low {
+            background: #FFEBEE;
+            color: var(--color-semantic-danger);
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-8);
+            margin: var(--space-8) 0;
+        }
+
+        @media (max-width: 768px) {
+            .two-column { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+
+        .checklist {
+            background: white;
+            padding: var(--space-6);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            margin: var(--space-6) 0;
+        }
+
+        .checklist label {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-4) 0;
+            border-bottom: 1px solid var(--color-border);
+            cursor: pointer;
+        }
+
+        .checklist label:last-child { border-bottom: none; }
+
+        .checklist input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--color-accent-primary);
+        }
+
+        .footer {
+            text-align: center;
+            padding: var(--space-8);
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media print {
+            .nav, .progress-container, .scroll-indicator, .btn-print { display: none !important; }
+            section { page-break-inside: avoid; }
+            .hero { min-height: auto; padding: var(--space-8) 0; }
+            body { font-size: 11pt; }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <div class="nav-title">RTU 税務戦略 2025</div>
+            <ul class="nav-links">
+                <li><a href="#overview">概要</a></li>
+                <li><a href="#current">現状分析</a></li>
+                <li><a href="#strategies">節税戦略</a></li>
+                <li><a href="#scenarios">シナリオ</a></li>
+                <li><a href="#action">アクション</a></li>
+            </ul>
+            <button class="btn-print" onclick="window.print()">PDF出力</button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <span class="badge">株式会社ローグトレード</span>
+        <h1>2025年度<br>法人税最適化戦略</h1>
+        <p class="hero-subtitle">
+            過去3年の赤字から脱却し、初の黒字決算を迎えるRTU。
+            繰越欠損金を活用しながら、将来の成長に向けた税務戦略を徹底分析。
+        </p>
+        
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-number">¥33.3M</div>
+                <div class="hero-stat-label">経常利益（税引前）</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-number">¥277M</div>
+                <div class="hero-stat-label">売上高（+48% YoY）</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-number">¥28.9M</div>
+                <div class="hero-stat-label">純資産（債務超過解消）</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-number">~¥10M</div>
+                <div class="hero-stat-label">繰越欠損金（推定）</div>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">スクロールして続きを読む</div>
+    </header>
+
+    <section id="overview">
+        <div class="section-inner">
+            <span class="section-number">01 — 概要</span>
+            <h2>税務最適化の全体像</h2>
+            <p>RTUは2025年度に劇的なターンアラウンドを達成。過去3年間の累積損失から生じた繰越欠損金を活用しながら、バランスシートの再建と従業員還元の両立を図る必要がある。</p>
+
+            <div class="highlight-box success">
+                <h4>重要ポイント</h4>
+                <p>繰越欠損金（NOL）は課税所得を相殺し、税負担を軽減する。中小企業は課税所得の100%まで相殺可能。ただし、NOLは自動適用されるため「温存」できない。</p>
+            </div>
+
+            <h3>税務戦略の3つの柱</h3>
+            <ul class="action-list">
+                <li><strong>繰越欠損金の最適活用:</strong> 推定¥10MのNOLを2025年度で完全消化し、実質税負担を最小化</li>
+                <li><strong>損金算入の最大化:</strong> 賞与、設備投資、教育訓練費等を戦略的にタイミング</li>
+                <li><strong>税額控除制度の活用:</strong> 賃上げ促進税制、中小企業投資促進税制で税額を直接削減</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="current" class="bg-secondary">
+        <div class="section-inner">
+            <span class="section-number">02 — 現状分析</span>
+            <h2>2025年度の財務状況</h2>
+            <p>経常利益¥33.3M（当初予測¥23.3Mから+¥10M上方修正）により、税務計画の見直しが必要。</p>
+
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>項目</th>
+                            <th class="text-right">金額</th>
+                            <th>備考</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>売上高</td>
+                            <td class="text-right">¥277,000,000</td>
+                            <td>前年比+48%</td>
+                        </tr>
+                        <tr>
+                            <td>売上総利益</td>
+                            <td class="text-right">¥188,800,000</td>
+                            <td>粗利率 68.2%</td>
+                        </tr>
+                        <tr>
+                            <td>販管費</td>
+                            <td class="text-right">¥161,500,000</td>
+                            <td>前年比+19%</td>
+                        </tr>
+                        <tr>
+                            <td>営業利益</td>
+                            <td class="text-right">¥27,300,000</td>
+                            <td>営業利益率 9.9%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>経常利益</strong></td>
+                            <td class="text-right"><strong>¥33,300,000</strong></td>
+                            <td>+¥10M 上方修正後</td>
+                        </tr>
+                        <tr>
+                            <td>繰越欠損金（推定）</td>
+                            <td class="text-right">¥10,000,000</td>
+                            <td>別表七(一)で要確認</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>法人税率の構造（中小法人）</h3>
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>課税所得</th>
+                            <th class="text-right">法人税</th>
+                            <th class="text-right">実効税率</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>¥800万円以下</td>
+                            <td class="text-right">15%</td>
+                            <td class="text-right">~22-25%</td>
+                        </tr>
+                        <tr>
+                            <td>¥800万円超</td>
+                            <td class="text-right">23.2%</td>
+                            <td class="text-right">~30-35%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight-box">
+                <h4>税率のブレークポイント</h4>
+                <p>課税所得¥800万円を境に税率が上がる。可能であれば課税所得を¥800万円以下に抑えることで、実効税率を最小化できる。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="strategies">
+        <div class="section-inner">
+            <span class="section-number">03 — 節税戦略</span>
+            <h2>活用可能な税務施策</h2>
+            <p>2025年度に活用可能な主要な節税手法を優先度順に解説。</p>
+
+            <h3>① 賞与による損金算入</h3>
+            <span class="tier-badge tier-high">効果: 高</span>
+            <p>役員賞与（事前確定届出給与）と従業員賞与は全額損金算入可能。税効果と従業員モチベーションを両立。</p>
+            
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>賞与総額</th>
+                            <th class="text-right">税引前利益</th>
+                            <th class="text-right">NOL後課税所得</th>
+                            <th class="text-right">概算税額</th>
+                            <th class="text-right">純資産影響</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>¥6M（役員のみ）</td>
+                            <td class="text-right">¥27.3M</td>
+                            <td class="text-right">¥17.3M</td>
+                            <td class="text-right">~¥4.3M</td>
+                            <td class="text-right">¥23.0M</td>
+                        </tr>
+                        <tr>
+                            <td>¥12M</td>
+                            <td class="text-right">¥21.3M</td>
+                            <td class="text-right">¥11.3M</td>
+                            <td class="text-right">~¥2.5M</td>
+                            <td class="text-right">¥18.8M</td>
+                        </tr>
+                        <tr>
+                            <td>¥15M</td>
+                            <td class="text-right">¥18.3M</td>
+                            <td class="text-right">¥8.3M</td>
+                            <td class="text-right">~¥1.9M</td>
+                            <td class="text-right">¥16.4M</td>
+                        </tr>
+                        <tr>
+                            <td><strong>¥18M</strong></td>
+                            <td class="text-right"><strong>¥15.3M</strong></td>
+                            <td class="text-right"><strong>¥5.3M</strong></td>
+                            <td class="text-right"><strong>~¥1.2M</strong></td>
+                            <td class="text-right"><strong>¥14.1M</strong></td>
+                        </tr>
+                        <tr>
+                            <td>¥21M</td>
+                            <td class="text-right">¥12.3M</td>
+                            <td class="text-right">¥2.3M</td>
+                            <td class="text-right">~¥0.5M</td>
+                            <td class="text-right">¥11.8M</td>
+                        </tr>
+                        <tr>
+                            <td>¥23M（NOL完全消化）</td>
+                            <td class="text-right">¥10.3M</td>
+                            <td class="text-right">¥0.3M</td>
+                            <td class="text-right">~¥0.1M</td>
+                            <td class="text-right">¥10.2M</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>② 賃上げ促進税制</h3>
+            <span class="tier-badge tier-high">効果: 高</span>
+            <p>2024年度税制改正により最大45%の税額控除が可能。給与増加額の一部を法人税から直接控除。</p>
+            
+            <div class="highlight-box">
+                <h4>適用要件（中小企業）</h4>
+                <p><strong>基本要件:</strong> 雇用者給与等支給額が前年比1.5%以上増加 → 増加額の15%税額控除<br>
+                <strong>上乗せ①:</strong> 2.5%以上増加 → 30%控除<br>
+                <strong>上乗せ②:</strong> 教育訓練費が前年比5%以上増加かつ給与総額の0.05%以上 → +10%<br>
+                <strong>上乗せ③:</strong> くるみん・えるぼし認定取得 → +5%<br>
+                <strong>控除上限:</strong> 法人税額の20%</p>
+            </div>
+
+            <div class="two-column">
+                <div>
+                    <h4>RTUの2025年実績（推定）</h4>
+                    <ul class="action-list">
+                        <li><strong>2024年度給与総額:</strong> ¥52.2M</li>
+                        <li><strong>2025年度給与総額:</strong> ~¥58M（推定）</li>
+                        <li><strong>増加率:</strong> ~11%</li>
+                        <li><strong>増加額:</strong> ~¥5.8M</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>想定税額控除</h4>
+                    <ul class="action-list">
+                        <li><strong>基本控除（30%）:</strong> ¥1.74M</li>
+                        <li><strong>教育訓練上乗せ:</strong> +¥0.58M</li>
+                        <li><strong>合計控除可能額:</strong> ~¥2.3M</li>
+                        <li><strong>控除上限（税額20%）:</strong> 要確認</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>③ 少額減価償却資産の即時償却</h3>
+            <span class="tier-badge tier-medium">効果: 中</span>
+            <p>30万円未満の減価償却資産を即時償却可能。年間合計300万円まで。</p>
+            
+            <ul class="action-list">
+                <li><strong>対象:</strong> PC、モニター、家具、工具、ソフトウェア等</li>
+                <li><strong>上限:</strong> 年間合計¥300万円</li>
+                <li><strong>期限:</strong> 2026年3月31日まで</li>
+                <li><strong>注意:</strong> 税込/税抜経理方式により判定基準が異なる</li>
+            </ul>
+
+            <div class="highlight-box">
+                <h4>活用シナリオ</h4>
+                <p>決算前に必要な設備（PC、焙煎関連機器、カフェ備品等）を¥300万円まで購入し、即時償却することで課税所得を圧縮。キャッシュアウトを伴うが、将来の設備投資を前倒しする考え方。</p>
+            </div>
+
+            <h3>④ 中小企業経営強化税制</h3>
+            <span class="tier-badge tier-medium">効果: 中</span>
+            <p>生産性向上設備への投資に対し、即時償却または税額控除を選択可能。</p>
+            
+            <ul class="action-list">
+                <li><strong>即時償却:</strong> 取得価額の100%を初年度に償却</li>
+                <li><strong>税額控除:</strong> 取得価額の7%（資本金3,000万円以下は10%）</li>
+                <li><strong>対象:</strong> 機械装置、器具備品、建物附属設備、ソフトウェア</li>
+                <li><strong>要件:</strong> 経営力向上計画の認定が必要</li>
+            </ul>
+
+            <h3>⑤ その他の損金算入施策</h3>
+            <span class="tier-badge tier-low">効果: 低〜中</span>
+            
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>施策</th>
+                            <th>概要</th>
+                            <th class="text-right">想定効果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>教育訓練費</td>
+                            <td>外部研修、資格取得支援、セミナー参加</td>
+                            <td class="text-right">¥50-100万円</td>
+                        </tr>
+                        <tr>
+                            <td>修繕費</td>
+                            <td>店舗・工場の維持修繕（資本的支出除く）</td>
+                            <td class="text-right">¥100-300万円</td>
+                        </tr>
+                        <tr>
+                            <td>広告宣伝費</td>
+                            <td>年度内実施の広告・PR活動</td>
+                            <td class="text-right">¥100-500万円</td>
+                        </tr>
+                        <tr>
+                            <td>不良資産除却</td>
+                            <td>使用していない固定資産の除却損計上</td>
+                            <td class="text-right">簿価次第</td>
+                        </tr>
+                        <tr>
+                            <td>棚卸資産評価損</td>
+                            <td>滞留在庫の評価損計上</td>
+                            <td class="text-right">評価次第</td>
+                        </tr>
+                        <tr>
+                            <td>倒産防止共済</td>
+                            <td>月額20万円まで全額損金（年間最大240万円）</td>
+                            <td class="text-right">¥240万円</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="scenarios" class="bg-secondary">
+        <div class="section-inner">
+            <span class="section-number">04 — シナリオ分析</span>
+            <h2>税務戦略シナリオ</h2>
+            <p>NOL ¥10M、経常利益 ¥33.3Mを前提とした3つのシナリオ。</p>
+
+            <div class="stat-grid">
+                <div class="stat-card fade-in">
+                    <div style="font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--color-text-muted); margin-bottom:0.5rem;">シナリオA</div>
+                    <div class="stat-card-number">保守的</div>
+                    <div class="stat-card-label">バランスシート優先</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div style="font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--color-text-muted); margin-bottom:0.5rem;">シナリオB</div>
+                    <div class="stat-card-number">推奨</div>
+                    <div class="stat-card-label">バランス型</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div style="font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--color-text-muted); margin-bottom:0.5rem;">シナリオC</div>
+                    <div class="stat-card-number">積極的</div>
+                    <div class="stat-card-label">税効率最大化</div>
+                </div>
+            </div>
+
+            <h3>シナリオ比較表</h3>
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>項目</th>
+                            <th class="text-right">A: 保守的</th>
+                            <th class="text-right">B: 推奨</th>
+                            <th class="text-right">C: 積極的</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>経常利益</td>
+                            <td class="text-right">¥33.3M</td>
+                            <td class="text-right">¥33.3M</td>
+                            <td class="text-right">¥33.3M</td>
+                        </tr>
+                        <tr>
+                            <td>賞与総額</td>
+                            <td class="text-right">¥12M</td>
+                            <td class="text-right">¥18M</td>
+                            <td class="text-right">¥23M</td>
+                        </tr>
+                        <tr>
+                            <td>　うち役員</td>
+                            <td class="text-right">¥6M</td>
+                            <td class="text-right">¥6M</td>
+                            <td class="text-right">¥6M</td>
+                        </tr>
+                        <tr>
+                            <td>　うち従業員</td>
+                            <td class="text-right">¥6M</td>
+                            <td class="text-right">¥12M</td>
+                            <td class="text-right">¥17M</td>
+                        </tr>
+                        <tr>
+                            <td>設備投資（即時償却）</td>
+                            <td class="text-right">¥0</td>
+                            <td class="text-right">¥0</td>
+                            <td class="text-right">¥300万円</td>
+                        </tr>
+                        <tr>
+                            <td>税引前利益</td>
+                            <td class="text-right">¥21.3M</td>
+                            <td class="text-right">¥15.3M</td>
+                            <td class="text-right">¥7.3M</td>
+                        </tr>
+                        <tr>
+                            <td>NOL適用</td>
+                            <td class="text-right">-¥10M</td>
+                            <td class="text-right">-¥10M</td>
+                            <td class="text-right">-¥7.3M</td>
+                        </tr>
+                        <tr>
+                            <td><strong>課税所得</strong></td>
+                            <td class="text-right"><strong>¥11.3M</strong></td>
+                            <td class="text-right"><strong>¥5.3M</strong></td>
+                            <td class="text-right"><strong>¥0</strong></td>
+                        </tr>
+                        <tr>
+                            <td>概算法人税等</td>
+                            <td class="text-right">~¥2.5M</td>
+                            <td class="text-right">~¥1.2M</td>
+                            <td class="text-right">~¥0.1M</td>
+                        </tr>
+                        <tr>
+                            <td>賃上げ税額控除</td>
+                            <td class="text-right">-¥0.5M</td>
+                            <td class="text-right">-¥0.2M</td>
+                            <td class="text-right">¥0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>最終税額</strong></td>
+                            <td class="text-right"><strong>~¥2.0M</strong></td>
+                            <td class="text-right"><strong>~¥1.0M</strong></td>
+                            <td class="text-right"><strong>~¥0.1M</strong></td>
+                        </tr>
+                        <tr>
+                            <td>当期純利益</td>
+                            <td class="text-right">¥19.3M</td>
+                            <td class="text-right">¥14.3M</td>
+                            <td class="text-right">¥7.2M</td>
+                        </tr>
+                        <tr>
+                            <td><strong>期末純資産</strong></td>
+                            <td class="text-right"><strong>¥19.3M</strong></td>
+                            <td class="text-right"><strong>¥14.3M</strong></td>
+                            <td class="text-right"><strong>¥10.6M</strong></td>
+                        </tr>
+                        <tr>
+                            <td>残NOL</td>
+                            <td class="text-right">¥0</td>
+                            <td class="text-right">¥0</td>
+                            <td class="text-right">¥2.7M</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>シナリオ別評価</h3>
+            
+            <div class="highlight-box">
+                <h4>シナリオA: 保守的（賞与¥12M）</h4>
+                <p><strong>メリット:</strong> 純資産¥19.3Mで銀行評価向上、翌期以降の余力確保<br>
+                <strong>デメリット:</strong> 税負担¥2M、従業員還元が限定的<br>
+                <strong>推奨条件:</strong> 2026年に大型借入予定がある場合</p>
+            </div>
+
+            <div class="highlight-box success">
+                <h4>シナリオB: 推奨（賞与¥18M）</h4>
+                <p><strong>メリット:</strong> 税負担¥1M、従業員への充実した還元、純資産¥14M維持<br>
+                <strong>デメリット:</strong> NOL完全消化で翌期からフル課税<br>
+                <strong>推奨条件:</strong> バランス重視、従業員モチベーション優先</p>
+            </div>
+
+            <div class="highlight-box critical">
+                <h4>シナリオC: 積極的（賞与¥23M + 設備投資）</h4>
+                <p><strong>メリット:</strong> 税負担ほぼゼロ、NOL一部繰越、従業員に最大還元<br>
+                <strong>デメリット:</strong> 純資産¥10.6Mでギリギリ、キャッシュフロー圧迫<br>
+                <strong>推奨条件:</strong> キャッシュに余裕があり、来期も高収益見込み</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="action" class="bg-inverse">
+        <div class="section-inner">
+            <span class="section-number">05 — アクションプラン</span>
+            <h2>決算前チェックリスト</h2>
+            <p>2025年12月決算に向けて確認すべき項目。</p>
+
+            <div class="checklist fade-in" style="background: rgba(255,255,255,0.05); border-radius: var(--radius-md);">
+                <label><input type="checkbox"> 別表七(一)で繰越欠損金の正確な金額を確認</label>
+                <label><input type="checkbox"> 12月売上・売掛金の確定</label>
+                <label><input type="checkbox"> 賞与金額の最終決定（役員¥6M + 従業員¥?M）</label>
+                <label><input type="checkbox"> 賃上げ促進税制の適用判定（給与増加率計算）</label>
+                <label><input type="checkbox"> 教育訓練費の集計（上乗せ要件判定）</label>
+                <label><input type="checkbox"> 30万円未満の設備投資リストアップ</label>
+                <label><input type="checkbox"> 不良在庫・遊休資産の評価・除却検討</label>
+                <label><input type="checkbox"> 修繕費の検討（資本的支出との区分確認）</label>
+                <label><input type="checkbox"> 倒産防止共済の加入/増額検討</label>
+                <label><input type="checkbox"> 税理士との最終打ち合わせ</label>
+            </div>
+
+            <h3 style="color: var(--color-text-inverse);">推奨アクション</h3>
+            <ul class="action-list" style="color: var(--color-text-inverse);">
+                <li><strong style="color: var(--color-text-inverse);">即時:</strong> <span style="color: rgba(255,255,255,0.8);">別表七(一)で正確なNOL金額を確認し、シナリオを再計算</span></li>
+                <li><strong style="color: var(--color-text-inverse);">12月中:</strong> <span style="color: rgba(255,255,255,0.8);">賞与金額を確定し、支給日を決定（年内支給または年度内支給）</span></li>
+                <li><strong style="color: var(--color-text-inverse);">12月中:</strong> <span style="color: rgba(255,255,255,0.8);">必要な設備投資があれば発注・納品を完了</span></li>
+                <li><strong style="color: var(--color-text-inverse);">決算前:</strong> <span style="color: rgba(255,255,255,0.8);">賃上げ促進税制の適用書類を準備</span></li>
+            </ul>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>RTU 2025年度 法人税最適化分析 • 2025年12月</p>
+        <p>Data: MoneyForward exports, 税制改正大綱, 国税庁資料</p>
+        <p style="margin-top: var(--space-4); font-size: 0.75rem;">
+            ※本資料は情報提供を目的としており、税務アドバイスを構成するものではありません。<br>
+            具体的な税務判断については税理士にご相談ください。
+        </p>
+    </footer>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        });
+
+        // Nav visibility
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+        });
+
+        // Active section highlighting
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + entry.target.id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+
+        // Fade-in animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(el => fadeObserver.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
