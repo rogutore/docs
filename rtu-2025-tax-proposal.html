@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTU 2025 Tax Optimization Proposal | 株式会社ローグトレード</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-primary: #F5F0E8;
+            --color-bg-secondary: #EBE4D8;
+            --color-bg-tertiary: #D9CFC0;
+            --color-bg-inverse: #2C1810;
+            --color-text-primary: #2C1810;
+            --color-text-secondary: #4A3428;
+            --color-text-muted: #6B5A4E;
+            --color-text-inverse: #F5F0E8;
+            --color-accent-primary: #C17F59;
+            --color-accent-secondary: #8B4513;
+            --color-semantic-success: #4A7C59;
+            --color-semantic-warning: #B8860B;
+            --color-semantic-danger: #9B2335;
+            --color-border: rgba(44, 24, 16, 0.12);
+            --color-shadow: rgba(44, 24, 16, 0.08);
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', 'Noto Sans JP', -apple-system, sans-serif;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --container-max: 1200px;
+            --container-padding: clamp(1.5rem, 5vw, 4rem);
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-full: 9999px;
+            --shadow-md: 0 4px 12px var(--color-shadow);
+            --shadow-lg: 0 8px 24px var(--color-shadow);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); background: var(--color-bg-primary); color: var(--color-text-primary); line-height: 1.7; }
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 1000; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary)); width: 0%; }
+        .nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(245, 240, 232, 0.95); backdrop-filter: blur(10px); z-index: 999; padding: var(--space-4) var(--container-padding); transform: translateY(-100%); transition: transform 0.3s ease; border-bottom: 1px solid var(--color-border); }
+        .nav.visible { transform: translateY(0); }
+        .nav-content { max-width: var(--container-max); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; }
+        .nav-links { display: flex; gap: var(--space-6); list-style: none; }
+        .nav-links a { color: var(--color-text-muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; }
+        .nav-links a:hover, .nav-links a.active { color: var(--color-text-primary); }
+        .nav-cta { background: var(--color-bg-inverse); color: var(--color-text-inverse); padding: 0.5rem 1.5rem; border-radius: var(--radius-full); font-size: 0.875rem; border: none; cursor: pointer; }
+        section { padding: var(--space-20) var(--container-padding); }
+        .container { max-width: var(--container-max); margin: 0 auto; }
+        .section-number { display: block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-accent-primary); margin-bottom: var(--space-4); }
+        h2 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; margin-bottom: var(--space-6); }
+        h3 { font-family: var(--font-display); font-size: clamp(1.3rem, 2.5vw, 1.8rem); margin-top: var(--space-12); margin-bottom: var(--space-6); }
+        h4 { font-size: 0.875rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: var(--space-4); }
+        .bg-secondary { background: var(--color-bg-secondary); }
+        .bg-inverse { background: var(--color-bg-inverse); color: var(--color-text-inverse); }
+        .bg-inverse h2, .bg-inverse h3 { color: var(--color-text-inverse); }
+        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: var(--space-20) var(--container-padding); position: relative; }
+        .hero-content { max-width: var(--container-max); margin: 0 auto; width: 100%; }
+        .hero-badge { display: inline-block; padding: 0.5rem 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: var(--space-6); color: var(--color-text-muted); }
+        .hero h1 { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 600; line-height: 1.1; margin-bottom: var(--space-6); max-width: 900px; }
+        .hero-subtitle { font-size: clamp(1.1rem, 2vw, 1.35rem); color: var(--color-text-secondary); max-width: 700px; margin-bottom: var(--space-8); }
+        .hero-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-6); max-width: 900px; margin-top: var(--space-12); }
+        .hero-stat { background: white; padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+        .hero-stat-number { font-family: var(--font-display); font-size: 2.5rem; font-weight: 600; color: var(--color-accent-secondary); }
+        .hero-stat-label { font-size: 0.8rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        .scroll-indicator { position: absolute; bottom: var(--space-8); left: 50%; transform: translateX(-50%); color: var(--color-text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; }
+        .table-wrapper { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); margin: var(--space-8) 0; }
+        table { width: 100%; border-collapse: collapse; }
+        thead { background: var(--color-bg-inverse); color: var(--color-text-inverse); }
+        th { padding: 1rem 1.5rem; text-align: left; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+        td { padding: 1rem 1.5rem; border-bottom: 1px solid var(--color-border); }
+        tbody tr:hover { background: var(--color-bg-secondary); }
+        .action-list { list-style: none; margin: var(--space-6) 0; }
+        .action-list li { padding: var(--space-4) 0; border-bottom: 1px solid var(--color-border); padding-left: 2rem; position: relative; }
+        .action-list li::before { content: ''; position: absolute; left: 0; top: 1.5rem; width: 10px; height: 10px; border: 2px solid var(--color-accent-primary); border-radius: 50%; }
+        .highlight-box { background: white; padding: var(--space-6); border-left: 4px solid var(--color-accent-primary); border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: var(--space-6) 0; box-shadow: var(--shadow-md); }
+        .highlight-box.critical { border-left-color: var(--color-semantic-danger); background: #FDF5F5; }
+        .highlight-box.success { border-left-color: var(--color-semantic-success); background: #F5FDF8; }
+        .highlight-box.warning { border-left-color: var(--color-semantic-warning); background: #FDFBF5; }
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-6); margin: var(--space-8) 0; }
+        .stat-card { background: white; padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); text-align: center; }
+        .stat-card.highlight { background: var(--color-bg-inverse); color: var(--color-text-inverse); }
+        .stat-number { font-family: var(--font-display); font-size: 2rem; font-weight: 600; color: var(--color-accent-secondary); }
+        .stat-card.highlight .stat-number { color: var(--color-accent-primary); }
+        .stat-label { font-size: 0.8rem; color: var(--color-text-muted); text-transform: uppercase; }
+        .stat-card.highlight .stat-label { color: var(--color-text-inverse); opacity: 0.8; }
+        .strategy-card { background: white; border-radius: var(--radius-lg); padding: var(--space-8); margin: var(--space-8) 0; box-shadow: var(--shadow-lg); border-top: 4px solid var(--color-accent-primary); }
+        .strategy-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-6); flex-wrap: wrap; gap: var(--space-4); }
+        .strategy-title { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; }
+        .strategy-impact { background: var(--color-semantic-success); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-full); font-size: 0.875rem; font-weight: 600; }
+        .issue-card { background: white; border-radius: var(--radius-lg); padding: var(--space-6); margin: var(--space-6) 0; box-shadow: var(--shadow-md); border-left: 4px solid var(--color-border); }
+        .issue-card.high { border-left-color: var(--color-semantic-danger); }
+        .issue-card.medium { border-left-color: var(--color-semantic-warning); }
+        .issue-card.low { border-left-color: var(--color-semantic-success); }
+        .issue-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); }
+        .issue-title { font-weight: 600; font-size: 1.1rem; }
+        .issue-balance { font-family: monospace; font-size: 0.875rem; color: var(--color-text-muted); }
+        .priority-tag { display: inline-block; padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
+        .priority-high { background: #FDE8E8; color: var(--color-semantic-danger); }
+        .priority-medium { background: #FEF3C7; color: var(--color-semantic-warning); }
+        .priority-low { background: #D1FAE5; color: var(--color-semantic-success); }
+        .priority-complete { background: #E0E7FF; color: #3730A3; }
+        .code-block { background: var(--color-bg-inverse); color: var(--color-text-inverse); padding: var(--space-6); border-radius: var(--radius-md); font-family: 'SF Mono', monospace; font-size: 0.875rem; overflow-x: auto; margin: var(--space-4) 0; white-space: pre; }
+        .code-block .comment { color: #6B7280; }
+        .code-block .amount { color: var(--color-accent-primary); }
+        .checklist { list-style: none; margin: var(--space-4) 0; }
+        .checklist li { padding: 0.75rem 0; padding-left: 2rem; position: relative; border-bottom: 1px solid var(--color-border); }
+        .checklist li::before { content: '☐'; position: absolute; left: 0; color: var(--color-accent-primary); }
+        .checklist li.done::before { content: '☑'; color: var(--color-semantic-success); }
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); margin: var(--space-6) 0; }
+        @media (max-width: 768px) { .two-column { grid-template-columns: 1fr; } .nav-links { display: none; } }
+        .accordion { background: white; border-radius: var(--radius-md); margin: var(--space-4) 0; box-shadow: var(--shadow-md); overflow: hidden; }
+        .accordion summary { padding: var(--space-4) var(--space-6); cursor: pointer; font-weight: 600; list-style: none; }
+        .accordion summary::-webkit-details-marker { display: none; }
+        .accordion-content { padding: 0 var(--space-6) var(--space-6); }
+        .footer { background: var(--color-bg-inverse); color: var(--color-text-inverse); padding: var(--space-12) var(--container-padding); text-align: center; }
+        .footer p { opacity: 0.7; font-size: 0.875rem; }
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        @media print { .nav, .progress-container, .scroll-indicator { display: none !important; } section { page-break-inside: avoid; } .hero { min-height: auto; } }
+    </style>
+</head>
+<body>
+    <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+    <nav class="nav" id="nav">
+        <div class="nav-content">
+            <div class="nav-logo">RTU Tax Proposal</div>
+            <ul class="nav-links">
+                <li><a href="#summary">概要</a></li>
+                <li><a href="#strategies">税務戦略</a></li>
+                <li><a href="#issues">要対応事項</a></li>
+                <li><a href="#future">将来計画</a></li>
+                <li><a href="#calculation">税額計算</a></li>
+            </ul>
+            <button class="nav-cta" onclick="window.print()">PDF出力</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">2025年度 決算対策</span>
+            <h1>RTU Tax Optimization Proposal</h1>
+            <p class="hero-subtitle">株式会社ローグトレード（TOKYO COFFEE）の2025年度税務最適化提案書。経常利益¥12,368,963に対し、圧縮記帳・繰越欠損金・賃上げ促進税制・輸出消費税還付を活用した包括的な節税戦略をご提案します。</p>
+            <div class="hero-stats">
+                <div class="hero-stat"><div class="hero-stat-number">¥12.4M</div><div class="hero-stat-label">経常利益</div></div>
+                <div class="hero-stat"><div class="hero-stat-number">¥10.8M</div><div class="hero-stat-label">繰越欠損金</div></div>
+                <div class="hero-stat"><div class="hero-stat-number">¥2.9M</div><div class="hero-stat-label">節税効果</div></div>
+                <div class="hero-stat"><div class="hero-stat-number">¥190K</div><div class="hero-stat-label">最終税額</div></div>
+            </div>
+        </div>
+        <div class="scroll-indicator">Scroll ↓</div>
+    </section>
+
+    <section id="summary" class="bg-secondary">
+        <div class="container fade-in">
+            <span class="section-number">01 — Executive Summary</span>
+            <h2>経営状況と税務戦略の概要</h2>
+            <p>株式会社ローグトレードは東京都東久留米市を拠点とする有機JAS認証コーヒーロースター。Amazon Japan有機コーヒー売上No.1、市場シェア50%超を誇ります。</p>
+
+            <h3>現在の財務状況（2025年12月23日時点）</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>項目</th><th style="text-align:right">金額</th><th style="text-align:right">構成比</th></tr></thead>
+                    <tbody>
+                        <tr><td>売上高合計</td><td style="text-align:right">¥280,784,518</td><td style="text-align:right">100.0%</td></tr>
+                        <tr><td>売上原価</td><td style="text-align:right">¥80,486,591</td><td style="text-align:right">28.7%</td></tr>
+                        <tr><td>売上総利益</td><td style="text-align:right">¥200,297,927</td><td style="text-align:right">71.3%</td></tr>
+                        <tr><td>販管費</td><td style="text-align:right">¥193,989,144</td><td style="text-align:right">69.1%</td></tr>
+                        <tr><td>営業利益</td><td style="text-align:right">¥6,308,783</td><td style="text-align:right">2.2%</td></tr>
+                        <tr><td>営業外収益</td><td style="text-align:right">¥7,735,022</td><td style="text-align:right">2.8%</td></tr>
+                        <tr><td>営業外費用</td><td style="text-align:right">¥1,674,842</td><td style="text-align:right">0.6%</td></tr>
+                        <tr style="background:var(--color-bg-tertiary);font-weight:600"><td>経常利益</td><td style="text-align:right">¥12,368,963</td><td style="text-align:right">4.4%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>戦略目標</h3>
+            <div class="highlight-box">
+                <h4>課税所得目標：¥1,000,000</h4>
+                <p>銀行・取引先への信用維持のため適度な利益を計上しつつ、将来の繰越欠損金を温存し、税額控除を最大限活用する戦略を採用します。</p>
+            </div>
+
+            <h3>対応済み事項</h3>
+            <ul class="checklist">
+                <li class="done"><strong>減価償却費の計上：</strong>¥3,229,835（修正前¥651,909）- 過払い税額¥644K回避</li>
+                <li class="done"><strong>役員賞与の届出確認：</strong>事前確定届出給与¥6,000,000は適正に届出済み</li>
+                <li class="done"><strong>雑収入の分析完了：</strong>91%が一時的収入と判明（補助金・クラファン）</li>
+                <li class="done"><strong>繰越欠損金の確認：</strong>¥10,813,231で確定</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="strategies">
+        <div class="container fade-in">
+            <span class="section-number">02 — Tax Strategies</span>
+            <h2>重要税務戦略</h2>
+            <p>4つの主要戦略により、法人税等を¥3,090,000から¥190,000へ削減。約¥2,900,000の節税効果を実現します。</p>
+
+            <div class="strategy-card">
+                <div class="strategy-header">
+                    <div><div class="strategy-title">戦略1: 圧縮記帳（補助金収入の繰延）</div><p style="color:var(--color-text-muted)">国庫補助金等の圧縮記帳</p></div>
+                    <div class="strategy-impact">税繰延効果 ¥1,173,733</div>
+                </div>
+                <h4>概要</h4>
+                <p>2025年1月21日、全国中小企業団体中央会より設備購入補助金¥4,694,933を受領。現在は課税対象の雑収入として計上されていますが、圧縮記帳を適用することで課税を繰り延べ可能です。</p>
+                <h4 style="margin-top:var(--space-6)">仕組み</h4>
+                <p>圧縮記帳は補助金収入を関連設備の取得価額から控除し、即時課税を回避する制度です。その代わり、将来の減価償却費が減少するため、課税は設備の耐用年数にわたって分散されます。</p>
+                <div class="code-block"><span class="comment">/* 必要な仕訳 */</span>
+借方: 圧縮損         <span class="amount">¥4,694,933</span>
+貸方: [設備勘定]     <span class="amount">¥4,694,933</span></div>
+                <h4 style="margin-top:var(--space-6)">税理士への依頼事項</h4>
+                <ul class="action-list">
+                    <li><strong>対象設備の特定：</strong>補助金で購入した設備を特定してください</li>
+                    <li><strong>適格性確認：</strong>国庫補助金等の圧縮記帳の要件を確認してください</li>
+                    <li><strong>別表作成：</strong>別表十三(一)を作成してください</li>
+                    <li><strong>仕訳処理：</strong>上記仕訳を起票してください</li>
+                </ul>
+                <h4 style="margin-top:var(--space-6)">必要書類</h4>
+                <ul class="action-list">
+                    <li>全中の補助金交付決定通知書</li>
+                    <li>設備購入時の請求書・領収書（日付・金額の照合用）</li>
+                    <li>取締役会議事録（圧縮記帳の適用決議）</li>
+                </ul>
+            </div>
+
+            <div class="strategy-card">
+                <div class="strategy-header">
+                    <div><div class="strategy-title">戦略2: 繰越欠損金の戦略的活用</div><p style="color:var(--color-text-muted)">一部使用による将来への温存</p></div>
+                    <div class="strategy-impact">課税所得削減 ¥6,674,030</div>
+                </div>
+                <h4>概要</h4>
+                <p>2023年・2024年の累積損失による繰越欠損金¥10,813,231が利用可能。全額使用ではなく、一部使用を推奨します。</p>
+                <div class="stat-grid">
+                    <div class="stat-card"><div class="stat-number">¥10.8M</div><div class="stat-label">利用可能NOL</div></div>
+                    <div class="stat-card"><div class="stat-number">¥6.7M</div><div class="stat-label">今期使用額</div></div>
+                    <div class="stat-card"><div class="stat-number">¥4.1M</div><div class="stat-label">翌期繰越額</div></div>
+                </div>
+                <h4 style="margin-top:var(--space-6)">なぜ一部使用か</h4>
+                <div class="two-column">
+                    <div class="highlight-box critical">
+                        <h4>全額使用の場合</h4>
+                        <ul style="padding-left:1rem"><li>課税所得: ¥0</li><li>法人税: ¥0</li><li>賃上げ促進税制: 使用不可</li><li>銀行評価: 利益ゼロ</li></ul>
+                    </div>
+                    <div class="highlight-box success">
+                        <h4>一部使用の場合（推奨）</h4>
+                        <ul style="padding-left:1rem"><li>課税所得: ¥1,000,000</li><li>法人税: ~¥150,000</li><li>賃上げ促進税制: ~¥30,000使用可</li><li>将来用NOL: ¥4.1M温存</li></ul>
+                    </div>
+                </div>
+                <div class="code-block">圧縮記帳後利益:    <span class="amount">¥7,674,030</span>
+目標課税所得:      <span class="amount">¥1,000,000</span>
+─────────────────────────────
+使用NOL:          <span class="amount">¥6,674,030</span>
+
+残存NOL: <span class="amount">¥10,813,231</span> - <span class="amount">¥6,674,030</span> = <span class="amount">¥4,139,201</span></div>
+                <h4 style="margin-top:var(--space-6)">税理士への依頼事項</h4>
+                <ul class="action-list">
+                    <li><strong>NOL残高確認：</strong>別表七(一)でNOL残高¥10,813,231を確認してください</li>
+                    <li><strong>期限確認：</strong>間もなく期限切れになる年度分がないか確認してください</li>
+                    <li><strong>一部使用処理：</strong>¥6,674,030の使用を処理してください</li>
+                    <li><strong>繰越文書化：</strong>残余¥4,139,201の翌期繰越を文書化してください</li>
+                </ul>
+            </div>
+
+            <div class="strategy-card">
+                <div class="strategy-header">
+                    <div><div class="strategy-title">戦略3: 賃上げ促進税制</div><p style="color:var(--color-text-muted)">給与増加に対する税額控除</p></div>
+                    <div class="strategy-impact">税額控除 ~¥30,000</div>
+                </div>
+                <h4>給与データ</h4>
+                <div class="table-wrapper">
+                    <table>
+                        <thead><tr><th>項目</th><th style="text-align:right">2024年</th><th style="text-align:right">2025年</th><th style="text-align:right">増減</th></tr></thead>
+                        <tbody>
+                            <tr><td>給料賃金</td><td style="text-align:right">¥30,256,778</td><td style="text-align:right">¥40,352,069</td><td style="text-align:right;color:var(--color-semantic-success)">+¥10,095,291</td></tr>
+                            <tr><td>社員賞与</td><td style="text-align:right">¥3,000,000</td><td style="text-align:right">¥3,000,000</td><td style="text-align:right">±¥0</td></tr>
+                            <tr style="font-weight:600;background:var(--color-bg-secondary)"><td>従業員給与合計</td><td style="text-align:right">¥33,256,778</td><td style="text-align:right">¥43,352,069</td><td style="text-align:right;color:var(--color-semantic-success)">+30.4%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="font-size:0.875rem;color:var(--color-text-muted)">※役員報酬（¥8,020,000）・役員賞与（¥6,000,000）は対象外</p>
+                <h4 style="margin-top:var(--space-6)">税額控除計算</h4>
+                <div class="code-block">給与増加額:              <span class="amount">¥10,095,291</span>
+基本控除率:              15%
+潜在控除額:              <span class="amount">¥1,514,293</span>
+
+教育訓練費加算時(25%):   <span class="amount">¥2,523,822</span>
+
+<span class="comment">/* ただし法人税額の20%が上限 */</span>
+課税所得¥1Mの場合:
+  法人税: ~<span class="amount">¥150,000</span>
+  控除上限(20%): <span class="amount">¥30,000</span>
+
+使用可能控除額:          <span class="amount">~¥30,000</span></div>
+                <div class="highlight-box warning">
+                    <h4>控除額上限について</h4>
+                    <p>賃上げ促進税制は強力な制度ですが、法人税額の20%という上限があります。今回の戦略では課税所得¥1Mを目標としているため、¥150万の潜在控除のうち~¥3万しか使用できません。</p>
+                </div>
+                <h4 style="margin-top:var(--space-6)">税理士への依頼事項</h4>
+                <ul class="action-list">
+                    <li><strong>給与計算の検証：</strong>増加額計算方法を確認してください</li>
+                    <li><strong>継続雇用者定義確認：</strong>対象従業員の定義・人数を確認してください</li>
+                    <li><strong>教育訓練費確認：</strong>前年比10%以上増加があれば控除率25%に上昇</li>
+                    <li><strong>別表作成：</strong>必要な別表を作成してください</li>
+                </ul>
+            </div>
+
+            <div class="strategy-card">
+                <div class="strategy-header">
+                    <div><div class="strategy-title">戦略4: 輸出消費税還付</div><p style="color:var(--color-text-muted)">米国向け輸出に係る仕入税額の還付</p></div>
+                    <div class="strategy-impact">還付額 要算定</div>
+                </div>
+                <h4>概要</h4>
+                <p>RTUは米国へコーヒー製品を輸出しています。日本の消費税法では、輸出は免税（0%課税）ですが、輸出に関連する仕入に係る消費税は還付請求が可能です。</p>
+                <h4 style="margin-top:var(--space-6)">仕組み</h4>
+                <ul class="action-list">
+                    <li><strong>国内販売：</strong>消費税を徴収し、国に納付</li>
+                    <li><strong>輸出販売：</strong>消費税なし（0%課税）</li>
+                    <li><strong>輸出関連仕入：</strong>支払った消費税は還付対象</li>
+                </ul>
+                <h4 style="margin-top:var(--space-6)">現在の消費税ポジション</h4>
+                <div class="code-block">仮受消費税:    <span class="amount">¥21,907,371</span>
+仮払消費税:    <span class="amount">¥20,069,742</span>
+─────────────────────────
+差引納付予定額: <span class="amount">¥1,837,629</span>
+
+<span class="comment">/* 輸出関連仕入税額は還付対象 */</span>
+
+例：輸出売上¥10,000,000の場合
+  関連仕入(豆・包装等): ¥4,000,000
+  仕入税額(8%):         <span class="amount">¥320,000</span> → 還付</div>
+                <h4 style="margin-top:var(--space-6)">必要書類</h4>
+                <ul class="action-list">
+                    <li><strong>輸出インボイス：</strong>0%課税を示す書類</li>
+                    <li><strong>船積書類：</strong>B/L（船荷証券）またはAWB（航空運送状）</li>
+                    <li><strong>輸出許可通知書：</strong>税関発行の輸出証明</li>
+                    <li><strong>入金記録：</strong>米国顧客からの支払記録</li>
+                    <li><strong>仕入按分計算：</strong>輸出・国内販売への配賦計算</li>
+                </ul>
+                <h4 style="margin-top:var(--space-6)">税理士への依頼事項</h4>
+                <ul class="action-list">
+                    <li><strong>輸出売上確認：</strong>2025年の米国向け輸出売上を確認してください</li>
+                    <li><strong>仕入税額按分：</strong>輸出関連仕入税額の適正な按分計算をお願いします</li>
+                    <li><strong>証憑確認：</strong>輸出証明書類の完備を確認してください</li>
+                    <li><strong>消費税申告書作成：</strong>還付請求を含む申告書を作成してください</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="issues" class="bg-secondary">
+        <div class="container fade-in">
+            <span class="section-number">03 — Action Items</span>
+            <h2>要対応事項</h2>
+            <p>以下の項目は申告前に対応が必要です。優先度順に記載しています。</p>
+
+            <div class="issue-card high">
+                <div class="issue-header"><div class="issue-title">1. 未確定勘定の解消【必須】</div><span class="priority-tag priority-high">High</span></div>
+                <div class="issue-balance">残高: ▲¥629,547（マイナス）</div>
+                <p style="margin-top:var(--space-4)">未確定勘定は未分類取引の仮置き口座です。マイナス残高は未解決の貸方項目を示唆しています。</p>
+                <div class="highlight-box critical" style="margin-top:var(--space-4)">
+                    <h4>重要性</h4>
+                    <ul style="padding-left:1rem"><li>税務当局は未確定勘定残高を問題視します</li><li>未分類取引があると適正な申告ができません</li><li>収入の計上漏れまたは経費の過大計上の可能性</li></ul>
+                </div>
+                <h4 style="margin-top:var(--space-6)">対応手順</h4>
+                <ul class="action-list">
+                    <li>未確定勘定の総勘定元帳を出力</li>
+                    <li>各取引を個別に調査・特定</li>
+                    <li>適正な勘定科目へ振替仕訳を起票</li>
+                    <li>目標：残高¥0</li>
+                </ul>
+            </div>
+
+            <div class="issue-card high">
+                <div class="issue-header"><div class="issue-title">2. 消費税勘定の照合</div><span class="priority-tag priority-high">High</span></div>
+                <div class="issue-balance">未払消費税: ▲¥801,400（マイナス＝異常）</div>
+                <div class="code-block" style="margin-top:var(--space-4)">仮受消費税:    <span class="amount">¥21,907,371</span>
+仮払消費税:    <span class="amount">¥20,069,742</span>
+─────────────────────────
+想定納付額:    <span class="amount">¥1,837,629</span>
+
+未払消費税:    <span class="amount">▲¥801,400</span> <span class="comment">← マイナスは異常</span></div>
+                <h4 style="margin-top:var(--space-6)">税理士への確認事項</h4>
+                <ul class="action-list">
+                    <li>未払消費税がマイナスになっている原因は何か</li>
+                    <li>中間納付で過払いになっているか</li>
+                    <li>仮受/仮払の計上に誤りはないか</li>
+                    <li>軽減税率(8%/10%)の適用は正しいか</li>
+                </ul>
+            </div>
+
+            <div class="issue-card medium">
+                <div class="issue-header"><div class="issue-title">3. 長期前払費用の償却</div><span class="priority-tag priority-medium">Medium</span></div>
+                <div class="issue-balance">残高: ¥1,541,226（2024年から変動なし）</div>
+                <p style="margin-top:var(--space-4)">2025年中に一切の動きがなく、残高が2024年から変わっていません。おそらく信用保証料と思われ、本来は融資期間にわたり償却すべきです。</p>
+                <div class="code-block" style="margin-top:var(--space-4)"><span class="comment">/* 10年償却の場合 */</span>
+年間償却額:    <span class="amount">¥154,122</span>
+節税効果(25%): <span class="amount">¥38,530</span>/年
+
+<span class="comment">/* 3年間償却漏れの場合 */</span>
+累計未計上額:  <span class="amount">¥462,366</span>
+過払い税額:    <span class="amount">¥115,591</span></div>
+                <h4 style="margin-top:var(--space-6)">税理士への確認事項</h4>
+                <ul class="action-list">
+                    <li>この¥1,541,226は何の前払費用か</li>
+                    <li>償却が必要な費用であればなぜ償却されていないか</li>
+                    <li>適正な償却期間・方法は</li>
+                </ul>
+            </div>
+
+            <div class="issue-card medium">
+                <div class="issue-header"><div class="issue-title">4. 棚卸資産の検証</div><span class="priority-tag priority-medium">Medium</span></div>
+                <div class="issue-balance">残高: ¥23,806,944（前年比+69%）</div>
+                <p style="margin-top:var(--space-4)">棚卸資産は2年間で3倍に増加しています。過大計上は課税所得の増加につながります。</p>
+                <div class="stat-grid">
+                    <div class="stat-card"><div class="stat-number">¥7.7M</div><div class="stat-label">2023年</div></div>
+                    <div class="stat-card"><div class="stat-number">¥14.1M</div><div class="stat-label">2024年</div></div>
+                    <div class="stat-card highlight"><div class="stat-number">¥23.8M</div><div class="stat-label">2025年</div></div>
+                </div>
+                <div class="highlight-box warning" style="margin-top:var(--space-6)">
+                    <h4>税務インパクト</h4>
+                    <p>棚卸資産¥100万の過大計上 ＝ 約¥25万の過払い税額</p>
+                </div>
+                <h4 style="margin-top:var(--space-6)">検証チェックリスト</h4>
+                <ul class="checklist">
+                    <li>実地棚卸の実施と帳簿残高との照合</li>
+                    <li>評価方法の確認（原価法 vs 低価法）</li>
+                    <li>滞留在庫・陳腐化在庫の有無確認</li>
+                </ul>
+            </div>
+
+            <div class="issue-card medium">
+                <div class="issue-header"><div class="issue-title">5. 関係者取引の文書化</div><span class="priority-tag priority-medium">Medium</span></div>
+                <div class="issue-balance">岸満: ¥6,549,414 / 岸誠: ¥3,699,000</div>
+                <p style="margin-top:var(--space-4)">役員との取引は税務調査で重点的にチェックされます。適正な文書化が必要です。</p>
+                <div class="two-column" style="margin-top:var(--space-6)">
+                    <div class="highlight-box success"><h4>OK：役員から会社への貸付</h4><p>無利息でも基本的に問題なし</p></div>
+                    <div class="highlight-box critical"><h4>要注意：会社から役員への貸付</h4><p>適正利率での利息計上が必要</p></div>
+                </div>
+                <h4 style="margin-top:var(--space-6)">税理士への確認事項</h4>
+                <ul class="action-list">
+                    <li>各残高の性質（貸付方向・目的）を明確化</li>
+                    <li>金銭消費貸借契約書の存在確認</li>
+                    <li>利息処理の適正性確認</li>
+                </ul>
+            </div>
+
+            <div class="issue-card low">
+                <div class="issue-header"><div class="issue-title">6. 旧クレジットカード勘定の整理</div><span class="priority-tag priority-low">Low</span></div>
+                <div class="issue-balance">OLDオリコカード: ▲¥102,447（マイナス残高）</div>
+                <p style="margin-top:var(--space-4)">古いカード勘定にマイナス残高（過払い）が残っています。長期間未解決の場合は雑収入として整理することを検討してください。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="future">
+        <div class="container fade-in">
+            <span class="section-number">04 — Future Planning</span>
+            <h2>将来計画への示唆</h2>
+            <p>2026年以降の税務戦略および経営計画に関する重要な考慮事項です。</p>
+
+            <h3>雑収入の非再現性</h3>
+            <p>2025年の雑収入¥7,718,040の91%は一時的な収入であり、2026年には再現しません。</p>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>内訳</th><th style="text-align:right">金額</th><th style="text-align:right">構成比</th><th>性質</th></tr></thead>
+                    <tbody>
+                        <tr><td>補助金・助成金</td><td style="text-align:right">¥5,317,661</td><td style="text-align:right">68.9%</td><td><span class="priority-tag priority-high">一時的</span></td></tr>
+                        <tr><td style="padding-left:2rem">- 全国中小企業団体中央会</td><td style="text-align:right">¥4,694,933</td><td></td><td></td></tr>
+                        <tr><td style="padding-left:2rem">- 東京都 雇用・労働環境</td><td style="text-align:right">¥545,455</td><td></td><td></td></tr>
+                        <tr><td style="padding-left:2rem">- 日本農林規格協会</td><td style="text-align:right">¥77,273</td><td></td><td></td></tr>
+                        <tr><td>クラウドファンディング</td><td style="text-align:right">¥1,700,889</td><td style="text-align:right">22.0%</td><td><span class="priority-tag priority-high">一時的</span></td></tr>
+                        <tr><td>その他（経常的）</td><td style="text-align:right">¥699,490</td><td style="text-align:right">9.1%</td><td><span class="priority-tag priority-complete">経常</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="highlight-box" style="margin-top:var(--space-6)">
+                <h4>2026年への影響</h4>
+                <div class="code-block">2025年経常利益:              <span class="amount">¥12,368,963</span>
+一時的収入:                  <span class="amount">▲¥7,018,550</span>
+─────────────────────────────────
+2026年ベース経常利益:        <span class="amount">~¥5,350,000</span>
+
+残存NOL:                     <span class="amount">¥4,139,201</span>
+→ 2026年税負担は大幅に軽減される見込み</div>
+            </div>
+
+            <h3>中小企業経営強化税制（2026年以降）</h3>
+            <p>2025年は事前計画未提出のため適用できませんでしたが、2026年の設備投資には活用を検討してください。</p>
+            <div class="two-column">
+                <div>
+                    <h4>制度概要</h4>
+                    <ul class="action-list">
+                        <li><strong>即時償却：</strong>取得価額の100%を初年度に費用化</li>
+                        <li><strong>税額控除：</strong>取得価額の7-10%を税額から控除</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>要件</h4>
+                    <ul class="action-list">
+                        <li>経営力向上計画を関係省庁に提出</li>
+                        <li>計画が<strong>設備購入前に</strong>承認されていること</li>
+                    </ul>
+                </div>
+            </div>
+
+            <details class="accordion">
+                <summary>役員賞与の戦略的活用</summary>
+                <div class="accordion-content">
+                    <p>2025年は事前確定届出給与により¥6,000,000が損金算入されました。</p>
+                    <h4 style="margin-top:var(--space-4)">2026年以降のポイント</h4>
+                    <ul class="action-list">
+                        <li>株主総会後1ヶ月以内に届出が必要</li>
+                        <li>届出額と実際支給額は<strong>完全一致</strong>が必須</li>
+                        <li>金額・日程の変更は再届出が必要</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="accordion">
+                <summary>退職金・福利厚生制度の導入</summary>
+                <div class="accordion-content">
+                    <p>従業員30名規模であれば、税制優遇のある退職金制度の導入が有効です。</p>
+                    <ul class="action-list">
+                        <li><strong>中小企業退職金共済：</strong>掛金全額損金算入、国の助成あり</li>
+                        <li><strong>確定拠出年金(DC)：</strong>会社掛金は損金算入、従業員にも税制優遇</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <section id="calculation" class="bg-inverse">
+        <div class="container fade-in">
+            <span class="section-number">05 — Tax Calculation</span>
+            <h2>税額計算サマリー</h2>
+            <p style="color:rgba(245,240,232,0.8)">すべての最適化戦略を適用した場合の最終税額計算です。</p>
+
+            <div class="code-block" style="background:rgba(0,0,0,0.3);margin-top:var(--space-8)"><span style="color:var(--color-accent-primary)">【課税所得計算】</span>
+
+経常利益:                        <span class="amount">¥12,368,963</span>
+
+税務調整:
+  圧縮記帳（補助金繰延）:        <span class="amount">▲¥4,694,933</span>
+  ─────────────────────────────────────────
+  調整後利益:                    <span class="amount">¥7,674,030</span>
+
+繰越欠損金の適用:
+  使用NOL（一部使用）:           <span class="amount">▲¥6,674,030</span>
+  ─────────────────────────────────────────
+  課税所得:                      <span class="amount">¥1,000,000</span>
+
+
+<span style="color:var(--color-accent-primary)">【法人税等計算】</span>
+
+法人税（中小軽減税率 ~15%）:     <span class="amount">¥150,000</span>
+賃上げ促進税制控除:              <span class="amount">▲¥30,000</span>
+  ─────────────────────────────────────────
+法人税（控除後）:                <span class="amount">¥120,000</span>
+
+地方税（概算）:                  <span class="amount">¥70,000</span>
+  ─────────────────────────────────────────
+<span style="font-weight:bold;color:var(--color-accent-primary)">法人税等合計:                   ¥190,000</span>
+
+
+<span style="color:var(--color-accent-primary)">【消費税】</span>
+
+通常計算による納付額:            <span class="amount">¥1,837,629</span>
+輸出還付（要算定）:              <span class="amount">▲¥???</span>
+  ─────────────────────────────────────────
+消費税純額:                      要確定（還付の可能性あり）</div>
+
+            <div class="stat-grid" style="margin-top:var(--space-12)">
+                <div class="stat-card" style="background:rgba(255,255,255,0.1)"><div class="stat-number" style="color:var(--color-text-inverse)">¥3.09M</div><div class="stat-label" style="color:rgba(245,240,232,0.7)">最適化前税額</div></div>
+                <div class="stat-card" style="background:rgba(255,255,255,0.1)"><div class="stat-number" style="color:var(--color-semantic-success)">¥190K</div><div class="stat-label" style="color:rgba(245,240,232,0.7)">最適化後税額</div></div>
+                <div class="stat-card" style="background:var(--color-semantic-success)"><div class="stat-number" style="color:white">¥2.9M</div><div class="stat-label" style="color:rgba(255,255,255,0.9)">節税効果</div></div>
+            </div>
+
+            <h3 style="margin-top:var(--space-12)">NOLポジション（2025年度末）</h3>
+            <div class="code-block" style="background:rgba(0,0,0,0.3)">期首NOL:           <span class="amount">¥10,813,231</span>
+2025年度使用:      <span class="amount">▲¥6,674,030</span>
+─────────────────────────────────────
+翌期繰越NOL:       <span class="amount">¥4,139,201</span>
+
+<span class="comment">/* 2026年予測への影響 */</span>
+2026年ベース経常利益: <span class="amount">~¥5,350,000</span>
+繰越NOL:              <span class="amount">¥4,139,201</span>
+→ 2026年も大幅な税負担軽減が見込まれる</div>
+        </div>
+    </section>
+
+    <section id="documents" class="bg-secondary">
+        <div class="container fade-in">
+            <span class="section-number">06 — Documents</span>
+            <h2>資料一覧</h2>
+            <div class="two-column">
+                <div>
+                    <h3>提供済み資料</h3>
+                    <ul class="checklist">
+                        <li class="done">残高試算表（2025年12月23日）</li>
+                        <li class="done">月次推移表</li>
+                        <li class="done">固定資産台帳 CSV</li>
+                        <li class="done">総勘定元帳 - 雑収入</li>
+                        <li class="done">本提案書</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>税理士にご準備いただく資料</h3>
+                    <ul class="checklist">
+                        <li>別表七(一) - NOL残高確認</li>
+                        <li>圧縮記帳 - 必要様式</li>
+                        <li>賃上げ促進税制 - 別表</li>
+                        <li>輸出消費税還付 - 書類チェックリスト</li>
+                    </ul>
+                    <h3 style="margin-top:var(--space-8)">RTU側で準備する資料</h3>
+                    <ul class="checklist">
+                        <li>全中補助金関連書類</li>
+                        <li>米国輸出記録（インボイス・船積書類）</li>
+                        <li>実地棚卸表</li>
+                        <li>長期前払費用の原契約書</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="requests">
+        <div class="container fade-in">
+            <span class="section-number">07 — Summary</span>
+            <h2>税理士への依頼事項まとめ</h2>
+
+            <h3>最優先事項（税務インパクト大）</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>#</th><th>項目</th><th>内容</th><th style="text-align:right">効果</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td><strong>圧縮記帳</strong></td><td>補助金¥4,694,933の圧縮記帳処理</td><td style="text-align:right;color:var(--color-semantic-success)">¥1.17M繰延</td></tr>
+                        <tr><td>2</td><td><strong>繰越欠損金</strong></td><td>¥6,674,030の一部使用</td><td style="text-align:right;color:var(--color-semantic-success)">¥1.67M控除</td></tr>
+                        <tr><td>3</td><td><strong>賃上げ促進税制</strong></td><td>給与増加30.4%に対する税額控除</td><td style="text-align:right;color:var(--color-semantic-success)">~¥30K</td></tr>
+                        <tr><td>4</td><td><strong>輸出消費税還付</strong></td><td>米国輸出に係る仕入税額還付</td><td style="text-align:right;color:var(--color-semantic-success)">要算定</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>申告前必須対応</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>#</th><th>項目</th><th>内容</th></tr></thead>
+                    <tbody>
+                        <tr><td>5</td><td><strong>未確定勘定</strong></td><td>▲¥629,547の解消（残高¥0へ）</td></tr>
+                        <tr><td>6</td><td><strong>消費税照合</strong></td><td>未払消費税▲¥801,400の原因究明</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>調査・助言依頼事項</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>#</th><th>項目</th><th>質問</th></tr></thead>
+                    <tbody>
+                        <tr><td>7</td><td><strong>長期前払費用</strong></td><td>¥1.54Mの内容は？償却すべきか？</td></tr>
+                        <tr><td>8</td><td><strong>棚卸資産</strong></td><td>¥23.8Mの妥当性、評価減の余地は？</td></tr>
+                        <tr><td>9</td><td><strong>関係者取引</strong></td><td>岸満・岸誠勘定の文書化状況</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>将来計画相談事項</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>#</th><th>項目</th><th>相談内容</th></tr></thead>
+                    <tbody>
+                        <tr><td>10</td><td><strong>経営力向上計画</strong></td><td>2026年設備投資に向けた計画申請の要否</td></tr>
+                        <tr><td>11</td><td><strong>退職金制度</strong></td><td>RTUに適した制度オプション</td></tr>
+                        <tr><td>12</td><td><strong>役員賞与</strong></td><td>2026年の最適な金額・届出スケジュール</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>RTU 2025 Tax Optimization Proposal</p>
+            <p style="margin-top:0.5rem">株式会社ローグトレード | TOKYO COFFEE</p>
+            <p style="margin-top:1rem;font-size:0.75rem">Prepared: December 23, 2025</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById('progressBar').style.width = (winScroll / height) * 100 + '%';
+            document.getElementById('nav').classList.toggle('visible', window.scrollY > 500);
+        });
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+                    });
+                }
+            });
+        }, { rootMargin: '-20% 0px -80% 0px' });
+        sections.forEach(section => observer.observe(section));
+        const fadeObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
