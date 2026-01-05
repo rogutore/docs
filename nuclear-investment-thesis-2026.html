@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuclear Renaissance Investment Thesis — January 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-primary: #F5F0E8;
+            --color-bg-secondary: #EBE4D8;
+            --color-bg-tertiary: #D9CFC0;
+            --color-bg-inverse: #1a2332;
+            --color-bg-nuclear: #0f1419;
+            
+            --color-text-primary: #2C1810;
+            --color-text-secondary: #4A3428;
+            --color-text-muted: #6B5A4E;
+            --color-text-inverse: #F5F0E8;
+            
+            --color-accent-primary: #3d7c47;
+            --color-accent-secondary: #2a5a32;
+            --color-accent-gold: #c9a227;
+            --color-accent-uranium: #7cb342;
+            
+            --color-semantic-success: #4A7C59;
+            --color-semantic-warning: #B8860B;
+            --color-semantic-anchor: #2563eb;
+            --color-semantic-growth: #7c3aed;
+            --color-semantic-asymmetric: #dc2626;
+            
+            --color-border: rgba(44, 24, 16, 0.12);
+            --color-shadow: rgba(44, 24, 16, 0.08);
+            
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            
+            --container-max: 1400px;
+            --container-padding: clamp(1.5rem, 5vw, 4rem);
+            
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-full: 9999px;
+            
+            --shadow-md: 0 4px 12px var(--color-shadow);
+            --shadow-lg: 0 8px 24px var(--color-shadow);
+            --shadow-xl: 0 20px 40px var(--color-shadow);
+            
+            --transition-fast: 150ms ease;
+            --transition-normal: 300ms ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: transparent;
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--color-accent-uranium), var(--color-accent-gold));
+            transition: width 0.1s ease;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: var(--space-4) var(--space-8);
+            background: rgba(245, 240, 232, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transform: translateY(-100%);
+            transition: transform var(--transition-normal);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .nav.visible {
+            transform: translateY(0);
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--color-text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .nav-logo::before {
+            content: "☢";
+            font-size: 1.4rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-6);
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--color-text-primary);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--color-accent-uranium);
+        }
+
+        .nav-btn {
+            padding: var(--space-2) var(--space-4);
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+            border: none;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: var(--space-16) var(--container-padding);
+            background: linear-gradient(180deg, var(--color-bg-nuclear) 0%, #1a2332 50%, var(--color-bg-primary) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% 20%, rgba(124, 179, 66, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 30% 70%, rgba(201, 162, 39, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-text-inverse);
+            margin-bottom: var(--space-8);
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        .hero-badge::before {
+            content: '☢';
+            font-size: 1rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 600;
+            line-height: 1.1;
+            color: var(--color-text-inverse);
+            margin-bottom: var(--space-6);
+            max-width: 900px;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--color-accent-uranium), var(--color-accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: rgba(255,255,255,0.7);
+            max-width: 600px;
+            margin-bottom: var(--space-10);
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: var(--space-12);
+            margin-bottom: var(--space-12);
+            animation: fadeInUp 0.8s ease 0.6s forwards;
+            opacity: 0;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--color-accent-uranium);
+        }
+
+        .hero-stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.5);
+            margin-top: var(--space-1);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: var(--space-10);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            color: rgba(255,255,255,0.5);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        .scroll-indicator::after {
+            content: '↓';
+            font-size: 1.5rem;
+        }
+
+        /* Section Styling */
+        section {
+            padding: var(--space-24) var(--container-padding);
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+
+        .section-number {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-4);
+        }
+
+        section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: var(--space-6);
+            color: var(--color-text-primary);
+        }
+
+        section > p {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            max-width: 800px;
+            margin-bottom: var(--space-10);
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            font-weight: 500;
+            color: var(--color-text-primary);
+            margin: var(--space-12) 0 var(--space-6) 0;
+        }
+
+        h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-4);
+        }
+
+        /* Background Variants */
+        .bg-primary { background: var(--color-bg-primary); }
+        .bg-secondary { background: var(--color-bg-secondary); }
+        .bg-inverse {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+        .bg-inverse h2, .bg-inverse h3 { color: var(--color-text-inverse); }
+        .bg-inverse p { color: rgba(255,255,255,0.8); }
+        .bg-inverse .section-number { color: rgba(255,255,255,0.5); }
+
+        /* Full Width Sections */
+        .full-width {
+            max-width: 100%;
+            padding-left: var(--container-padding);
+            padding-right: var(--container-padding);
+        }
+
+        .full-width .content-wrapper {
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+
+        /* Stat Cards */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-6);
+            margin: var(--space-10) 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: var(--space-6);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--color-accent-secondary);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            margin-top: var(--space-2);
+        }
+
+        /* Tables */
+        .table-wrapper {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin: var(--space-8) 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        th {
+            padding: var(--space-4) var(--space-6);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: var(--space-4) var(--space-6);
+            border-bottom: 1px solid var(--color-border);
+            font-size: 0.95rem;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: var(--color-bg-secondary);
+        }
+
+        /* Tier Badges */
+        .tier-badge {
+            display: inline-block;
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tier-anchor {
+            background: rgba(37, 99, 235, 0.15);
+            color: var(--color-semantic-anchor);
+        }
+
+        .tier-growth {
+            background: rgba(124, 58, 237, 0.15);
+            color: var(--color-semantic-growth);
+        }
+
+        .tier-asymmetric {
+            background: rgba(220, 38, 38, 0.15);
+            color: var(--color-semantic-asymmetric);
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            background: white;
+            border-left: 4px solid var(--color-accent-uranium);
+            padding: var(--space-6);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: var(--space-6) 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .highlight-box.critical {
+            border-left-color: var(--color-accent-gold);
+            background: linear-gradient(90deg, rgba(201, 162, 39, 0.05), white);
+        }
+
+        .highlight-box h4 {
+            margin-bottom: var(--space-3);
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        /* Action Lists */
+        .action-list {
+            list-style: none;
+            margin: var(--space-6) 0;
+        }
+
+        .action-list li {
+            position: relative;
+            padding: var(--space-4) 0 var(--space-4) var(--space-8);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .action-list li:last-child {
+            border-bottom: none;
+        }
+
+        .action-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            border: 2px solid var(--color-accent-uranium);
+            border-radius: 50%;
+        }
+
+        .action-list li strong {
+            color: var(--color-text-primary);
+        }
+
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: var(--space-12);
+            margin: var(--space-10) 0;
+        }
+
+        .sticky-header {
+            position: sticky;
+            top: 100px;
+            align-self: start;
+        }
+
+        @media (max-width: 900px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+            .sticky-header {
+                position: static;
+            }
+        }
+
+        /* Company Cards */
+        .company-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            margin: var(--space-10) 0;
+            transition: transform var(--transition-normal);
+        }
+
+        .company-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .company-header {
+            padding: var(--space-6) var(--space-8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .company-header.anchor { background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), transparent); }
+        .company-header.growth { background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), transparent); }
+        .company-header.asymmetric { background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), transparent); }
+
+        .company-name {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .company-ticker {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            margin-left: var(--space-2);
+        }
+
+        .company-allocation {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .company-body {
+            padding: var(--space-6) var(--space-8);
+        }
+
+        .company-description {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-6);
+            line-height: 1.8;
+        }
+
+        .company-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-4);
+            padding: var(--space-4);
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-md);
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--color-text-primary);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Process Flow */
+        .process-flow {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+            margin: var(--space-10) 0;
+        }
+
+        .process-step {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-6);
+            padding: var(--space-6);
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+        }
+
+        .process-step:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .process-number {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .process-content h4 {
+            margin-bottom: var(--space-2);
+            color: var(--color-text-primary);
+            font-size: 1rem;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .process-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Image Hero Sections */
+        .image-hero {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin: var(--space-16) 0;
+            border-radius: var(--radius-lg);
+        }
+
+        .image-hero img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4);
+        }
+
+        .image-hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: white;
+            padding: var(--space-8);
+        }
+
+        .image-hero-content h3 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: var(--space-4);
+        }
+
+        .image-hero-content p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
+            max-width: 600px;
+        }
+
+        /* Parallax Effect */
+        .parallax-section {
+            position: relative;
+            padding: var(--space-24) var(--container-padding);
+            overflow: hidden;
+        }
+
+        .parallax-bg {
+            position: absolute;
+            top: -50%;
+            left: 0;
+            right: 0;
+            height: 200%;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* Fade In Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Quote Block */
+        .quote-block {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-style: italic;
+            color: var(--color-text-secondary);
+            border-left: 4px solid var(--color-accent-gold);
+            padding-left: var(--space-8);
+            margin: var(--space-12) 0;
+            line-height: 1.5;
+        }
+
+        .quote-attribution {
+            font-family: var(--font-body);
+            font-style: normal;
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin-top: var(--space-4);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+            padding: var(--space-16) var(--container-padding);
+            text-align: center;
+        }
+
+        footer p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+        }
+
+        /* Print Styles */
+        @media print {
+            .nav, .progress-container, .scroll-indicator {
+                display: none !important;
+            }
+            .hero {
+                min-height: auto;
+                padding: var(--space-8);
+            }
+            section {
+                page-break-inside: avoid;
+            }
+            .company-card {
+                break-inside: avoid;
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hero-stats {
+                flex-direction: column;
+                gap: var(--space-6);
+            }
+            .stat-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .company-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-4);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-logo">Nuclear Renaissance</div>
+        <ul class="nav-links">
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#thesis">Thesis</a></li>
+            <li><a href="#methodology">Methodology</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#picks">Stock Picks</a></li>
+            <li><a href="#catalysts">Catalysts</a></li>
+        </ul>
+        <button class="nav-btn" onclick="window.print()">Export PDF</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <span class="hero-badge">Investment Research • January 2026</span>
+        <h1>The <span>Nuclear Renaissance</span> Investment Thesis</h1>
+        <p class="hero-subtitle">A systematic approach to capturing multi-decade returns from the global nuclear revival, powered by AI data centers, decarbonization mandates, and structural supply deficits.</p>
+        
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-value">6</div>
+                <div class="hero-stat-label">Concentrated Picks</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">24/25</div>
+                <div class="hero-stat-label">Sector Score</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">5-30yr</div>
+                <div class="hero-stat-label">Investment Horizon</div>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">Scroll to explore</div>
+    </header>
+
+    <!-- Section 1: Executive Overview -->
+    <section id="overview" class="fade-in">
+        <span class="section-number">01 — Executive Overview</span>
+        <h2>Why Nuclear, Why Now</h2>
+        <p>After decades in the wilderness, nuclear energy stands at an inflection point. The convergence of AI infrastructure demands, climate imperatives, and geopolitical realignment has created a once-in-a-generation investment opportunity in the nuclear sector.</p>
+        
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="stat-number">$1.4T</div>
+                <div class="stat-label">Global Nuclear Investment Needed by 2050</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">200%</div>
+                <div class="stat-label">Data Center Power Demand Growth by 2030</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">44%</div>
+                <div class="stat-label">Russian Control of Global Enrichment</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$6.1B</div>
+                <div class="stat-label">US DOE Nuclear Funding Committed</div>
+            </div>
+        </div>
+
+        <h3>The Thesis in Three Sentences</h3>
+        <p>Nuclear is the only scalable, 24/7 carbon-free power source capable of meeting AI data center demand. Russia's dominance of the fuel supply chain creates structural shortages as the West reshores. The market is in the early innings of a multi-decade buildout cycle.</p>
+
+        <div class="highlight-box critical">
+            <h4>The "Moonshot with a Floor" Philosophy</h4>
+            <p>This strategy seeks asymmetric returns by combining institutional-quality anchor positions with high-conviction asymmetric bets. The goal is not to beat the market by 2% annually—it's to capture 3-10x outcomes in a sector with structural tailwinds, while limiting permanent capital loss through quality screening.</p>
+        </div>
+    </section>
+
+    <!-- Parallax Image Break -->
+    <div class="parallax-section bg-secondary">
+        <div class="parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1591672299888-e16a08b6c7ce?w=1920&q=80');"></div>
+        <div class="content-wrapper" style="max-width: var(--container-max); margin: 0 auto; position: relative; z-index: 1;">
+            <blockquote class="quote-block">
+                "The stone age didn't end because we ran out of stones. It ended because we found something better."
+                <div class="quote-attribution">— Often attributed to Sheikh Yamani, on energy transitions</div>
+            </blockquote>
+        </div>
+    </div>
+
+    <!-- Section 2: Sector Thesis -->
+    <section id="thesis" class="fade-in">
+        <span class="section-number">02 — Sector Thesis</span>
+        <h2>The Nuclear Renaissance: Structural Drivers</h2>
+        <p>This isn't a trade—it's a thesis built on irreversible structural changes in energy demand, geopolitics, and policy. Three converging forces make nuclear the highest-conviction early-cycle sector for the next decade.</p>
+
+        <h3>Driver 1: AI Data Center Demand</h3>
+        <p>Large language models and AI infrastructure require 24/7 baseload power that renewables cannot reliably provide. Hyperscalers (Microsoft, Google, Amazon) are signing unprecedented nuclear power agreements:</p>
+        
+        <ul class="action-list">
+            <li><strong>Microsoft + Constellation (Sept 2024):</strong> 20-year PPA to restart Three Mile Island Unit 1, the first restart of a decommissioned US nuclear plant</li>
+            <li><strong>Amazon + Talen Energy (March 2024):</strong> $650M acquisition of a data center campus directly connected to Susquehanna nuclear plant</li>
+            <li><strong>Google + Kairos Power (Oct 2024):</strong> Agreement to deploy small modular reactors for data center power by 2030</li>
+        </ul>
+
+        <h3>Driver 2: Russian Supply Chain Disruption</h3>
+        <p>Russia controls approximately 44% of global uranium enrichment capacity. Western sanctions and supply chain reshoring are creating structural shortages:</p>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Milestone</th>
+                        <th>Date</th>
+                        <th>Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ADVANCE Act signed</td>
+                        <td>July 2024</td>
+                        <td>$2.7B for domestic enrichment</td>
+                    </tr>
+                    <tr>
+                        <td>Russian LEU ban enacted</td>
+                        <td>August 2024</td>
+                        <td>Waivers through 2027</td>
+                    </tr>
+                    <tr>
+                        <td>Waiver expiration</td>
+                        <td>January 2028</td>
+                        <td>Full Russian import ban</td>
+                    </tr>
+                    <tr>
+                        <td>Centrus HALEU production</td>
+                        <td>2029</td>
+                        <td>First US HALEU at scale</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Driver 3: Policy Tailwinds</h3>
+        <p>For the first time in decades, nuclear energy has bipartisan political support and active policy acceleration:</p>
+        
+        <ul class="action-list">
+            <li><strong>Trump Executive Orders (Jan 2025):</strong> Directive to quadruple US nuclear capacity, streamline NRC permitting</li>
+            <li><strong>COP28 Declaration:</strong> 22 nations committed to tripling nuclear capacity by 2050</li>
+            <li><strong>DOE Funding:</strong> $6.1B allocated for domestic fuel cycle, advanced reactors</li>
+            <li><strong>Japan Restarts:</strong> Policy reversal enabling reactor restarts post-Fukushima</li>
+        </ul>
+
+        <div class="highlight-box">
+            <h4>Early-Cycle Confirmation</h4>
+            <p>Nuclear scores 24/25 on our sector evaluation framework—the highest of 8 early-cycle sectors analyzed. Policy is enacted, money is committed, but less than 10% of required capital has been deployed. We are in the first inning of a multi-decade buildout.</p>
+        </div>
+    </section>
+
+    <!-- Section 3: Methodology -->
+    <section id="methodology" class="bg-secondary fade-in">
+        <span class="section-number">03 — Methodology</span>
+        <h2>The Investment Research System</h2>
+        <p>This analysis follows a systematic 6-phase process designed to identify concentrated high-conviction opportunities within early-cycle sectors, validated by alternative data signals and institutional flows.</p>
+
+        <div class="process-flow">
+            <div class="process-step">
+                <div class="process-number">0</div>
+                <div class="process-content">
+                    <h4>Early Sector Identification</h4>
+                    <p>Score sectors on 5 dimensions: sentiment, policy, capital deployment, valuations, and supply chain. Nuclear scored 24/25—highest conviction tier.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="process-number">1</div>
+                <div class="process-content">
+                    <h4>Sector Thesis Validation</h4>
+                    <p>Confirm regulatory status, capital gaps, supply chain bottlenecks, and value chain structure. Mapped nuclear from upstream (uranium) to downstream (utilities).</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="process-number">2</div>
+                <div class="process-content">
+                    <h4>Company Discovery</h4>
+                    <p>Built universe of 22 investable companies across value chain tiers. Screened for liquidity, accessibility, and fundamental quality.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="process-number">3</div>
+                <div class="process-content">
+                    <h4>Alpha Signal Cross-Check</h4>
+                    <p>Validated picks using congressional trading data, insider Form 4 filings, 13F institutional holdings, and government contract awards.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="process-number">3.5</div>
+                <div class="process-content">
+                    <h4>Pre-Index Alpha Screening</h4>
+                    <p>NEW: Score companies on proximity to S&P index inclusion thresholds. Identify forced buying catalysts from passive flows before they occur.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="process-number">4</div>
+                <div class="process-content">
+                    <h4>Deep Fundamental Analysis</h4>
+                    <p>Full valuation, growth potential, competitive positioning, catalyst timeline, and risk assessment for top 6 candidates.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="process-number">5</div>
+                <div class="process-content">
+                    <h4>Portfolio Construction</h4>
+                    <p>Position sizing across Anchor/Growth/Asymmetric tiers. Scenario analysis for bull/base/bear outcomes.</p>
+                </div>
+            </div>
+        </div>
+
+        <h3>The Pre-Index Alpha Framework</h3>
+        <p>A key innovation in this methodology is identifying companies approaching index inclusion thresholds before passive capital is forced to buy. When stocks cross S&P eligibility criteria, index funds and ETFs must purchase regardless of price—creating predictable demand spikes we can front-run.</p>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Index</th>
+                        <th>Market Cap Threshold</th>
+                        <th>Other Requirements</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>S&P 500</td>
+                        <td>≥$22.7 billion</td>
+                        <td>Positive GAAP earnings (4Q trailing + most recent Q)</td>
+                    </tr>
+                    <tr>
+                        <td>S&P MidCap 400</td>
+                        <td>$8.0B - $22.7B</td>
+                        <td>Same profitability requirements</td>
+                    </tr>
+                    <tr>
+                        <td>S&P SmallCap 600</td>
+                        <td>$1.2B - $8.0B</td>
+                        <td>Same profitability requirements</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="highlight-box">
+            <h4>Pre-Index Alpha Scoring</h4>
+            <p>Each company is scored 0-10 on: Market Cap Gravity (25%), Liquidity Trajectory (20%), Revenue Quality (25%), Ownership Transition (15%), and Governance/Structure (15%). Scores of 8+ receive enhanced position sizing.</p>
+        </div>
+    </section>
+
+    <!-- Image Break -->
+    <div class="image-hero">
+        <img src="https://images.unsplash.com/photo-1558449028-b53a39d100fc?w=1920&q=80" alt="Nuclear cooling towers at sunset">
+        <div class="image-hero-content">
+            <h3>Building for the Next 30 Years</h3>
+            <p>Nuclear infrastructure operates on generational timescales. The investments made today will compound for decades.</p>
+        </div>
+    </div>
+
+    <!-- Section 4: Portfolio Structure -->
+    <section id="portfolio" class="fade-in">
+        <span class="section-number">04 — Portfolio Structure</span>
+        <h2>The 30/35/40 Allocation</h2>
+        <p>The portfolio is structured across three tiers designed to balance capital preservation with asymmetric upside. This is not a "nuclear ETF with extra steps"—it's a thesis-driven allocation that justifies the research effort through concentrated exposure to the highest-conviction opportunities.</p>
+
+        <div class="two-column">
+            <div class="sticky-header">
+                <h3>Why Tiered Allocation?</h3>
+                <p>A portfolio of only large-cap nuclear names (CCJ, CEG) would produce safe but capped returns—essentially market performance plus a nuclear premium. To justify front-loading annual research and capture 3-10x outcomes, the portfolio intentionally overweights asymmetric positions with real fundamentals.</p>
+                
+                <div class="highlight-box" style="margin-top: var(--space-6);">
+                    <h4>Expected Returns</h4>
+                    <p><strong>Bull Case (25%):</strong> 28% CAGR<br>
+                    <strong>Base Case (50%):</strong> 16% CAGR<br>
+                    <strong>Bear Case (25%):</strong> -7% CAGR<br>
+                    <strong>Expected Value:</strong> 14% CAGR</p>
+                </div>
+            </div>
+            <div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tier</th>
+                                <th>Allocation</th>
+                                <th>Role</th>
+                                <th>Target CAGR</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="tier-badge tier-anchor">Anchor</span></td>
+                                <td>30%</td>
+                                <td>Institutional quality, won't blow up</td>
+                                <td>12-15%</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tier-badge tier-growth">Growth</span></td>
+                                <td>35%</td>
+                                <td>Value chain bottleneck, higher beta</td>
+                                <td>18-25%</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tier-badge tier-asymmetric">Asymmetric</span></td>
+                                <td>40%</td>
+                                <td>3-10x potential, real fundamentals</td>
+                                <td>30%+ or &lt;0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4 style="margin-top: var(--space-8);">Position Sizing Rules</h4>
+                <ul class="action-list">
+                    <li><strong>Minimum position:</strong> 5% (meaningful exposure)</li>
+                    <li><strong>Maximum position:</strong> 30% (concentrated but not YOLO)</li>
+                    <li><strong>Pre-Index Alpha boost:</strong> +5% for Score 8+ names</li>
+                    <li><strong>Value chain diversification:</strong> Required across tiers</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Stock Picks -->
+    <section id="picks" class="bg-secondary fade-in">
+        <span class="section-number">05 — The Six Picks</span>
+        <h2>Portfolio Holdings</h2>
+        <p>Six concentrated positions across the nuclear value chain, selected through systematic screening and validated by alternative data signals. Each position has a specific role in the portfolio architecture.</p>
+
+        <!-- CCJ -->
+        <div class="company-card">
+            <div class="company-header anchor">
+                <div>
+                    <span class="tier-badge tier-anchor">Anchor</span>
+                    <h3 class="company-name" style="margin: var(--space-2) 0 0 0;">Cameco Corporation <span class="company-ticker">CCJ</span></h3>
+                </div>
+                <div class="company-allocation">15%</div>
+            </div>
+            <div class="company-body">
+                <p class="company-description">The world's largest publicly traded uranium producer and the bellwether of the nuclear sector. Cameco controls approximately 18% of global uranium production capacity and holds a 49% stake in Westinghouse, giving it exposure across the entire fuel cycle. The company's contracts are tied to long-term utility agreements, providing visibility into future cash flows.</p>
+                
+                <div class="company-metrics">
+                    <div class="metric">
+                        <div class="metric-value">~$25B</div>
+                        <div class="metric-label">Market Cap</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">90%</div>
+                        <div class="metric-label">EPS CAGR (24-27E)</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">49%</div>
+                        <div class="metric-label">Westinghouse Stake</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">$80B</div>
+                        <div class="metric-label">US Govt Partnership</div>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: var(--space-6);">Investment Thesis</h4>
+                <ul class="action-list">
+                    <li><strong>Uranium Bellwether:</strong> Institutional investors use CCJ as the primary vehicle for uranium exposure</li>
+                    <li><strong>Westinghouse Optionality:</strong> Strategic stake in the world's leading reactor technology company</li>
+                    <li><strong>Production Leverage:</strong> Restarting tier-1 mines as uranium prices rise</li>
+                    <li><strong>Risk:</strong> Commodity price exposure, Canadian tax jurisdiction</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- CEG -->
+        <div class="company-card">
+            <div class="company-header anchor">
+                <div>
+                    <span class="tier-badge tier-anchor">Anchor</span>
+                    <h3 class="company-name" style="margin: var(--space-2) 0 0 0;">Constellation Energy <span class="company-ticker">CEG</span></h3>
+                </div>
+                <div class="company-allocation">15%</div>
+            </div>
+            <div class="company-body">
+                <p class="company-description">America's largest nuclear fleet operator with 22+ GW of carbon-free generation capacity. Constellation operates irreplaceable baseload assets that hyperscalers are now paying premium prices to access. The Microsoft deal to restart Three Mile Island Unit 1 validated the AI data center thesis for nuclear power.</p>
+                
+                <div class="company-metrics">
+                    <div class="metric">
+                        <div class="metric-value">~$75B</div>
+                        <div class="metric-label">Market Cap</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">22+ GW</div>
+                        <div class="metric-label">Nuclear Capacity</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">20 Years</div>
+                        <div class="metric-label">Microsoft PPA</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">2028</div>
+                        <div class="metric-label">TMI Restart Target</div>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: var(--space-6);">Investment Thesis</h4>
+                <ul class="action-list">
+                    <li><strong>Irreplaceable Assets:</strong> Largest US nuclear fleet cannot be replicated</li>
+                    <li><strong>AI Data Center Demand:</strong> Microsoft PPA sets precedent for premium pricing</li>
+                    <li><strong>Three Mile Island:</strong> First US nuclear restart signals policy shift</li>
+                    <li><strong>Risk:</strong> Regulatory exposure, already in S&P 500 (no pre-index alpha)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- BWXT -->
+        <div class="company-card">
+            <div class="company-header growth">
+                <div>
+                    <span class="tier-badge tier-growth">Growth</span>
+                    <h3 class="company-name" style="margin: var(--space-2) 0 0 0;">BWX Technologies <span class="company-ticker">BWXT</span></h3>
+                </div>
+                <div class="company-allocation">15%</div>
+            </div>
+            <div class="company-body">
+                <p class="company-description">The sole manufacturer of nuclear reactors for the US Navy's submarine and aircraft carrier fleet. BWXT holds an irreplaceable defense moat—there is no alternative supplier for naval nuclear propulsion. The company also has optionality in commercial SMR components and medical radioisotopes.</p>
+                
+                <div class="company-metrics">
+                    <div class="metric">
+                        <div class="metric-value">~$17B</div>
+                        <div class="metric-label">Market Cap</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">94%</div>
+                        <div class="metric-label">Institutional Ownership</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">9/10</div>
+                        <div class="metric-label">Pre-Index Alpha Score</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">~$22.7B</div>
+                        <div class="metric-label">S&P 500 Threshold</div>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: var(--space-6);">Investment Thesis</h4>
+                <ul class="action-list">
+                    <li><strong>Defense Moat:</strong> Sole-source Navy reactor manufacturer—no competition possible</li>
+                    <li><strong>Pre-Index Alpha:</strong> Approaching S&P 500 inclusion threshold ($17B → $22.7B)</li>
+                    <li><strong>SMR Optionality:</strong> Manufacturing capacity for commercial small modular reactors</li>
+                    <li><strong>Risk:</strong> Valuation at 52x P/E prices in execution; Navy budget dependency</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- FLR -->
+        <div class="company-card">
+            <div class="company-header growth">
+                <div>
+                    <span class="tier-badge tier-growth">Growth</span>
+                    <h3 class="company-name" style="margin: var(--space-2) 0 0 0;">Fluor Corporation <span class="company-ticker">FLR</span></h3>
+                </div>
+                <div class="company-allocation">20%</div>
+            </div>
+            <div class="company-body">
+                <p class="company-description">A global EPC (engineering, procurement, construction) firm with deep nuclear expertise and a 38.9% stake in NuScale Power, the only SMR developer with NRC design approval. Fluor represents the cheapest entry point to the nuclear thesis (~7x EV/EBITDA) with activist catalyst potential.</p>
+                
+                <div class="company-metrics">
+                    <div class="metric">
+                        <div class="metric-value">~$7B</div>
+                        <div class="metric-label">Market Cap</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">~7x</div>
+                        <div class="metric-label">EV/EBITDA</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">38.9%</div>
+                        <div class="metric-label">NuScale Stake</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">$80B</div>
+                        <div class="metric-label">Japan Opportunity</div>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: var(--space-6);">Investment Thesis</h4>
+                <ul class="action-list">
+                    <li><strong>Value Entry:</strong> Cheapest nuclear exposure at ~7x EBITDA vs. peers at 15-20x</li>
+                    <li><strong>NuScale Optionality:</strong> 38.9% stake in only NRC-approved SMR design</li>
+                    <li><strong>Starboard Catalyst:</strong> Activist involvement driving operational improvements</li>
+                    <li><strong>Risk:</strong> EPC execution risk; NuScale's cancelled Idaho project</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LEU -->
+        <div class="company-card">
+            <div class="company-header asymmetric">
+                <div>
+                    <span class="tier-badge tier-asymmetric">Asymmetric</span>
+                    <h3 class="company-name" style="margin: var(--space-2) 0 0 0;">Centrus Energy <span class="company-ticker">LEU</span></h3>
+                </div>
+                <div class="company-allocation">20%</div>
+            </div>
+            <div class="company-body">
+                <p class="company-description">The only company licensed to produce High-Assay Low-Enriched Uranium (HALEU) in the United States—the fuel required for most advanced reactor designs. Centrus holds a regulatory monopoly that cannot be replicated for years, backed by $3.6B in contracted backlog.</p>
+                
+                <div class="company-metrics">
+                    <div class="metric">
+                        <div class="metric-value">~$5B</div>
+                        <div class="metric-label">Market Cap</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">$3.6B</div>
+                        <div class="metric-label">Contracted Backlog</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">8/10</div>
+                        <div class="metric-label">Pre-Index Alpha Score</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">$49-$464</div>
+                        <div class="metric-label">2025 Trading Range</div>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: var(--space-6);">Investment Thesis</h4>
+                <ul class="action-list">
+                    <li><strong>HALEU Monopoly:</strong> Only US producer of fuel for advanced reactors</li>
+                    <li><strong>Regulatory Moat:</strong> NRC license creates multi-year barrier to competition</li>
+                    <li><strong>NYSE Uplisting:</strong> December 2025 uplisting expands institutional buyer universe</li>
+                    <li><strong>Risk:</strong> Extreme volatility (10x range in 2025); HALEU demand timing</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- UEC -->
+        <div class="company-card">
+            <div class="company-header asymmetric">
+                <div>
+                    <span class="tier-badge tier-asymmetric">Asymmetric</span>
+                    <h3 class="company-name" style="margin: var(--space-2) 0 0 0;">Uranium Energy Corp <span class="company-ticker">UEC</span></h3>
+                </div>
+                <div class="company-allocation">20%</div>
+            </div>
+            <div class="company-body">
+                <p class="company-description">The largest pure-play uranium producer focused entirely on US and Canadian assets. UEC recently completed the UraniumOne Americas (UR&C) acquisition, creating vertical integration from mining through processing. The company offers the highest uranium beta in the portfolio.</p>
+                
+                <div class="company-metrics">
+                    <div class="metric">
+                        <div class="metric-value">~$6B</div>
+                        <div class="metric-label">Market Cap</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">$455M</div>
+                        <div class="metric-label">Cash Position</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">2025</div>
+                        <div class="metric-label">Production Restart</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">7/10</div>
+                        <div class="metric-label">Pre-Index Alpha Score</div>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: var(--space-6);">Investment Thesis</h4>
+                <ul class="action-list">
+                    <li><strong>US Production:</strong> Largest American-focused uranium producer</li>
+                    <li><strong>Vertical Integration:</strong> UR&C acquisition adds processing capabilities</li>
+                    <li><strong>Uranium Beta:</strong> Highest sensitivity to uranium spot price in portfolio</li>
+                    <li><strong>Risk:</strong> Pre-profit stage; commodity price exposure; NYSE American listing</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Catalysts & Monitoring -->
+    <section id="catalysts" class="fade-in">
+        <span class="section-number">06 — Catalysts & Timeline</span>
+        <h2>Key Monitoring Points</h2>
+        <p>Nuclear investments operate on long timescales, but specific catalysts can drive material price movements. This timeline highlights the key events to monitor for portfolio management.</p>
+
+        <div class="two-column">
+            <div>
+                <h3>2026 Catalysts</h3>
+                <ul class="action-list">
+                    <li><strong>Q1 2026:</strong> Centrus capacity expansion update (LEU)</li>
+                    <li><strong>Q1 2026:</strong> UEC Burke Hollow commissioning</li>
+                    <li><strong>Mid-2026:</strong> NuScale VOYGR-6 NRC review (FLR)</li>
+                    <li><strong>Ongoing:</strong> BWXT market cap vs. $22.7B S&P 500 threshold</li>
+                </ul>
+
+                <h3>2027-2028 Catalysts</h3>
+                <ul class="action-list">
+                    <li><strong>Jan 2027:</strong> Russian LEU waiver expiration begins</li>
+                    <li><strong>2028:</strong> Full Russian uranium import ban</li>
+                    <li><strong>2028:</strong> Three Mile Island Unit 1 restart (CEG)</li>
+                    <li><strong>Ongoing:</strong> SMR deployment announcements</li>
+                </ul>
+            </div>
+            <div>
+                <h3>2029+ Catalysts</h3>
+                <ul class="action-list">
+                    <li><strong>2029:</strong> Centrus new enrichment capacity online (LEU)</li>
+                    <li><strong>2030:</strong> TerraPower Natrium operational</li>
+                    <li><strong>2030s:</strong> SMR fleet deployment at scale</li>
+                    <li><strong>2050:</strong> COP28 tripling target deadline</li>
+                </ul>
+
+                <div class="highlight-box" style="margin-top: var(--space-8);">
+                    <h4>Monitoring Rules</h4>
+                    <p><strong>DO rebalance when:</strong> Position exceeds 30% of portfolio, thesis fundamentally changes, better opportunity identified.<br><br>
+                    <strong>DON'T sell for:</strong> 20-30% drawdowns (normal volatility), insider selling (already sized appropriately), quarterly noise.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusion Section -->
+    <section class="full-width bg-inverse fade-in">
+        <div class="content-wrapper">
+            <span class="section-number">07 — Conclusion</span>
+            <h2>The Path Forward</h2>
+            <p style="max-width: 800px;">Nuclear energy stands at a generational inflection point. The convergence of AI infrastructure demand, climate imperatives, and geopolitical realignment has created conditions for a multi-decade investment cycle that is still in its earliest stages.</p>
+
+            <div class="stat-grid" style="margin: var(--space-12) 0;">
+                <div class="stat-card" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white;">
+                    <div class="stat-number" style="color: var(--color-accent-uranium);">6</div>
+                    <div class="stat-label" style="color: rgba(255,255,255,0.7);">Concentrated Positions</div>
+                </div>
+                <div class="stat-card" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white;">
+                    <div class="stat-number" style="color: var(--color-accent-uranium);">30/35/40</div>
+                    <div class="stat-label" style="color: rgba(255,255,255,0.7);">Anchor/Growth/Asymmetric</div>
+                </div>
+                <div class="stat-card" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white;">
+                    <div class="stat-number" style="color: var(--color-accent-uranium);">14%</div>
+                    <div class="stat-label" style="color: rgba(255,255,255,0.7);">Expected CAGR</div>
+                </div>
+                <div class="stat-card" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white;">
+                    <div class="stat-number" style="color: var(--color-accent-uranium);">5-30yr</div>
+                    <div class="stat-label" style="color: rgba(255,255,255,0.7);">Investment Horizon</div>
+                </div>
+            </div>
+
+            <h3 style="color: white;">Key Takeaways</h3>
+            <ul class="action-list" style="max-width: 800px;">
+                <li style="border-color: rgba(255,255,255,0.2);"><strong style="color: white;">Structural, Not Cyclical:</strong> This thesis is built on irreversible demand drivers (AI, decarbonization) and supply constraints (Russian dominance), not commodity speculation</li>
+                <li style="border-color: rgba(255,255,255,0.2);"><strong style="color: white;">Early Innings:</strong> Less than 10% of required capital has been deployed. Policy is enacted, but buildout is just beginning</li>
+                <li style="border-color: rgba(255,255,255,0.2);"><strong style="color: white;">Asymmetric Positioning:</strong> The 40% asymmetric allocation (LEU, UEC) creates optionality for 3-10x outcomes while anchors limit downside</li>
+                <li style="border-color: rgba(255,255,255,0.2);"><strong style="color: white;">Pre-Index Alpha:</strong> BWXT (9/10) and LEU (8/10) offer additional return potential from forced passive buying</li>
+                <li style="border-color: rgba(255,255,255,0.2);"><strong style="color: white;">Patience Required:</strong> Nuclear infrastructure operates on generational timescales. The thesis is 5-30 years, not quarters</li>
+            </ul>
+
+            <blockquote class="quote-block" style="border-color: var(--color-accent-gold); color: white; margin-top: var(--space-16);">
+                "The best time to plant a tree was 20 years ago. The second best time is now."
+                <div class="quote-attribution" style="color: rgba(255,255,255,0.6);">— Chinese Proverb, applicable to nuclear infrastructure</div>
+            </blockquote>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Nuclear Renaissance Investment Thesis • January 2026</p>
+        <p style="margin-top: var(--space-2);">This document is for informational purposes only and does not constitute investment advice. Past performance does not guarantee future results. Investments in nuclear sector companies carry significant risks including regulatory, technological, and commodity price exposure.</p>
+    </footer>
+
+    <script>
+        // Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        });
+
+        // Navigation visibility
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+        });
+
+        // Active section highlighting
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -80% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + entry.target.id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+
+        // Fade-in animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(el => fadeObserver.observe(el));
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
