@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Turnaround Strategy | Organic Coffee</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #F5F0E8;
+            --cream-dark: #EBE4D8;
+            --cream-darker: #D9CFC0;
+            --espresso: #2C1810;
+            --espresso-light: #4A3428;
+            --roast: #8B4513;
+            --accent: #C17F59;
+            --success: #4A7C59;
+            --warning: #B8860B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--cream);
+            color: var(--espresso);
+            line-height: 1.7;
+            font-size: 17px;
+            font-weight: 400;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            letter-spacing: -0.03em;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            margin-bottom: 1rem;
+            color: var(--espresso-light);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            max-width: 65ch;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 clamp(1.5rem, 5vw, 4rem);
+        }
+
+        section {
+            padding: clamp(4rem, 10vw, 8rem) 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            padding-top: 2rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--accent);
+            border-radius: 2rem;
+        }
+
+        .hero h1 {
+            margin-bottom: 2rem;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: var(--espresso-light);
+            max-width: 600px;
+            margin-bottom: 3rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--espresso-light);
+            opacity: 0.6;
+        }
+
+        .scroll-indicator::after {
+            content: '';
+            width: 1px;
+            height: 40px;
+            background: var(--espresso-light);
+            animation: scroll-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scroll-pulse {
+            0%, 100% { transform: scaleY(1); opacity: 0.3; }
+            50% { transform: scaleY(1.5); opacity: 1; }
+        }
+
+        /* Executive Summary */
+        .exec-summary {
+            background: var(--cream-dark);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background: var(--cream);
+            padding: 2rem;
+            border-radius: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(44, 24, 16, 0.1);
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--roast);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--espresso-light);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Section Headers */
+        .section-header {
+            margin-bottom: 3rem;
+        }
+
+        .section-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Strategy Cards */
+        .strategy-section {
+            border-bottom: 1px solid var(--cream-darker);
+        }
+
+        .strategy-section:last-child {
+            border-bottom: none;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(2rem, 5vw, 4rem);
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sticky-header {
+            position: sticky;
+            top: 2rem;
+        }
+
+        /* Action Items */
+        .action-list {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .action-list li {
+            position: relative;
+            padding: 1.25rem 0 1.25rem 2.5rem;
+            border-bottom: 1px solid var(--cream-darker);
+        }
+
+        .action-list li:last-child {
+            border-bottom: none;
+        }
+
+        .action-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 1.5rem;
+            width: 12px;
+            height: 12px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+        }
+
+        .action-list li strong {
+            color: var(--espresso);
+            font-weight: 600;
+        }
+
+        /* Tier Badges */
+        .tier-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .tier-free {
+            background: var(--success);
+            color: white;
+        }
+
+        .tier-low {
+            background: var(--warning);
+            color: white;
+        }
+
+        .tier-invest {
+            background: var(--roast);
+            color: white;
+        }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 2rem 0;
+            border-radius: 1rem;
+            background: white;
+            box-shadow: 0 4px 20px rgba(44, 24, 16, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        thead {
+            background: var(--espresso);
+            color: var(--cream);
+        }
+
+        th {
+            padding: 1.25rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        td {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--cream-dark);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: var(--cream);
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            background: white;
+            border-left: 4px solid var(--accent);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 0 1rem 1rem 0;
+        }
+
+        .highlight-box.critical {
+            border-left-color: var(--roast);
+            background: linear-gradient(135deg, #fff 0%, #fdf6f0 100%);
+        }
+
+        .highlight-box h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .highlight-box.critical h4 {
+            color: var(--roast);
+        }
+
+        .highlight-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Impact Meter */
+        .impact-meter {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--cream-darker);
+        }
+
+        .impact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .impact-item span:first-child {
+            font-weight: 600;
+            color: var(--espresso-light);
+        }
+
+        .impact-dots {
+            display: flex;
+            gap: 3px;
+        }
+
+        .impact-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--cream-darker);
+        }
+
+        .impact-dot.filled {
+            background: var(--accent);
+        }
+
+        /* Phase Timeline */
+        .timeline {
+            position: relative;
+            margin: 3rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--cream-darker);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 3rem;
+            padding-bottom: 3rem;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 0;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid var(--cream);
+        }
+
+        .timeline-phase {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-desc {
+            color: var(--espresso-light);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .checklist li {
+            position: relative;
+            padding: 0.5rem 0 0.5rem 1.75rem;
+            font-size: 0.95rem;
+        }
+
+        .checklist li::before {
+            content: '○';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--espresso);
+            color: var(--cream);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0 auto;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.5rem 0;
+            background: rgba(245, 240, 232, 0.95);
+            backdrop-filter: blur(10px);
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .nav.visible {
+            transform: translateY(0);
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--espresso);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.85rem;
+            color: var(--espresso-light);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Print styles */
+        @media print {
+            .nav, .scroll-indicator {
+                display: none;
+            }
+            section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav" id="nav">
+        <div class="container nav-inner">
+            <a href="#" class="nav-logo">Turnaround Strategy</a>
+            <ul class="nav-links">
+                <li><a href="#diagnostics">Diagnostics</a></li>
+                <li><a href="#conversion">Conversion</a></li>
+                <li><a href="#retention">Retention</a></li>
+                <li><a href="#expansion">Expansion</a></li>
+                <li><a href="#roadmap">Roadmap</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <span class="hero-badge">Strategic Consulting Engagement</span>
+            <h1>Amazon US<br>Turnaround<br>Strategy</h1>
+            <p class="hero-subtitle">A comprehensive roadmap for your organic coffee brand—beyond the basics your agency has already implemented.</p>
+        </div>
+        <div class="scroll-indicator">Scroll to explore</div>
+    </section>
+
+    <!-- Executive Summary -->
+    <section class="exec-summary">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">00 — Executive Summary</span>
+                <h2>The Core Problem</h2>
+                <p>After one year below break-even with standard optimizations in place, the issue isn't Amazon performance. It's that your Customer Acquisition Cost exceeds first-purchase profit. In coffee, you can't win on the first sale—you win on the second, third, and fourth.</p>
+            </div>
+
+            <div class="summary-grid fade-in">
+                <div class="stat-card">
+                    <div class="stat-number">$20B</div>
+                    <div class="stat-label">Organic coffee market by 2033</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">42%</div>
+                    <div class="stat-label">Of Amazon sales influenced by external media</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">109%</div>
+                    <div class="stat-label">Subscribe & Save growth since 2019</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">300%</div>
+                    <div class="stat-label">Higher LTV from subscribers vs. one-time buyers</div>
+                </div>
+            </div>
+
+            <div class="highlight-box critical fade-in" style="margin-top: 3rem;">
+                <h4>The Fundamental Shift Required</h4>
+                <p>Stop chasing acquisition. Start engineering retention and external demand. Every brand that wins organic coffee on Amazon has mastered: off-platform audiences, creator partnerships, Amazon Attribution loops, branded search increases, and subscription penetration.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 1: Financial Diagnostics -->
+    <section class="strategy-section" id="diagnostics">
+        <div class="container">
+            <div class="two-column">
+                <div class="sticky-header fade-in">
+                    <span class="section-number">01 — Financial Triage</span>
+                    <h2>Stop The Bleeding</h2>
+                    <p>Before any marketing spend, you must fix unit economics. Many sellers underreport COGS and hidden costs. Calculate your TRUE contribution margin per SKU.</p>
+                    
+                    <div class="highlight-box">
+                        <h4>Critical Metric Shift</h4>
+                        <p><strong>Stop looking at ACoS.</strong> Start tracking TACoS (Total Advertising Cost of Sales). If your TACoS exceeds 15-20% for a consumable, you will never be profitable.</p>
+                    </div>
+                </div>
+
+                <div class="fade-in">
+                    <h3>Full Cost Analysis Required</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Cost Category</th>
+                                    <th>Components</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Product Cost</strong></td>
+                                    <td>Raw coffee, roasting, packaging, labels, QA</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Inbound Logistics</strong></td>
+                                    <td>Freight to FBA, placement fees, prep center</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Amazon Fees</strong></td>
+                                    <td>Referral (15%), FBA fulfillment, storage, returns</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Marketing Cost</strong></td>
+                                    <td>PPC per unit, coupons, S&S discount funding</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Immediate Actions</h3>
+                    <ul class="action-list">
+                        <li><strong>Calculate break-even ACoS:</strong> If margin before ads is 25%, break-even ACoS is 25%. Ads above this are losing money.</li>
+                        <li><strong>Audit FBA reimbursements:</strong> Amazon loses/damages inventory. Use GETIDA or Refund Genie to recover 1-3% of revenue owed.</li>
+                        <li><strong>Review size tier classification:</strong> Small packaging changes can move you to lower fee tiers.</li>
+                        <li><strong>Target 25-30% net margin:</strong> If impossible at current prices, you have a product-market fit problem.</li>
+                    </ul>
+
+                    <div class="impact-meter">
+                        <div class="impact-item">
+                            <span>Cost:</span>
+                            <span>Time only</span>
+                        </div>
+                        <div class="impact-item">
+                            <span>Impact:</span>
+                            <div class="impact-dots">
+                                <span class="impact-dot filled"></span>
+                                <span class="impact-dot filled"></span>
+                                <span class="impact-dot filled"></span>
+                                <span class="impact-dot filled"></span>
+                                <span class="impact-dot filled"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Conversion Engineering -->
+    <section class="strategy-section" id="conversion">
+        <div class="container">
+            <div class="two-column">
+                <div class="sticky-header fade-in">
+                    <span class="section-number">02 — Conversion Engineering</span>
+                    <h2>Force An Artificial CVR Jump</h2>
+                    <p>Top competitors in organic coffee convert 12–18% on their hero SKU. Struggling brands convert 4–7%. Your job is to force a jump to 10–12%.</p>
+                    
+                    <span class="tier-badge tier-free">Zero Cost</span>
+                </div>
+
+                <div class="fade-in">
+                    <h3>Listing Architecture Fixes</h3>
+                    <ul class="action-list">
+                        <li><strong>Add "Taste Guarantee" image:</strong> Coffee buyers' #1 objection is taste uncertainty. "Love It or It's Free—No Questions Asked" can move CVR +15-25% overnight.</li>
+                        <li><strong>Add Flavor Wheel image:</strong> Listings with flavor wheels convert 10-40% better. De-risks expectations, signals specialty.</li>
+                        <li><strong>Reorder bullets by psychological weight:</strong> Bullet 1 should NEVER be origin or roast level. Lead with emotional benefit: "Smooth, low-acid cup for clean daily drinking."</li>
+                        <li><strong>Mine competitor reviews:</strong> Extract complaints, delight phrases, unmet needs. Inject verbatim into bullets + A+ content. Can move CVR +10-12%.</li>
+                    </ul>
+
+                    <h3>Brand Story Optimization</h3>
+                    <p>Your Brand Story is not for your brand—it's for reducing bounce rate. Use this module order:</p>
+                    <ol class="checklist">
+                        <li>Why our coffee tastes different (mechanism)</li>
+                        <li>How freshness = flavor (process)</li>
+                        <li>Flavor wheel + roast level guide</li>
+                        <li>Guarantee</li>
+                        <li>Cross-sell grid</li>
+                    </ol>
+
+                    <h3>Add Decision Accelerators</h3>
+                    <ul class="action-list">
+                        <li><strong>"Guide to Choosing Your Roast" image:</strong> Speeds up decision loop. Shoppers who understand "which is right for me" convert at higher rate.</li>
+                        <li><strong>Gift keyword optimization:</strong> Update backend search terms: "Coffee Gift Basket," "Gifts for Dad," "Organic Coffee Gift Set." Targets less price-sensitive shoppers.</li>
+                    </ul>
+
+                    <div class="impact-meter">
+                        <div class="impact-item">
+                            <span>Cost:</span>
+                            <span>Free</span>
+                        </div>
+                        <div class="impact-item">
+                            <span>CVR Impact:</span>
+                            <span>+20-40% in 30 days</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Retention Engine -->
+    <section class="strategy-section" id="retention">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">03 — The Retention Engine</span>
+                <h2>Build The Subscriber Moat</h2>
+                <p>Coffee is a habit. Your Amazon strategy must force habit formation. A Subscribe & Save customer has 300%+ higher Lifetime Value than a one-off buyer. You can afford to lose money on the first S&S order because the next 6 are profitable.</p>
+            </div>
+
+            <div class="two-column fade-in" style="margin-top: 3rem;">
+                <div>
+                    <span class="tier-badge tier-low">Low Cost</span>
+                    <h3>Subscribe & Save Aggression</h3>
+                    <ul class="action-list">
+                        <li><strong>Fund 10% base S&S discount:</strong> Amazon enrolls products at 0% by default—you must manually increase this.</li>
+                        <li><strong>Add 15% first-time S&S coupon:</strong> Stack on top of base discount to drive initial sign-ups.</li>
+                        <li><strong>Never fluctuate discounts:</strong> Consistency builds trust and long-term engagement.</li>
+                        <li><strong>Add "How to Subscribe" infographic:</strong> Include in secondary product photos. "Never run out of morning fuel."</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <h4>Documented Results</h4>
+                        <p>The 10% + 15% first-time strategy has shown up to <strong>85% revenue increase</strong> and <strong>15% rise in subscriptions</strong> in case studies.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>Advanced S&S Tactics</h3>
+                    <ul class="action-list">
+                        <li><strong>Use Amazon DSP for S&S acquisition:</strong> Case studies show DSP driving 7,500+ new subscriptions over 6 months at $32-45 per subscriber.</li>
+                        <li><strong>Monitor S&S Performance Report:</strong> Track subscriptions, cancellations, revenue impact weekly.</li>
+                        <li><strong>Use S&S Forecasting Report:</strong> Project demand to prevent stockouts (stockouts kill S&S retention).</li>
+                        <li><strong>Maintain 90%+ in-stock rate:</strong> Required over 28 days to remain S&S eligible.</li>
+                    </ul>
+
+                    <div class="impact-meter">
+                        <div class="impact-item">
+                            <span>Cost:</span>
+                            <span>Discount margin only</span>
+                        </div>
+                        <div class="impact-item">
+                            <span>Impact:</span>
+                            <div class="impact-dots">
+                                <span class="impact-dot filled"></span>
+                                <span class="impact-dot filled"></span>
+                                <span class="impact-dot filled"></span>
+                                <span class="impact-dot filled"></span>
+                                <span class="impact-dot filled"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Revenue Expansion -->
+    <section class="strategy-section" id="expansion">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">04 — Revenue Expansion</span>
+                <h2>Unlock Hidden Channels</h2>
+            </div>
+
+            <!-- B2B -->
+            <div class="two-column fade-in" style="margin-top: 3rem;">
+                <div>
+                    <span class="tier-badge tier-free">Zero Cost Setup</span>
+                    <h3>Amazon Business (B2B)</h3>
+                    <p>Coffee is a top office expense. You're currently selling to individuals (B2C)—you need to sell to office managers (B2B). This is a completely untapped revenue stream for most coffee sellers.</p>
+                    
+                    <ul class="action-list">
+                        <li><strong>Enable B2B Central:</strong> Go to Seller Central → B2B Central</li>
+                        <li><strong>Set Business-Only Pricing:</strong> 5-8% discount visible only to registered business buyers</li>
+                        <li><strong>Set Quantity Discount Tiers:</strong> "Buy 10 bags, save 15%." Office managers care about bulk invoicing, not $2 coupons.</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <h4>The Flywheel Effect</h4>
+                        <p>B2B volume spikes → review velocity increases → rank improves for ALL SKUs including B2C.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>Brand Tailored Promotions</h3>
+                    <p>Amazon's most underutilized tool. Precision targeting that traditional coupons cannot achieve. <strong>No platform fee—only cost is the discount.</strong></p>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Audience</th>
+                                    <th>Strategy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Cart Abandoners</strong></td>
+                                    <td>Highest-intent. Offer 15-20% to close.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Repeat Customers</strong></td>
+                                    <td>Convert to S&S with exclusive bundle</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>High-Spend VIPs</strong></td>
+                                    <td>Early access, premium bundles</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Lapsed (6+ months)</strong></td>
+                                    <td>"We miss you" with 25% discount</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Virtual Bundles -->
+            <div class="fade-in" style="margin-top: 4rem;">
+                <span class="tier-badge tier-free">Zero Cost</span>
+                <h3>Virtual Bundle Strategy</h3>
+                <p>Shipping one 12oz bag kills your margin. Virtual Bundles combine 2-5 FBA products into a single listing without physical repackaging—increasing AOV with zero additional inventory.</p>
+
+                <div class="two-column" style="margin-top: 2rem;">
+                    <div>
+                        <h4 style="font-family: 'Inter', sans-serif; font-size: 1rem; margin-bottom: 1rem;">Bundle Ideas for 4 Coffee Products</h4>
+                        <ul class="checklist">
+                            <li><strong>"Coffee Lover's Sampler"</strong> — All 4 products in 12oz size</li>
+                            <li><strong>"Morning Starter Kit"</strong> — 24oz bold + 12oz medium</li>
+                            <li><strong>"Office Coffee Bundle"</strong> — 2x 24oz for bulk buyers</li>
+                            <li><strong>"Gift Bundle"</strong> — Premium positioning, top 2 products</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="font-family: 'Inter', sans-serif; font-size: 1rem; margin-bottom: 1rem;">Why Bundles Win</h4>
+                        <ul class="checklist">
+                            <li>Face less competition—win Buy Box more easily</li>
+                            <li>Both individual + bundle appear in same search results</li>
+                            <li>Pair slow SKUs with bestsellers to move inventory</li>
+                            <li>2024 update: Now prominently displayed below price</li>
+                            <li>Can now be promoted via Sponsored Products Ads</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: External Traffic -->
+    <section class="strategy-section" style="background: var(--cream-dark);">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">05 — External Traffic Arbitrage</span>
+                <h2>The Secret Weapon</h2>
+                <p>Amazon PPC for coffee is expensive (CPCs $2-$5+). We need to bring cheaper traffic from outside and get Amazon to pay us for it.</p>
+            </div>
+
+            <div class="highlight-box critical fade-in" style="margin: 3rem 0;">
+                <h4>Brand Referral Bonus — Free Money</h4>
+                <p>When you drive external traffic using Attribution links, Amazon gives you a <strong>10% bonus on qualifying sales</strong>. This effectively reduces your referral fee from 15% to ~5%. This is rarely discussed but extremely valuable.</p>
+            </div>
+
+            <div class="two-column fade-in">
+                <div>
+                    <span class="tier-badge tier-invest">Investment</span>
+                    <h3>TikTok Strategy (Highest ROI)</h3>
+                    <p>TikTok has developed a natural "discover on TikTok, buy on Amazon" pipeline. Products discovered on TikTok are frequently purchased on Amazon.</p>
+
+                    <h4 style="font-family: 'Inter', sans-serif; font-size: 1rem; margin: 1.5rem 0 1rem;">Organic Approach (Low Cost)</h4>
+                    <ul class="action-list">
+                        <li><strong>Create authentic content:</strong> Morning routines, coffee preparation, origin story, behind-the-scenes</li>
+                        <li><strong>Verbal CTA in every video:</strong> "Get it on Amazon now, search [BRAND NAME][KEYWORD]"</li>
+                        <li><strong>Run defensive PPC campaigns:</strong> Target your brand name + keywords viewers will search</li>
+                        <li><strong>Retarget viewers:</strong> When users see 10 videos mentioning your product, they'll search Amazon</li>
+                    </ul>
+
+                    <h4 style="font-family: 'Inter', sans-serif; font-size: 1rem; margin: 1.5rem 0 1rem;">Influencer Approach</h4>
+                    <ul class="action-list">
+                        <li><strong>Micro-influencers (10k-100k):</strong> Higher engagement, more authentic, lower cost</li>
+                        <li><strong>Product seeding:</strong> Send free samples, no strings attached</li>
+                        <li><strong>Spark Ads:</strong> Boost high-performing influencer content</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>Other External Channels</h3>
+                    <ul class="action-list">
+                        <li><strong>Google Ads:</strong> 59% of shoppers start on search engines. Target "buy organic coffee online"</li>
+                        <li><strong>Pinterest:</strong> High-intent for lifestyle products. Aesthetic coffee content performs well.</li>
+                        <li><strong>Email/SMS:</strong> If you have ANY customer list, use it to drive Amazon purchases</li>
+                        <li><strong>Affiliate Marketing:</strong> Coffee bloggers and review sites drive high-intent traffic</li>
+                    </ul>
+
+                    <h3 style="margin-top: 2rem;">Regional Ad Targeting</h3>
+                    <p>Run Amazon ads targeting ONLY coffee-dense, organic-preference regions:</p>
+                    <ul class="checklist">
+                        <li>Seattle, Portland, San Francisco</li>
+                        <li>Pacific Northwest</li>
+                        <li>West Coast metros</li>
+                    </ul>
+                    <p style="font-size: 0.9rem; color: var(--espresso-light);">Turns national ad spend into regional profitability.</p>
+
+                    <div class="highlight-box" style="margin-top: 2rem;">
+                        <h4>Traffic Destination Strategy</h4>
+                        <p>Send external traffic to your <strong>Amazon Storefront</strong>, not individual listings. This prevents competitors from poaching on the product page.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Hero SKU & Reviews -->
+    <section class="strategy-section">
+        <div class="container">
+            <div class="two-column">
+                <div class="fade-in">
+                    <span class="section-number">06 — Focus & Velocity</span>
+                    <h2>Hero SKU Strategy</h2>
+                    <p><strong>Coffee brands die by SKU sprawl.</strong> Right now you're likely spreading spend across too many SKUs. You need one hero product with highest conversion, highest review velocity, clearest use case, and clearest differentiation.</p>
+                    
+                    <div class="highlight-box critical">
+                        <h4>The Hard Truth</h4>
+                        <p>All advertising should revolve around 1–2 hero SKUs until profitability. Only then expand.</p>
+                    </div>
+
+                    <h3 style="margin-top: 2rem;">Email Capture Strategy</h3>
+                    <p>Amazon doesn't give you customer data. But you can capture it yourself:</p>
+                    <ul class="action-list">
+                        <li><strong>Insert card with QR code:</strong> Links to "Coffee Brewing Guide" or "VIP Club" on your own landing page</li>
+                        <li><strong>Never ask for reviews:</strong> (ToS violation) — focus on value delivery</li>
+                        <li><strong>Once you have email:</strong> Market to them forever, bypassing Amazon fees</li>
+                    </ul>
+                </div>
+
+                <div class="fade-in">
+                    <span class="tier-badge tier-low">Low Cost</span>
+                    <h3>Review Velocity Engine</h3>
+                    <p>Amazon doesn't reward total reviews—it rewards <strong>consistent velocity</strong>. Target: 60-80 new reviews/month on hero SKU.</p>
+
+                    <ul class="action-list">
+                        <li><strong>Amazon Vine:</strong> Up to 30 reviews from trusted reviewers. Only enroll products you're confident in—they're brutally honest.</li>
+                        <li><strong>Review Automation:</strong> Use "Request a Review" button or tools like Jungle Scout. Time requests 7-14 days after delivery.</li>
+                        <li><strong>Product inserts:</strong> Thank customers, share brand story, include support contact. Never offer incentives.</li>
+                    </ul>
+
+                    <h3 style="margin-top: 2rem;">Amazon Posts (Free)</h3>
+                    <p>Without Posts, competitor content appears on YOUR product pages. Post 3-5x/week:</p>
+                    <ul class="checklist">
+                        <li>Product shots, lifestyle imagery</li>
+                        <li>Origin story, brewing tips</li>
+                        <li>User-generated content</li>
+                        <li>Seasonal themes</li>
+                    </ul>
+                    <p style="font-size: 0.9rem; color: var(--espresso-light); margin-top: 1rem;">Keep captions short (4-5 words = highest engagement). New "Boost Posts" feature converts winners into Sponsored Brands campaigns.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7: 90-Day Roadmap -->
+    <section class="strategy-section" id="roadmap" style="background: var(--cream-dark);">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">07 — Implementation</span>
+                <h2>90-Day Turnaround Roadmap</h2>
+            </div>
+
+            <div class="timeline fade-in">
+                <div class="timeline-item">
+                    <div class="timeline-phase">Phase 1 — Days 1-30</div>
+                    <h3 class="timeline-title">Foundation</h3>
+                    <p class="timeline-desc">Fix unit economics and deploy free/low-cost tools</p>
+                    <ul class="checklist">
+                        <li>Complete full cost analysis, calculate true contribution margin per SKU</li>
+                        <li>Submit FBA reimbursement claims for past 18 months</li>
+                        <li>Increase S&S discount to 10% + add 15% first-time coupon</li>
+                        <li>Add taste guarantee + flavor wheel images to listings</li>
+                        <li>Reorder bullets by psychological weight</li>
+                        <li>Set up Brand Tailored Promotions for cart abandoners</li>
+                        <li>Create 2-3 Virtual Bundles</li>
+                        <li>Enable Amazon Business + quantity discounts</li>
+                        <li>Begin Amazon Posts (3-5/week)</li>
+                        <li>Enroll hero SKU in Amazon Vine</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-phase">Phase 2 — Days 31-60</div>
+                    <h3 class="timeline-title">Growth Engine</h3>
+                    <p class="timeline-desc">Build external traffic strategy and expand promotions</p>
+                    <ul class="checklist">
+                        <li>Set up Amazon Attribution links</li>
+                        <li>Launch organic TikTok presence (2-3 videos/week)</li>
+                        <li>Identify and reach out to 10-20 micro-influencers for product seeding</li>
+                        <li>Expand Brand Tailored Promotions to repeat customers and high-spenders</li>
+                        <li>Test Google Shopping ads with Attribution tracking</li>
+                        <li>Run defensive PPC campaigns on brand name + product keywords</li>
+                        <li>Implement regional ad targeting (coffee-dense cities)</li>
+                        <li>Add insert card with QR code for email capture</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-phase">Phase 3 — Days 61-90</div>
+                    <h3 class="timeline-title">Scale</h3>
+                    <p class="timeline-desc">Double down on what's working, cut what's not</p>
+                    <ul class="checklist">
+                        <li>Analyze S&S subscriber growth and retention—adjust discounts if needed</li>
+                        <li>Scale successful influencer partnerships with Spark Ads</li>
+                        <li>Boost top-performing Amazon Posts into Sponsored Brands campaigns</li>
+                        <li>Consider Amazon DSP for S&S acquisition if budget allows</li>
+                        <li>Evaluate product differentiation opportunities based on customer feedback</li>
+                        <li>Full P&L review: Are you now above break-even?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Metrics -->
+    <section class="strategy-section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">08 — Success Metrics</span>
+                <h2>What To Track</h2>
+            </div>
+
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Target</th>
+                            <th>Why It Matters</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>TACoS</strong></td>
+                            <td>&lt;15%</td>
+                            <td>Total ad cost as % of total sales—the real profitability indicator</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Net Profit Margin</strong></td>
+                            <td>25-30%</td>
+                            <td>Sustainability threshold for FBA business</td>
+                        </tr>
+                        <tr>
+                            <td><strong>S&S Subscribers</strong></td>
+                            <td>+15% MoM</td>
+                            <td>Recurring revenue foundation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Conversion Rate</strong></td>
+                            <td>&gt;12% (hero SKU)</td>
+                            <td>Indicates listing effectiveness; category top performers hit 12-18%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Review Velocity</strong></td>
+                            <td>60-80/month (hero)</td>
+                            <td>Unlocks organic rank—velocity matters more than total count</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Brand Referral Bonus</strong></td>
+                            <td>Track monthly</td>
+                            <td>Validates external traffic strategy is working</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Note -->
+    <section class="strategy-section" style="background: var(--espresso); color: var(--cream);">
+        <div class="container">
+            <div class="fade-in" style="max-width: 800px;">
+                <h2 style="color: var(--cream);">The Path Forward</h2>
+                <p style="color: rgba(245, 240, 232, 0.8); font-size: 1.1rem;">If after implementing these strategies for 90 days you're still below break-even, the issue is likely fundamental product-market fit. At that point, consider: exiting the category, pivoting to a differentiated sub-niche (functional coffee, single-origin premium), or evaluating whether Amazon is the right channel.</p>
+                <p style="color: rgba(245, 240, 232, 0.8); font-size: 1.1rem;">The organic coffee market is growing—but it's also increasingly competitive. Success requires not just good marketing, but a genuinely differentiated product that customers actively seek out.</p>
+                <p style="color: var(--accent); font-weight: 500; font-size: 1.2rem; margin-top: 2rem; margin-bottom: 0;">Use this 90-day period to test whether you can create that demand.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Strategic Consulting Document — December 2025</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation visibility
+        const nav = document.getElementById('nav');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 500) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Fade-in animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        fadeElements.forEach(el => observer.observe(el));
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
