@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tokyo Coffee — Product Image Strategy for Amazon Conversions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-primary: #F5F0E8;
+            --color-bg-secondary: #EBE4D8;
+            --color-bg-tertiary: #D9CFC0;
+            --color-bg-inverse: #2C1810;
+            
+            --color-text-primary: #2C1810;
+            --color-text-secondary: #4A3428;
+            --color-text-muted: #6B5A4E;
+            --color-text-inverse: #F5F0E8;
+            
+            --color-accent-primary: #C17F59;
+            --color-accent-secondary: #8B4513;
+            
+            --color-semantic-success: #4A7C59;
+            --color-semantic-warning: #B8860B;
+            
+            --color-border: rgba(44, 24, 16, 0.12);
+            --color-shadow: rgba(44, 24, 16, 0.08);
+            
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            
+            --container-max: 1400px;
+            --container-padding: clamp(1.5rem, 5vw, 4rem);
+            
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-full: 9999px;
+            
+            --shadow-md: 0 4px 12px var(--color-shadow);
+            --shadow-lg: 0 8px 24px var(--color-shadow);
+            --shadow-xl: 0 20px 40px var(--color-shadow);
+            
+            --transition-fast: 150ms ease;
+            --transition-normal: 300ms ease;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--color-text-primary);
+            background: var(--color-bg-primary);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--color-bg-secondary);
+            z-index: 1001;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary));
+            transition: width 50ms ease-out;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(245, 240, 232, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--color-border);
+            padding: var(--space-4) var(--container-padding);
+            transform: translateY(-100%);
+            transition: transform var(--transition-normal);
+        }
+
+        .nav.visible {
+            transform: translateY(0);
+        }
+
+        .nav-inner {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-8);
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-6);
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            text-decoration: none;
+            padding: var(--space-2) 0;
+            border-bottom: 2px solid transparent;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--color-text-primary);
+            border-bottom-color: var(--color-accent-primary);
+        }
+
+        .nav-cta {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-text-inverse);
+            background: var(--color-bg-inverse);
+            padding: var(--space-2) var(--space-6);
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            border: none;
+            cursor: pointer;
+        }
+
+        .nav-cta:hover {
+            background: var(--color-accent-secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: var(--space-24) var(--container-padding);
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-accent-secondary);
+            border: 1px solid var(--color-accent-primary);
+            padding: var(--space-2) var(--space-6);
+            border-radius: var(--radius-full);
+            margin-bottom: var(--space-8);
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 500;
+            line-height: 1.1;
+            max-width: 14ch;
+            margin-bottom: var(--space-8);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            color: var(--color-text-secondary);
+            max-width: 50ch;
+            margin-bottom: var(--space-12);
+            line-height: 1.6;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-text-inverse);
+            background: var(--color-bg-inverse);
+            padding: var(--space-4) var(--space-8);
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-accent-secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            background: transparent;
+            border: 1px solid var(--color-text-primary);
+            padding: var(--space-4) var(--space-8);
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-text-primary);
+            color: var(--color-text-inverse);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: var(--space-8);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .scroll-indicator::after {
+            content: '';
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--color-accent-primary), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+            50% { opacity: 1; transform: scaleY(1); }
+        }
+
+        /* Sections */
+        section {
+            padding: var(--space-24) var(--container-padding);
+        }
+
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+
+        .section-number {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-accent-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 500;
+            line-height: 1.15;
+            margin-bottom: var(--space-6);
+        }
+
+        section > .container > p:first-of-type {
+            font-size: 1.15rem;
+            color: var(--color-text-secondary);
+            max-width: 65ch;
+            margin-bottom: var(--space-12);
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            font-weight: 500;
+            color: var(--color-text-primary);
+            margin-top: var(--space-12);
+            margin-bottom: var(--space-6);
+        }
+
+        h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-accent-secondary);
+            margin-bottom: var(--space-4);
+        }
+
+        /* Background Variants */
+        .bg-primary {
+            background: var(--color-bg-primary);
+        }
+
+        .bg-secondary {
+            background: var(--color-bg-secondary);
+        }
+
+        .bg-inverse {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        .bg-inverse h2,
+        .bg-inverse h3,
+        .bg-inverse h4 {
+            color: var(--color-text-inverse);
+        }
+
+        .bg-inverse .section-number {
+            color: var(--color-accent-primary);
+        }
+
+        /* Action Lists */
+        .action-list {
+            list-style: none;
+            margin: var(--space-6) 0;
+        }
+
+        .action-list li {
+            position: relative;
+            padding: var(--space-4) 0 var(--space-4) var(--space-8);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .action-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: var(--space-6);
+            width: 8px;
+            height: 8px;
+            border: 2px solid var(--color-accent-primary);
+            border-radius: 50%;
+        }
+
+        .action-list li strong {
+            color: var(--color-text-primary);
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: white;
+            border-left: 4px solid var(--color-accent-primary);
+            padding: var(--space-6) var(--space-8);
+            margin: var(--space-8) 0;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .highlight-box.critical {
+            border-left-color: var(--color-accent-secondary);
+            background: #FFF8F0;
+        }
+
+        .highlight-box h4 {
+            margin-bottom: var(--space-3);
+        }
+
+        .highlight-box p {
+            margin: 0;
+        }
+
+        /* Stat Cards Grid */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-6);
+            margin: var(--space-8) 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: var(--space-8);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--color-accent-secondary);
+            line-height: 1;
+            margin-bottom: var(--space-2);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+
+        /* Tables */
+        .table-wrapper {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin: var(--space-8) 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        th {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-align: left;
+            padding: var(--space-4) var(--space-6);
+        }
+
+        td {
+            padding: var(--space-4) var(--space-6);
+            border-bottom: 1px solid var(--color-border);
+            vertical-align: top;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Tier Badges */
+        .tier-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-sm);
+        }
+
+        .tier-essential {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .tier-high {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        .tier-medium {
+            background: #E3F2FD;
+            color: #1565C0;
+        }
+
+        /* Image Slot Cards */
+        .slot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--space-6);
+            margin: var(--space-8) 0;
+        }
+
+        .slot-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .slot-header {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+            padding: var(--space-4) var(--space-6);
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .slot-number {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-accent-primary);
+        }
+
+        .slot-title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .slot-content {
+            padding: var(--space-6);
+        }
+
+        .slot-content p {
+            margin-bottom: var(--space-4);
+        }
+
+        .slot-content ul {
+            margin-left: var(--space-4);
+        }
+
+        .slot-content li {
+            margin-bottom: var(--space-2);
+        }
+
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: var(--space-12);
+            margin: var(--space-12) 0;
+        }
+
+        .sticky-header {
+            position: sticky;
+            top: 100px;
+            align-self: start;
+        }
+
+        @media (max-width: 900px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+            
+            .sticky-header {
+                position: static;
+            }
+        }
+
+        /* Checklist */
+        .checklist {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-8);
+            box-shadow: var(--shadow-md);
+            margin: var(--space-8) 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-4);
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-box {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-accent-primary);
+            border-radius: var(--radius-sm);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Fade in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Print Styles */
+        @media print {
+            .progress-container,
+            .nav,
+            .scroll-indicator {
+                display: none !important;
+            }
+
+            section {
+                page-break-before: always;
+            }
+
+            .hero {
+                min-height: auto;
+                page-break-before: avoid;
+            }
+
+            body {
+                font-size: 11pt;
+            }
+
+            h1 { font-size: 28pt; }
+            h2 { font-size: 20pt; }
+            h3 { font-size: 14pt; }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .slot-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">Tokyo Coffee — Image Strategy</a>
+            <ul class="nav-links">
+                <li><a href="#context">Context</a></li>
+                <li><a href="#slot-strategy">Slot Strategy</a></li>
+                <li><a href="#detailed-specs">Specifications</a></li>
+                <li><a href="#messaging">Messaging</a></li>
+                <li><a href="#execution">Execution</a></li>
+            </ul>
+            <button class="nav-cta" onclick="window.print()">Export PDF</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <span class="hero-badge">Amazon Product Optimization</span>
+        <h1>Product Image Strategy for Conversions</h1>
+        <p class="hero-subtitle">A comprehensive framework for creating high-converting secondary images that communicate Tokyo Coffee's unique value proposition and drive purchase decisions.</p>
+        <div class="hero-cta-group">
+            <a href="#slot-strategy" class="btn-primary">View Image Strategy</a>
+            <a href="#execution" class="btn-secondary">Jump to Execution</a>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+        </div>
+    </header>
+
+    <!-- Section 1: Understanding the Context -->
+    <section id="context" class="bg-primary">
+        <div class="container">
+            <span class="section-number">01 — Understanding the Landscape</span>
+            <h2>What Makes Images Convert on Amazon</h2>
+            <p class="fade-in">On Amazon, product images are your primary sales tool. Research indicates that 75-83% of shoppers consider product images "very influential" in their purchase decisions—more than price or description. For Tokyo Coffee, images must instantly communicate premium quality, Japanese craftsmanship, and organic authenticity.</p>
+
+            <div class="stat-grid fade-in">
+                <div class="stat-card">
+                    <div class="stat-number">83%</div>
+                    <div class="stat-label">of shoppers say images are "extremely influential"</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">image slots visible on listing page</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3-5s</div>
+                    <div class="stat-label">average time viewing each image</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">60%+</div>
+                    <div class="stat-label">of Amazon traffic is mobile</div>
+                </div>
+            </div>
+
+            <h3 class="fade-in">The Buyer Psychology Framework</h3>
+            <p class="fade-in">Amazon shoppers follow a predictable pattern when evaluating coffee products. Your images must address each stage sequentially:</p>
+
+            <ul class="action-list fade-in">
+                <li><strong>Attention (Main Image):</strong> Does this look premium and trustworthy? The main image captures initial interest in search results.</li>
+                <li><strong>Interest (Images 2-3):</strong> What makes this different? Show unique differentiators—Japanese origin, organic certification, roastery story.</li>
+                <li><strong>Desire (Images 4-5):</strong> How will this taste/feel? Create sensory connection through lifestyle imagery and flavor visualization.</li>
+                <li><strong>Conviction (Images 6-7):</strong> Why should I trust this? Provide proof points—certifications, process, guarantees.</li>
+            </ul>
+
+            <h3 class="fade-in">Tokyo Coffee's Unique Value Propositions</h3>
+            <p class="fade-in">Based on the current listing content, these are the core messages that need visual reinforcement:</p>
+
+            <div class="highlight-box fade-in">
+                <h4>Primary Differentiators</h4>
+                <p><strong>1. Authentic Japanese Roastery</strong> — Half-American, half-Japanese brothers running a café on a traditional Tokyo shopping street<br>
+                <strong>2. JAS Organic Certification</strong> — Japan's equivalent to USDA Organic, with rigorous third-party inspection<br>
+                <strong>3. Small-Batch Roasting</strong> — Hand-picked beans, careful quality control, freshness focus<br>
+                <strong>4. Unique Flavor Profile</strong> — "Black cherry, almond, milk chocolate" with balanced sweetness and umami</p>
+            </div>
+
+            <div class="highlight-box critical fade-in">
+                <h4>Current Gap Analysis</h4>
+                <p>The bullet points and A+ content contain rich storytelling, but typical shoppers don't read. Images must condense this narrative: the roastery location, the brothers' story, the hand-picking process, and the JAS certification all need visual representation to fully communicate value.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: The 7-Slot Strategy -->
+    <section id="slot-strategy" class="bg-secondary">
+        <div class="container">
+            <span class="section-number">02 — The 7-Slot Image Strategy</span>
+            <h2>Optimized Image Sequence for Tokyo Coffee</h2>
+            <p class="fade-in">Each image slot serves a specific purpose in the conversion funnel. This strategy creates a logical flow that answers shopper questions in the order they arise, building toward purchase confidence.</p>
+
+            <div class="slot-grid fade-in">
+                <div class="slot-card">
+                    <div class="slot-header">
+                        <span class="slot-number">01</span>
+                        <span class="slot-title">Hero Image</span>
+                    </div>
+                    <div class="slot-content">
+                        <p><strong>Purpose:</strong> Capture attention in search results</p>
+                        <p><strong>Content:</strong> Product bag on pure white (#FFFFFF), filling 85%+ of frame</p>
+                        <ul>
+                            <li>Clean, well-lit product shot</li>
+                            <li>Bag label clearly visible</li>
+                            <li>Professional color accuracy</li>
+                            <li>No text, graphics, or props</li>
+                        </ul>
+                        <p><span class="tier-badge tier-essential">Amazon Required</span></p>
+                    </div>
+                </div>
+
+                <div class="slot-card">
+                    <div class="slot-header">
+                        <span class="slot-number">02</span>
+                        <span class="slot-title">Origin & Authenticity</span>
+                    </div>
+                    <div class="slot-content">
+                        <p><strong>Purpose:</strong> Establish Japanese authenticity immediately</p>
+                        <p><strong>Content:</strong> "Roasted in Tokyo" infographic</p>
+                        <ul>
+                            <li>Tokyo roastery image/illustration</li>
+                            <li>Map element showing Japan</li>
+                            <li>Traditional shopping street aesthetic</li>
+                            <li>Text: "Small-Batch Roasted in Tokyo"</li>
+                        </ul>
+                        <p><span class="tier-badge tier-high">High Impact</span></p>
+                    </div>
+                </div>
+
+                <div class="slot-card">
+                    <div class="slot-header">
+                        <span class="slot-number">03</span>
+                        <span class="slot-title">Certification & Quality</span>
+                    </div>
+                    <div class="slot-content">
+                        <p><strong>Purpose:</strong> Build trust through third-party validation</p>
+                        <p><strong>Content:</strong> Certification badge infographic</p>
+                        <ul>
+                            <li>JAS Organic logo prominently displayed</li>
+                            <li>"Japan's USDA Equivalent" explanation</li>
+                            <li>Hand-picked beans visual</li>
+                            <li>100% Arabica callout</li>
+                        </ul>
+                        <p><span class="tier-badge tier-high">High Impact</span></p>
+                    </div>
+                </div>
+
+                <div class="slot-card">
+                    <div class="slot-header">
+                        <span class="slot-number">04</span>
+                        <span class="slot-title">Flavor Profile</span>
+                    </div>
+                    <div class="slot-content">
+                        <p><strong>Purpose:</strong> Create sensory anticipation</p>
+                        <p><strong>Content:</strong> Tasting notes visualization</p>
+                        <ul>
+                            <li>Flavor wheel or icon system</li>
+                            <li>Black cherry, almond, milk chocolate imagery</li>
+                            <li>Roast level indicator (★★★)</li>
+                            <li>Bitterness/Acidity/Sweetness scale</li>
+                        </ul>
+                        <p><span class="tier-badge tier-high">High Impact</span></p>
+                    </div>
+                </div>
+
+                <div class="slot-card">
+                    <div class="slot-header">
+                        <span class="slot-number">05</span>
+                        <span class="slot-title">Lifestyle Image</span>
+                    </div>
+                    <div class="slot-content">
+                        <p><strong>Purpose:</strong> Help customer envision ownership</p>
+                        <p><strong>Content:</strong> Morning ritual scene</p>
+                        <ul>
+                            <li>Premium kitchen setting</li>
+                            <li>Pour-over or French press brewing</li>
+                            <li>Product bag visible in scene</li>
+                            <li>Warm, aspirational lighting</li>
+                        </ul>
+                        <p><span class="tier-badge tier-medium">Medium Impact</span></p>
+                    </div>
+                </div>
+
+                <div class="slot-card">
+                    <div class="slot-header">
+                        <span class="slot-number">06</span>
+                        <span class="slot-title">Brand Story</span>
+                    </div>
+                    <div class="slot-content">
+                        <p><strong>Purpose:</strong> Create emotional connection</p>
+                        <p><strong>Content:</strong> Founders & roastery story</p>
+                        <ul>
+                            <li>Brothers' story condensed</li>
+                            <li>"Founded from personal need" narrative</li>
+                            <li>Traditional Tokyo street imagery</li>
+                            <li>Family business authenticity</li>
+                        </ul>
+                        <p><span class="tier-badge tier-medium">Medium Impact</span></p>
+                    </div>
+                </div>
+
+                <div class="slot-card">
+                    <div class="slot-header">
+                        <span class="slot-number">07</span>
+                        <span class="slot-title">Product Details</span>
+                    </div>
+                    <div class="slot-content">
+                        <p><strong>Purpose:</strong> Answer final objections</p>
+                        <p><strong>Content:</strong> Specifications infographic</p>
+                        <ul>
+                            <li>Bag size (24oz / 12oz options)</li>
+                            <li>Bean origin: South America + Sumatra</li>
+                            <li>Roast: Full City Medium</li>
+                            <li>Best brewing methods</li>
+                        </ul>
+                        <p><span class="tier-badge tier-medium">Medium Impact</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box fade-in">
+                <h4>Mobile-First Consideration</h4>
+                <p>Over 60% of Amazon traffic is mobile. Images 2-4 are most critical as they appear without scrolling. Ensure all text is legible at minimum 24pt equivalent, and critical information occupies the center 70% of each image (edges get cropped on some devices).</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Detailed Specifications -->
+    <section id="detailed-specs" class="bg-primary">
+        <div class="container">
+            <span class="section-number">03 — Technical Specifications</span>
+            <h2>Detailed Image Requirements</h2>
+            <p class="fade-in">Amazon has strict requirements for product images. Meeting these is table stakes—optimization beyond compliance is where conversion gains happen.</p>
+
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Specification</th>
+                            <th>Requirement</th>
+                            <th>Recommendation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Dimensions</strong></td>
+                            <td>Minimum 1000px longest side</td>
+                            <td>2000x2000px square (enables zoom)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aspect Ratio</strong></td>
+                            <td>1:1 recommended</td>
+                            <td>Always square for consistency</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Format</strong></td>
+                            <td>JPEG, PNG, TIFF, or GIF</td>
+                            <td>JPEG for photos, PNG for infographics</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Main Image Background</strong></td>
+                            <td>Pure white (RGB 255,255,255)</td>
+                            <td>Use color picker to verify exact white</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Product Coverage</strong></td>
+                            <td>85%+ of frame</td>
+                            <td>Fill frame while maintaining padding</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Maximum Size</strong></td>
+                            <td>10,000px longest side</td>
+                            <td>Stay at 2000-3000px for fast loading</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Text Legibility</strong></td>
+                            <td>No minimum specified</td>
+                            <td>24pt+ equivalent for mobile readability</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="fade-in">Infographic Design Guidelines</h3>
+
+            <ul class="action-list fade-in">
+                <li><strong>Visual Hierarchy:</strong> Most important information should be largest and most prominent. Use 3 levels maximum: headline, subhead, body text.</li>
+                <li><strong>Color Consistency:</strong> Establish a brand color palette and use it across all infographics. Suggest: Coffee brown (#8B4513), Cream (#F5E6D3), Forest green (#2E7D32) for organic.</li>
+                <li><strong>Icon Usage:</strong> Use simple, recognizable icons to represent features. Avoid overly detailed illustrations that don't read at small sizes.</li>
+                <li><strong>Whitespace:</strong> Don't overcrowd. Each infographic should communicate 3-4 key points maximum.</li>
+                <li><strong>Typography:</strong> Use 1-2 fonts maximum. Sans-serif for readability at small sizes. Avoid script or decorative fonts.</li>
+            </ul>
+
+            <h3 class="fade-in">Image Slot 2: Origin Infographic — Detailed Spec</h3>
+
+            <div class="two-column fade-in">
+                <div class="sticky-header">
+                    <h4>Layout Concept</h4>
+                    <p>Split image into visual (60%) and text (40%) areas. Visual shows roastery or Tokyo street scene. Text area contains headline and 2-3 supporting points.</p>
+                </div>
+                <div>
+                    <p><strong>Headline:</strong> "Small-Batch Roasted in Tokyo"</p>
+                    <p><strong>Supporting Points:</strong></p>
+                    <ul>
+                        <li>📍 Our roastery sits on a traditional Tokyo shopping street</li>
+                        <li>👨‍🍳 Every batch carefully monitored by our master roasters</li>
+                        <li>✈️ Shipped fresh to the US within days of roasting</li>
+                    </ul>
+                    <p><strong>Visual Elements:</strong> Consider a simple map showing Japan → US shipping route, or a photo of actual roastery exterior/interior if available.</p>
+                </div>
+            </div>
+
+            <h3 class="fade-in">Image Slot 3: Certification Infographic — Detailed Spec</h3>
+
+            <div class="two-column fade-in">
+                <div class="sticky-header">
+                    <h4>Layout Concept</h4>
+                    <p>Center the JAS Organic logo prominently. Surround with supporting trust signals and brief explanation.</p>
+                </div>
+                <div>
+                    <p><strong>Headline:</strong> "Certified Organic by JAS"</p>
+                    <p><strong>Supporting Points:</strong></p>
+                    <ul>
+                        <li>🏛️ JAS = Japan Agricultural Standards (Japan's USDA)</li>
+                        <li>🔬 Third-party inspected at every stage</li>
+                        <li>🚫 No synthetic pesticides or chemical fertilizers</li>
+                        <li>🌱 100% certified organic Arabica beans</li>
+                    </ul>
+                    <p><strong>Visual Elements:</strong> JAS logo (official), organic leaf icon, checklist/shield iconography conveying certification process.</p>
+                </div>
+            </div>
+
+            <h3 class="fade-in">Image Slot 4: Flavor Profile — Detailed Spec</h3>
+
+            <div class="two-column fade-in">
+                <div class="sticky-header">
+                    <h4>Layout Concept</h4>
+                    <p>Use a visual flavor wheel or rating system that immediately communicates taste profile without requiring reading.</p>
+                </div>
+                <div>
+                    <p><strong>Headline:</strong> "Perfectly Balanced Medium Roast"</p>
+                    <p><strong>Key Flavor Notes (with icons):</strong></p>
+                    <ul>
+                        <li>🍒 Black Cherry</li>
+                        <li>🌰 Almond</li>
+                        <li>🍫 Milk Chocolate</li>
+                    </ul>
+                    <p><strong>Rating System:</strong></p>
+                    <ul>
+                        <li>Bitterness: ★★★☆☆</li>
+                        <li>Acidity: ★★★☆☆</li>
+                        <li>Sweetness: ★★★★☆</li>
+                    </ul>
+                    <p><strong>Visual Elements:</strong> Ingredient imagery (cherries, almonds, chocolate) arranged artfully. Steam rising from cup silhouette. Color palette matching the warmth of the flavors.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Messaging Strategy -->
+    <section id="messaging" class="bg-secondary">
+        <div class="container">
+            <span class="section-number">04 — Messaging Strategy</span>
+            <h2>What to Say (and Not Say)</h2>
+            <p class="fade-in">Effective infographic copy is ruthlessly concise. Every word must earn its place. Here's the exact messaging framework for Tokyo Coffee images.</p>
+
+            <h3 class="fade-in">Copy That Converts</h3>
+
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Headline</th>
+                            <th>Supporting Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Slot 2: Origin</strong></td>
+                            <td>"Roasted in Tokyo"</td>
+                            <td>Small-batch • Traditional roastery • Fresh shipped</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Slot 3: Certification</strong></td>
+                            <td>"JAS Certified Organic"</td>
+                            <td>Japan's USDA • Third-party inspected • No pesticides</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Slot 4: Flavor</strong></td>
+                            <td>"Sweet & Smooth Blend"</td>
+                            <td>Black cherry • Almond • Milk chocolate</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Slot 6: Story</strong></td>
+                            <td>"A Family Roastery"</td>
+                            <td>Founded by brothers • On Tokyo's shopping streets</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Slot 7: Details</strong></td>
+                            <td>"Your Perfect Cup"</td>
+                            <td>24oz bag • South America + Sumatra • Full City roast</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="fade-in">Words to Use</h3>
+
+            <ul class="action-list fade-in">
+                <li><strong>Authenticity Signals:</strong> "Traditional," "Small-batch," "Hand-picked," "Artisan," "Family-owned"</li>
+                <li><strong>Quality Signals:</strong> "Certified," "Organic," "Premium," "100% Arabica," "Specialty"</li>
+                <li><strong>Origin Signals:</strong> "Tokyo," "Japan," "Japanese," "Roastery," "Crafted"</li>
+                <li><strong>Sensory Words:</strong> "Smooth," "Rich," "Sweet," "Balanced," "Aromatic"</li>
+            </ul>
+
+            <h3 class="fade-in">Words to Avoid</h3>
+
+            <ul class="action-list fade-in">
+                <li><strong>Generic Claims:</strong> "Best," "Amazing," "Incredible," "Perfect" (unsubstantiated superlatives)</li>
+                <li><strong>Price References:</strong> Never mention price, discounts, or value in images</li>
+                <li><strong>Competitor Mentions:</strong> Amazon prohibits comparative claims</li>
+                <li><strong>Health Claims:</strong> Avoid "healthy," "improves energy," etc. (FDA regulated)</li>
+            </ul>
+
+            <div class="highlight-box critical fade-in">
+                <h4>Amazon Compliance Note</h4>
+                <p>Images cannot contain: promotional text ("Sale," "Best Seller"), watermarks/logos outside the product, website URLs, or any claims that cannot be substantiated. All certifications shown must be verifiable.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Execution Plan -->
+    <section id="execution" class="bg-inverse">
+        <div class="container">
+            <span class="section-number">05 — Execution Plan</span>
+            <h2>Bringing the Strategy to Life</h2>
+            <p class="fade-in" style="color: var(--color-text-inverse); opacity: 0.85;">A clear roadmap for creating and implementing the optimized image set. Prioritize high-impact slots first, then iterate based on performance data.</p>
+
+            <h3 class="fade-in">Phase 1: Essential Images (Week 1-2)</h3>
+
+            <div class="checklist fade-in">
+                <div class="checklist-item">
+                    <div class="checklist-box"></div>
+                    <div>
+                        <strong>Hero Image Audit</strong><br>
+                        Review current main image. Ensure pure white background, proper lighting, 85%+ frame coverage. Professional reshoot if needed.
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <div class="checklist-box"></div>
+                    <div>
+                        <strong>Create Origin Infographic (Slot 2)</strong><br>
+                        Design "Roasted in Tokyo" image with roastery visual, map element, and Japanese authenticity signals.
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <div class="checklist-box"></div>
+                    <div>
+                        <strong>Create Certification Infographic (Slot 3)</strong><br>
+                        Design JAS Organic certification image with official logo, explanation, and trust signals.
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <div class="checklist-box"></div>
+                    <div>
+                        <strong>Create Flavor Profile Infographic (Slot 4)</strong><br>
+                        Design tasting notes visualization with flavor icons, rating system, and sensory appeal.
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="fade-in">Phase 2: Supporting Images (Week 3-4)</h3>
+
+            <div class="checklist fade-in">
+                <div class="checklist-item">
+                    <div class="checklist-box"></div>
+                    <div>
+                        <strong>Lifestyle Photography (Slot 5)</strong><br>
+                        Arrange professional lifestyle shoot or source high-quality stock. Premium kitchen, morning light, brewing scene.
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <div class="checklist-box"></div>
+                    <div>
+                        <strong>Brand Story Infographic (Slot 6)</strong><br>
+                        Design founders' story image with condensed narrative and traditional Tokyo imagery.
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <div class="checklist-box"></div>
+                    <div>
+                        <strong>Product Details Infographic (Slot 7)</strong><br>
+                        Design specifications image with bag size, origin details, roast level, brewing recommendations.
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="fade-in">Phase 3: Testing & Optimization (Ongoing)</h3>
+
+            <div class="checklist fade-in">
+                <div class="checklist-item">
+                    <div class="checklist-box"></div>
+                    <div>
+                        <strong>A/B Test Main Image</strong><br>
+                        Use Amazon's "Manage Your Experiments" to test 2 hero image variations. Run for 8-10 weeks.
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <div class="checklist-box"></div>
+                    <div>
+                        <strong>Monitor Conversion Metrics</strong><br>
+                        Track Unit Session Percentage before/after image updates. Target 15%+ improvement.
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <div class="checklist-box"></div>
+                    <div>
+                        <strong>Review Customer Questions</strong><br>
+                        Check Q&A section monthly. If common questions emerge, create images that preemptively answer them.
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <div class="checklist-box"></div>
+                    <div>
+                        <strong>Competitive Refresh</strong><br>
+                        Review competitor images quarterly. Ensure Tokyo Coffee maintains visual differentiation.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Closing Section -->
+    <section class="bg-primary" style="text-align: center;">
+        <div class="container">
+            <span class="section-number">Summary</span>
+            <h2>Key Takeaways</h2>
+            <p class="fade-in" style="max-width: 60ch; margin: 0 auto var(--space-12);">Effective Amazon images answer shopper questions visually, following the Attention → Interest → Desire → Conviction framework. For Tokyo Coffee, the core message is: authentic Japanese craftsmanship meets rigorous organic certification.</p>
+
+            <div class="stat-grid fade-in">
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">High-priority infographics to create first</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24pt+</div>
+                    <div class="stat-label">Minimum text size for mobile readability</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3-4</div>
+                    <div class="stat-label">Max key points per infographic</div>
+                </div>
+            </div>
+
+            <div class="hero-cta-group fade-in" style="margin-top: var(--space-12);">
+                <a href="#slot-strategy" class="btn-primary">Review Image Strategy</a>
+                <button class="btn-secondary" onclick="window.print()">Export as PDF</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: var(--color-bg-inverse); color: var(--color-text-inverse); padding: var(--space-8) var(--container-padding); text-align: center;">
+        <p style="font-size: 0.85rem; opacity: 0.7;">Tokyo Coffee — Product Image Strategy | January 2026</p>
+    </footer>
+
+    <script>
+        // Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        });
+
+        // Navigation Visibility
+        const nav = document.getElementById('nav');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 500) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Active Section Highlighting
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -80% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+
+        // Fade In Animation
+        const fadeElements = document.querySelectorAll('.fade-in');
+
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(el => fadeObserver.observe(el));
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
