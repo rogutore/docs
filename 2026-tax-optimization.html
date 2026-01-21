@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 Tax Optimization Strategy | Rogue Trade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-primary: #F5F0E8;
+            --color-bg-secondary: #EBE4D8;
+            --color-bg-tertiary: #D9CFC0;
+            --color-bg-inverse: #2C1810;
+            
+            --color-text-primary: #2C1810;
+            --color-text-secondary: #4A3428;
+            --color-text-muted: #6B5A4E;
+            --color-text-inverse: #F5F0E8;
+            
+            --color-accent-primary: #C17F59;
+            --color-accent-secondary: #8B4513;
+            
+            --color-semantic-success: #4A7C59;
+            --color-semantic-warning: #B8860B;
+            
+            --color-border: rgba(44, 24, 16, 0.12);
+            --color-shadow: rgba(44, 24, 16, 0.08);
+            
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            
+            --container-max: 1400px;
+            --container-padding: clamp(1.5rem, 5vw, 4rem);
+            
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-full: 9999px;
+            
+            --shadow-md: 0 4px 12px var(--color-shadow);
+            --shadow-lg: 0 8px 24px var(--color-shadow);
+            --shadow-xl: 0 20px 40px var(--color-shadow);
+            
+            --transition-fast: 150ms ease;
+            --transition-normal: 300ms ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--color-bg-secondary);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary));
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(245, 240, 232, 0.95);
+            backdrop-filter: blur(10px);
+            padding: var(--space-4) var(--container-padding);
+            z-index: 999;
+            transform: translateY(-100%);
+            transition: transform var(--transition-normal);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        nav.visible {
+            transform: translateY(3px);
+        }
+
+        nav .nav-content {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .nav-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: var(--space-6);
+        }
+
+        nav .nav-links a {
+            text-decoration: none;
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }
+
+        nav .nav-links a:hover,
+        nav .nav-links a.active {
+            color: var(--color-accent-primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--radius-full);
+            font-weight: 500;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--color-text-primary);
+            color: var(--color-text-inverse);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-text-secondary);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--color-text-primary);
+            color: var(--color-text-primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--color-text-primary);
+            color: var(--color-text-inverse);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--space-24) var(--container-padding);
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-6);
+            color: var(--color-text-muted);
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: var(--space-6);
+            max-width: 900px;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: var(--color-text-secondary);
+            max-width: 700px;
+            margin-bottom: var(--space-8);
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: var(--space-8);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .scroll-indicator::after {
+            content: '';
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--color-text-muted), transparent);
+        }
+
+        section {
+            padding: var(--space-20) var(--container-padding);
+        }
+
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+
+        .section-number {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-accent-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            margin-bottom: var(--space-6);
+            max-width: 800px;
+        }
+
+        section > .container > p:first-of-type {
+            font-size: 1.15rem;
+            color: var(--color-text-secondary);
+            max-width: 700px;
+            margin-bottom: var(--space-12);
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.3rem, 2vw, 1.6rem);
+            font-weight: 500;
+            margin-top: var(--space-12);
+            margin-bottom: var(--space-6);
+            color: var(--color-text-primary);
+        }
+
+        .bg-secondary {
+            background: var(--color-bg-secondary);
+        }
+
+        .bg-inverse {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        .bg-inverse h2,
+        .bg-inverse h3 {
+            color: var(--color-text-inverse);
+        }
+
+        .bg-inverse .section-number {
+            color: var(--color-accent-primary);
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin: var(--space-8) 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        th {
+            padding: var(--space-4) var(--space-6);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: var(--space-4) var(--space-6);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: var(--color-bg-secondary);
+        }
+
+        .highlight-box {
+            background: white;
+            border-left: 4px solid var(--color-accent-primary);
+            padding: var(--space-6);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: var(--space-8) 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .highlight-box.critical {
+            border-left-color: var(--color-semantic-success);
+            background: linear-gradient(135deg, white 0%, rgba(74, 124, 89, 0.05) 100%);
+        }
+
+        .highlight-box h4 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-3);
+        }
+
+        .highlight-box .big-number {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            color: var(--color-semantic-success);
+            margin-bottom: var(--space-2);
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-6);
+            margin: var(--space-8) 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: var(--space-6);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+        }
+
+        .stat-card .stat-number {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-accent-secondary);
+            margin-bottom: var(--space-2);
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+
+        .action-list {
+            list-style: none;
+            margin: var(--space-6) 0;
+        }
+
+        .action-list li {
+            position: relative;
+            padding: var(--space-4) 0 var(--space-4) var(--space-8);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .action-list li:last-child {
+            border-bottom: none;
+        }
+
+        .action-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            border: 2px solid var(--color-accent-primary);
+            border-radius: 50%;
+        }
+
+        .action-list li strong {
+            color: var(--color-text-primary);
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-12);
+            margin: var(--space-8) 0;
+        }
+
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+            
+            nav .nav-links {
+                display: none;
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline {
+            position: relative;
+            margin: var(--space-8) 0;
+            padding-left: var(--space-8);
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--color-border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: var(--space-8);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: calc(-1 * var(--space-8) - 5px);
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            background: var(--color-accent-primary);
+            border-radius: 50%;
+        }
+
+        .timeline-item .date {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-accent-primary);
+            margin-bottom: var(--space-2);
+        }
+
+        .timeline-item h4 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            margin-bottom: var(--space-2);
+        }
+
+        .timeline-item p {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .formula-box {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+            padding: var(--space-6);
+            border-radius: var(--radius-lg);
+            margin: var(--space-6) 0;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        @media print {
+            nav, .progress-container, .scroll-indicator {
+                display: none !important;
+            }
+            
+            section {
+                page-break-inside: avoid;
+            }
+            
+            .hero {
+                min-height: auto;
+                padding: var(--space-12) 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <nav id="nav">
+        <div class="nav-content">
+            <div class="nav-title">2026 Tax Strategy</div>
+            <div class="nav-links">
+                <a href="#baseline">Baseline</a>
+                <a href="#strategy">Strategy</a>
+                <a href="#rationale">Rationale</a>
+                <a href="#savings">Savings</a>
+                <a href="#todo">Action Items</a>
+            </div>
+            <button class="btn btn-primary" onclick="window.print()">Export PDF</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <span class="badge">Tax Optimization 2026</span>
+            <h1>¥1.39M Annual Tax Savings</h1>
+            <p class="subtitle">A comprehensive restructuring of RTU allocation and RE income to optimize household tax burden, dropping Noah from 33% to 23% bracket while maximizing Shuko's deduction utilization.</p>
+            <div class="hero-cta">
+                <a href="#todo" class="btn btn-primary">View Action Items</a>
+                <a href="#savings" class="btn btn-outline">See the Numbers</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">Scroll to explore</div>
+    </section>
+
+    <section id="baseline" class="bg-secondary">
+        <div class="container fade-in">
+            <span class="section-number">01 — Current State</span>
+            <h2>2025 Baseline Structure</h2>
+            <p>The current structure concentrates income on Noah, pushing him into the 33% tax bracket while leaving Shuko's deduction capacity underutilized.</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Income Source</th>
+                            <th>Noah</th>
+                            <th>Shuko</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>役員報酬 (RTU)</td>
+                            <td>¥6,000,000</td>
+                            <td>¥960,000</td>
+                        </tr>
+                        <tr>
+                            <td>US W-2 (Sunrise)</td>
+                            <td>¥6,000,000</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>不動産所得</td>
+                            <td>¥3,630,000</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total Income</strong></td>
+                            <td><strong>¥15,630,000</strong></td>
+                            <td><strong>¥960,000</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-number">33%</div>
+                    <div class="stat-label">Noah's Tax Bracket</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5%</div>
+                    <div class="stat-label">Shuko's Tax Bracket</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">¥4.62M</div>
+                    <div class="stat-label">Household Tax + 社保</div>
+                </div>
+            </div>
+
+            <h3>The Problem</h3>
+            <p>Noah's 課税所得 sits at ¥12.76M — well into the 33% bracket (¥9M ceiling). Meanwhile, Shuko's deductions (共済 ¥700K + iDeCo ¥276K + 基礎控除 ¥480K) go largely unused because her income is only ¥960K.</p>
+        </div>
+    </section>
+
+    <section id="strategy">
+        <div class="container fade-in">
+            <span class="section-number">02 — The Strategy</span>
+            <h2>Optimized 2026 Structure</h2>
+            <p>Two coordinated moves unlock significant tax savings: split RTU to utilize Shuko's deductions, and reduce RE income through legitimate expenses to drop Noah's bracket.</p>
+
+            <h3>Move 1: Split RTU with Shuko</h3>
+            <p>Redistribute 役員報酬 from ローグトレード to balance income between spouses. Noah must remain ≥ Shuko for 代表取締役 defensibility.</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Role</th>
+                            <th>Baseline</th>
+                            <th>Optimized</th>
+                            <th>Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Noah RTU</td>
+                            <td>¥6,000,000</td>
+                            <td>¥4,150,000</td>
+                            <td>-¥1,850,000</td>
+                        </tr>
+                        <tr>
+                            <td>Shuko RTU</td>
+                            <td>¥960,000</td>
+                            <td>¥3,810,000</td>
+                            <td>+¥2,850,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Move 2: Reduce RE Income to ¥2,400,000</h3>
+            <p>Reduce net 不動産所得 from ¥3,630,000 to ¥2,400,000 through legitimate means:</p>
+            
+            <ul class="action-list">
+                <li><strong>Free rent periods:</strong> Offer 4 months free rent on new leases (¥300K × 4 = ¥1.2M reduction)</li>
+                <li><strong>Planned renovations:</strong> Accelerate repairs and improvements (fully deductible)</li>
+                <li><strong>Depreciation:</strong> Maximize depreciation on improvements</li>
+                <li><strong>Professional fees:</strong> Property management, tax advisory, legal costs</li>
+            </ul>
+
+            <div class="highlight-box">
+                <h4>Target RE Income</h4>
+                <p>Max RE for 23% bracket: <strong>¥2,520,695</strong><br>
+                Your target: <strong>¥2,400,000</strong> (¥121K buffer)</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="rationale" class="bg-secondary">
+        <div class="container fade-in">
+            <span class="section-number">03 — The Rationale</span>
+            <h2>Why This Works</h2>
+            <p>The optimization exploits two key inefficiencies in the current structure: Noah's bracket overload and Shuko's unused deduction capacity.</p>
+
+            <h3>Bracket Arbitrage</h3>
+            <p>Every yen of income above ¥9M is taxed at 33% + 10% 住民税 = 43% marginal rate. Dropping below ¥9M means 23% + 10% = 33% marginal rate. That's a 10 percentage point difference on every yen moved.</p>
+
+            <div class="formula-box">
+課税所得 Baseline:  ¥12,764,000 → 33% bracket<br>
+課税所得 Optimized: ¥8,879,000  → 23% bracket<br>
+<br>
+Reduction needed: ¥3,764,000<br>
+Via RTU split:    ¥1,850,000 (moves to Shuko)<br>
+Via RE reduction: ¥1,230,000 (expenses/free rent)<br>
+Remaining buffer: ¥121,000
+            </div>
+
+            <h3>Shuko's Deduction Absorption</h3>
+            <p>Shuko receives ¥3,810,000 in RTU but her 課税所得 is only ¥634,000. Why? Her deductions absorb almost everything:</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Shuko's Deductions</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>給与所得控除</td>
+                            <td>¥1,224,000</td>
+                        </tr>
+                        <tr>
+                            <td>基礎控除</td>
+                            <td>¥480,000</td>
+                        </tr>
+                        <tr>
+                            <td>小規模企業共済</td>
+                            <td>¥700,000</td>
+                        </tr>
+                        <tr>
+                            <td>iDeCo</td>
+                            <td>¥276,000</td>
+                        </tr>
+                        <tr>
+                            <td>生命保険控除</td>
+                            <td>¥120,000</td>
+                        </tr>
+                        <tr>
+                            <td>社会保険</td>
+                            <td>¥397,473</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total Deductions</strong></td>
+                            <td><strong>¥3,197,473</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>Result: ¥3,810,000 income → ¥634,000 taxable → 5% bracket → minimal tax despite substantial income.</p>
+
+            <h3>社保 Trade-off</h3>
+            <p>Yes, Shuko now pays 社保 (¥397K) since her RTU exceeds ¥1.06M. But the tax savings far exceed this cost:</p>
+
+            <div class="highlight-box">
+                <h4>Net Benefit Calculation</h4>
+                <p>Tax savings from split: <strong>¥1,064,283</strong><br>
+                Additional 社保 for Shuko: <strong>-¥202,818</strong><br>
+                Net from RTU split alone: <strong>¥861,465</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="savings">
+        <div class="container fade-in">
+            <span class="section-number">04 — The Numbers</span>
+            <h2>Total Tax Savings</h2>
+            <p>Combining RTU split with RE reduction delivers substantial annual savings.</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Scenario</th>
+                            <th>Noah Bracket</th>
+                            <th>Household Cost</th>
+                            <th>Savings</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>A: Baseline</strong> (All to Noah, RE ¥3.63M)</td>
+                            <td>33%</td>
+                            <td>¥4,624,069</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><strong>B: Split RTU only</strong> (RE ¥3.63M)</td>
+                            <td>33%</td>
+                            <td>¥3,762,603</td>
+                            <td>¥861,465</td>
+                        </tr>
+                        <tr>
+                            <td><strong>C: Split RTU + RE ¥2.4M</strong></td>
+                            <td>23%</td>
+                            <td>¥3,237,533</td>
+                            <td><strong>¥1,386,535</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight-box critical">
+                <h4>Annual Savings</h4>
+                <div class="big-number">¥1,386,535</div>
+                <p>Per year in reduced taxes and social insurance costs</p>
+            </div>
+
+            <h3>Savings Breakdown</h3>
+
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-number">¥861K</div>
+                    <div class="stat-label">From RTU Split</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">¥525K</div>
+                    <div class="stat-label">From RE Reduction</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">¥1.39M</div>
+                    <div class="stat-label">Total Annual Savings</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="todo" class="bg-inverse">
+        <div class="container fade-in">
+            <span class="section-number">05 — Action Items</span>
+            <h2>Implementation To-Do List</h2>
+            <p>Execute these items to implement the optimized structure for 2026.</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="date">February 2026</div>
+                    <h4>Adjust RTU Structure</h4>
+                    <p>Change ローグトレード compensation: Noah ¥4,150,000/year, Shuko ¥3,810,000/year. Structure as low monthly + year-end bonus to optimize 社保.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="date">March 2026</div>
+                    <h4>Start 小規模企業共済</h4>
+                    <p>Both Noah and Shuko contribute ¥70,000/month (10 months = ¥700,000 each for 2026). Total deduction: ¥1,400,000.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="date">Ongoing 2026</div>
+                    <h4>Reduce RE Net Income</h4>
+                    <p>Target ¥2,400,000 net RE income through: free rent periods, planned renovations, maintenance, professional fees. Keep receipts and documentation.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="date">Optional</div>
+                    <h4>Create 旅費規程 for 出張日当</h4>
+                    <p>Establish travel expense policy. ¥5,000/day tax-free per diem for business trips 50km+. Potential additional savings: ¥150-250K/year.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="date">December 2026</div>
+                    <h4>Year-End Bonus</h4>
+                    <p>Pay out year-end bonuses per optimized structure. Verify 課税所得 stays under ¥9M for Noah.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="background: rgba(255,255,255,0.1); border-left-color: var(--color-accent-primary);">
+                <h4 style="color: var(--color-text-inverse);">Critical Constraint</h4>
+                <p style="color: var(--color-text-inverse);">Noah RTU must be ≥ Shuko RTU for 代表取締役 defensibility. Current structure: Noah ¥4.15M ≥ Shuko ¥3.81M ✓</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container fade-in" style="text-align: center; padding: var(--space-16) 0;">
+            <p style="color: var(--color-text-muted); font-size: 0.85rem;">
+                Document generated January 2026<br>
+                Rogue Trade Tax Optimization Strategy
+            </p>
+        </div>
+    </section>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        });
+
+        // Nav visibility
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+        });
+
+        // Active section highlighting
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('nav .nav-links a');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + entry.target.id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+
+        sections.forEach(section => observer.observe(section));
+
+        // Fade in animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(el => fadeObserver.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
