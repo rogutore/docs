@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nojiri Cabin — A Decision Framework</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-primary: #F5F0E8;
+            --color-bg-secondary: #EBE4D8;
+            --color-bg-tertiary: #D9CFC0;
+            --color-bg-inverse: #2C1810;
+            
+            --color-text-primary: #2C1810;
+            --color-text-secondary: #4A3428;
+            --color-text-muted: #6B5A4E;
+            --color-text-inverse: #F5F0E8;
+            
+            --color-accent-primary: #C17F59;
+            --color-accent-secondary: #8B4513;
+            
+            --color-semantic-success: #4A7C59;
+            --color-semantic-warning: #B8860B;
+            --color-semantic-caution: #D4A03E;
+            --color-semantic-danger: #A65D57;
+            
+            --color-border: rgba(44, 24, 16, 0.12);
+            --color-shadow: rgba(44, 24, 16, 0.08);
+            
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            
+            --container-max: 1100px;
+            --container-padding: clamp(1.5rem, 5vw, 4rem);
+            
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-full: 9999px;
+            
+            --shadow-md: 0 4px 12px var(--color-shadow);
+            --shadow-lg: 0 8px 24px var(--color-shadow);
+            --shadow-xl: 0 20px 40px var(--color-shadow);
+            
+            --transition-fast: 150ms ease;
+            --transition-normal: 300ms ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: transparent;
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary));
+            transition: width 0.1s ease;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: var(--space-4) var(--space-8);
+            background: rgba(245, 240, 232, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            transform: translateY(-100%);
+            transition: transform var(--transition-normal);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .nav.visible {
+            transform: translateY(0);
+        }
+
+        .nav-inner {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-6);
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--color-accent-secondary);
+        }
+
+        .nav-btn {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+            border: none;
+            padding: var(--space-2) var(--space-4);
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-btn:hover {
+            background: var(--color-accent-secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: var(--space-8) var(--container-padding);
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid var(--color-text-muted);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-8);
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: var(--space-6);
+            max-width: 900px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin-bottom: var(--space-10);
+            line-height: 1.6;
+        }
+
+        .hero-verse {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--color-text-muted);
+            max-width: 500px;
+            margin-bottom: var(--space-2);
+        }
+
+        .hero-verse-ref {
+            font-size: 0.85rem;
+            color: var(--color-accent-secondary);
+            font-weight: 500;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: var(--space-8);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Sections */
+        section {
+            padding: var(--space-20) var(--container-padding);
+        }
+
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+
+        .section-number {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--color-accent-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: var(--space-6);
+        }
+
+        section > .container > p {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            max-width: 700px;
+            margin-bottom: var(--space-8);
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+            font-weight: 600;
+            margin-top: var(--space-12);
+            margin-bottom: var(--space-4);
+            color: var(--color-text-primary);
+        }
+
+        /* Background Variations */
+        .bg-secondary {
+            background-color: var(--color-bg-secondary);
+        }
+
+        .bg-inverse {
+            background-color: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        .bg-inverse h2,
+        .bg-inverse h3 {
+            color: var(--color-text-inverse);
+        }
+
+        .bg-inverse p {
+            color: rgba(245, 240, 232, 0.85);
+        }
+
+        .bg-inverse .section-number {
+            color: var(--color-accent-primary);
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: white;
+            border-left: 4px solid var(--color-accent-primary);
+            padding: var(--space-6);
+            margin: var(--space-8) 0;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .highlight-box h4 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-accent-secondary);
+            margin-bottom: var(--space-3);
+        }
+
+        .highlight-box p {
+            color: var(--color-text-secondary);
+            font-size: 1.05rem;
+        }
+
+        .highlight-box.critical {
+            border-left-color: var(--color-semantic-danger);
+        }
+
+        .highlight-box.critical h4 {
+            color: var(--color-semantic-danger);
+        }
+
+        /* Timeline List */
+        .timeline {
+            margin: var(--space-8) 0;
+            padding-left: var(--space-6);
+            border-left: 2px solid var(--color-border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: var(--space-6);
+            padding-left: var(--space-6);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            background: var(--color-bg-primary);
+            border: 2px solid var(--color-accent-primary);
+            border-radius: 50%;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item strong {
+            display: block;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-1);
+        }
+
+        .timeline-item p {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Option Cards */
+        .option-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-8);
+            margin: var(--space-8) 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+            padding-bottom: var(--space-6);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .option-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .option-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .option-badge.green {
+            background: rgba(74, 124, 89, 0.15);
+            color: var(--color-semantic-success);
+        }
+
+        .option-badge.yellow {
+            background: rgba(212, 160, 62, 0.15);
+            color: var(--color-semantic-warning);
+        }
+
+        .option-badge.red {
+            background: rgba(166, 93, 87, 0.15);
+            color: var(--color-semantic-danger);
+        }
+
+        .option-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+
+        .option-meta-item {
+            padding: var(--space-3);
+            background: var(--color-bg-primary);
+            border-radius: var(--radius-sm);
+        }
+
+        .option-meta-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-1);
+        }
+
+        .option-meta-value {
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .option-content h4 {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            margin-top: var(--space-6);
+            margin-bottom: var(--space-3);
+        }
+
+        .option-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option-content li {
+            position: relative;
+            padding-left: var(--space-6);
+            padding-bottom: var(--space-2);
+            color: var(--color-text-secondary);
+        }
+
+        .option-content li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 8px;
+            height: 8px;
+            border: 2px solid var(--color-accent-primary);
+            border-radius: 50%;
+        }
+
+        .option-content li.check::before {
+            background: var(--color-semantic-success);
+            border-color: var(--color-semantic-success);
+        }
+
+        .option-content li.cross::before {
+            background: var(--color-semantic-danger);
+            border-color: var(--color-semantic-danger);
+        }
+
+        .option-summary {
+            margin-top: var(--space-6);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--color-border);
+            font-style: italic;
+            color: var(--color-text-muted);
+        }
+
+        /* Comparison Table */
+        .table-wrapper {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin: var(--space-8) 0;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        thead {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        th {
+            padding: var(--space-4);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: var(--color-bg-primary);
+        }
+
+        /* Tradeoff Visual */
+        .tradeoff {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-8);
+            margin: var(--space-10) 0;
+        }
+
+        @media (max-width: 700px) {
+            .tradeoff {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tradeoff-side {
+            padding: var(--space-8);
+            border-radius: var(--radius-lg);
+        }
+
+        .tradeoff-side.later {
+            background: var(--color-bg-secondary);
+        }
+
+        .tradeoff-side.now {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        .tradeoff-side h4 {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            margin-bottom: var(--space-4);
+        }
+
+        .tradeoff-side.now h4 {
+            color: var(--color-text-inverse);
+        }
+
+        .tradeoff-side ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tradeoff-side li {
+            padding: var(--space-2) 0;
+            color: var(--color-text-secondary);
+        }
+
+        .tradeoff-side.now li {
+            color: rgba(245, 240, 232, 0.8);
+        }
+
+        /* Discussion Question */
+        .discussion-question {
+            text-align: center;
+            padding: var(--space-10) var(--space-8);
+            background: white;
+            border-radius: var(--radius-lg);
+            margin: var(--space-10) 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .discussion-question p {
+            font-family: var(--font-display);
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            font-style: italic;
+            color: var(--color-text-primary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Closing Section */
+        .closing-verse {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto var(--space-12);
+        }
+
+        .closing-verse blockquote {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: var(--space-4);
+            color: var(--color-text-inverse);
+        }
+
+        .closing-verse cite {
+            font-size: 0.9rem;
+            color: var(--color-accent-primary);
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        .closing-reflection {
+            max-width: 650px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .closing-reflection p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: var(--space-6);
+        }
+
+        .closing-lists {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-8);
+            margin: var(--space-10) auto;
+            max-width: 700px;
+            text-align: left;
+        }
+
+        @media (max-width: 600px) {
+            .closing-lists {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .closing-list h4 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            margin-bottom: var(--space-4);
+            color: var(--color-text-inverse);
+        }
+
+        .closing-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .closing-list li {
+            padding: var(--space-2) 0;
+            color: rgba(245, 240, 232, 0.75);
+            font-size: 0.95rem;
+        }
+
+        /* Final CTA */
+        .final-prompt {
+            text-align: center;
+            margin-top: var(--space-16);
+            padding-top: var(--space-10);
+            border-top: 1px solid rgba(245, 240, 232, 0.2);
+        }
+
+        .final-prompt p {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--color-text-inverse);
+            margin-bottom: var(--space-6);
+        }
+
+        .final-prompt span {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: rgba(245, 240, 232, 0.6);
+            font-style: italic;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Print Styles */
+        @media print {
+            .progress-container,
+            .nav,
+            .scroll-indicator {
+                display: none !important;
+            }
+
+            section {
+                page-break-before: always;
+            }
+
+            .hero {
+                min-height: auto;
+                page-break-before: avoid;
+            }
+
+            .option-card,
+            .highlight-box,
+            .table-wrapper {
+                break-inside: avoid;
+            }
+
+            body {
+                font-size: 11pt;
+            }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .option-header {
+                flex-direction: column;
+            }
+
+            table {
+                font-size: 0.8rem;
+            }
+
+            th, td {
+                padding: var(--space-3);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <div class="nav-title">Nojiri Cabin</div>
+            <ul class="nav-links">
+                <li><a href="#situation">Situation</a></li>
+                <li><a href="#question">Question</a></li>
+                <li><a href="#options">Options</a></li>
+                <li><a href="#tradeoff">Tradeoff</a></li>
+                <li><a href="#context">Context</a></li>
+            </ul>
+            <button class="nav-btn" onclick="window.print()">Export PDF</button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero">
+        <span class="hero-badge">A Family Discussion</span>
+        <h1>Nojiri Cabin</h1>
+        <p class="hero-subtitle">A framework for thinking through our options together—not to push any agenda, but to see clearly and decide wisely.</p>
+        <p class="hero-verse">"Plans fail for lack of counsel, but with many advisers they succeed."</p>
+        <span class="hero-verse-ref">— Proverbs 15:22</span>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+        </div>
+    </header>
+
+    <!-- Section 1: Situation -->
+    <section id="situation">
+        <div class="container">
+            <span class="section-number">01 — The Situation</span>
+            <h2>How We Got Here</h2>
+            <p>The cabin project has stalled. Here's the sequence of events that brought us to this point.</p>
+
+            <div class="timeline fade-in">
+                <div class="timeline-item">
+                    <strong>Original Plan Submitted</strong>
+                    <p>A new-build design was developed and presented to the neighbors for approval.</p>
+                </div>
+                <div class="timeline-item">
+                    <strong>Neighbor Rejection</strong>
+                    <p>Neighbors objected. Height was effectively capped at 6.5 meters—gutting much of the second floor/loft as viable living space.</p>
+                </div>
+                <div class="timeline-item">
+                    <strong>Plans Changed, Costs Remained</strong>
+                    <p>The design was compromised, but the price tag stayed high: 45–55 million yen, with parents expected to contribute.</p>
+                </div>
+                <div class="timeline-item">
+                    <strong>Family Consensus</strong>
+                    <p>We will not let our parents pay that much for a plan they are not fully satisfied with. If that's the situation, we would rather drop the project entirely.</p>
+                </div>
+                <div class="timeline-item">
+                    <strong>New Rule</strong>
+                    <p>Kids should pay for everything. However, kids cannot afford a new build at that price point.</p>
+                </div>
+                <div class="timeline-item">
+                    <strong>Impasse</strong>
+                    <p>Without a new path forward, we face years of stagnation—no progress, no cabin, fading energy.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box critical fade-in">
+                <h4>The Family's Position</h4>
+                <p>We refuse to let our parents pay a large sum for something that doesn't serve them well. That's the line. If we can't find a path that makes sense for everyone, we'd rather let it go.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: The Question -->
+    <section id="question" class="bg-secondary">
+        <div class="container">
+            <span class="section-number">02 — The Real Question</span>
+            <h2>What Are We Actually Deciding?</h2>
+            <p>This decision is no longer about square meters, insulation specs, or architectural perfection.</p>
+
+            <div class="highlight-box fade-in">
+                <h4>It's About</h4>
+                <p><strong>Who</strong> gets to enjoy the cabin. <strong>When</strong> they get to enjoy it. And at what <strong>emotional and financial cost</strong> to the family.</p>
+            </div>
+
+            <h3 class="fade-in">The Scenario We Cannot Accept</h3>
+            <p class="fade-in" style="max-width: 700px;">A future where we wait until our parents are too old to want to go, half the kids have left home, and <em>then</em> we use their money to build the "perfect" cabin. That cabin would no longer be perfect at all. It would be empty of the people and moments that give it meaning.</p>
+
+            <h3 class="fade-in">The Core Question</h3>
+            <p class="fade-in" style="max-width: 700px;">If we put "bigger, better cabin later" on one side of a scale, and "the value of shared years now" on the other—how do we weigh them? That's what we need to talk through together.</p>
+        </div>
+    </section>
+
+    <!-- Section 3: Options -->
+    <section id="options">
+        <div class="container">
+            <span class="section-number">03 — The Options</span>
+            <h2>Four Paths Forward</h2>
+            <p>Each option has trade-offs. None is perfect. All are worth understanding.</p>
+
+            <!-- Option A -->
+            <div class="option-card fade-in">
+                <div class="option-header">
+                    <div class="option-title">Option A — Renovation</div>
+                    <span class="option-badge yellow">Constrained but Clean</span>
+                </div>
+                <div class="option-meta">
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">Budget</div>
+                        <div class="option-meta-value">¥10–12M (hard cap)</div>
+                    </div>
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">Who Pays</div>
+                        <div class="option-meta-value">Kids only</div>
+                    </div>
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">Timeline</div>
+                        <div class="option-meta-value">Soon</div>
+                    </div>
+                </div>
+                <div class="option-content">
+                    <h4>Concept</h4>
+                    <p>Renovate the existing structure. Same footprint, squared-off back side. Prioritize safety, warmth, and cost containment.</p>
+                    
+                    <h4>What's Included</h4>
+                    <ul>
+                        <li class="check">Jack up and level the building</li>
+                        <li class="check">Repair or add foundation stilts</li>
+                        <li class="check">Replace all rotten beams and joists</li>
+                        <li class="check">Full insulation: floors, walls, ceilings (~9cm)</li>
+                        <li class="check">Double-pane windows</li>
+                        <li class="check">Water and sewage</li>
+                    </ul>
+
+                    <h4>Limitations</h4>
+                    <ul>
+                        <li class="cross">No budget for roof work</li>
+                        <li class="cross">Much smaller than original plan</li>
+                        <li class="cross">Not suitable for family Christmas or snow camp</li>
+                        <li class="cross">Limited long-term hosting capacity</li>
+                    </ul>
+                </div>
+                <p class="option-summary">Financially clean and low risk—but emotionally constrained. A cabin, but not the gathering place we imagined.</p>
+            </div>
+
+            <!-- Option B -->
+            <div class="option-card fade-in">
+                <div class="option-header">
+                    <div class="option-title">Option B — Simplified New Build</div>
+                    <span class="option-badge green">Imperfect but Alive</span>
+                </div>
+                <div class="option-meta">
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">Budget</div>
+                        <div class="option-meta-value">¥30M (hard cap)</div>
+                    </div>
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">Who Pays</div>
+                        <div class="option-meta-value">Parents (if aligned)</div>
+                    </div>
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">Timeline</div>
+                        <div class="option-meta-value">Soon</div>
+                    </div>
+                </div>
+                <div class="option-content">
+                    <h4>Why This Option Exists</h4>
+                    <p>This isn't "parents fund our dream cabin." This is a plan that finally makes sense <em>for them</em>. Almost half the original cost. A space they can actually use. Time with kids and grandkids while everyone is still present.</p>
+                    
+                    <h4>Key Requirement</h4>
+                    <ul>
+                        <li class="check"><strong>Parents have their own private room.</strong> This is firm. It's why we would consider their contribution again—because this plan serves them, not just us.</li>
+                    </ul>
+
+                    <h4>Layout Concept</h4>
+                    <ul>
+                        <li>First floor: 2–3 simple rooms, including parents' room</li>
+                        <li>Upper level: large open loft—everyone sleeps together, no individual rooms</li>
+                        <li>Lakeside: open vertical space for scale without violating height rules</li>
+                        <li>Deck absorbed into interior space (possibly no deck initially)</li>
+                    </ul>
+
+                    <h4>Build Philosophy</h4>
+                    <ul>
+                        <li>Simple, low-cost foundation</li>
+                        <li>Lower-spec insulation and windows vs. original dream</li>
+                        <li>Still warm, code-compliant, brand new, highly usable</li>
+                    </ul>
+
+                    <h4>The Covenant</h4>
+                    <ul>
+                        <li class="check">Kids do everything possible to contribute and reduce burden</li>
+                        <li class="check">Noah guarantees parents' financial security</li>
+                        <li class="check">Miura house money hack or other mechanisms if needed</li>
+                        <li class="check">No scenario where parents are left vulnerable</li>
+                    </ul>
+                </div>
+                <p class="option-summary">Imperfect—but alive, shared, and timely. A place where memories actually happen.</p>
+            </div>
+
+            <!-- Option C -->
+            <div class="option-card fade-in">
+                <div class="option-header">
+                    <div class="option-title">Option C — Wait / Do Nothing</div>
+                    <span class="option-badge red">Highest Opportunity Cost</span>
+                </div>
+                <div class="option-meta">
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">Budget</div>
+                        <div class="option-meta-value">¥0</div>
+                    </div>
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">Who Pays</div>
+                        <div class="option-meta-value">—</div>
+                    </div>
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">Timeline</div>
+                        <div class="option-meta-value">Indefinite</div>
+                    </div>
+                </div>
+                <div class="option-content">
+                    <h4>Concept</h4>
+                    <p>Pause everything. Hope for a Sedera miracle or NLA rule change down the road.</p>
+                    
+                    <h4>Reality</h4>
+                    <ul>
+                        <li class="cross">Likely outcome: years of stagnation</li>
+                        <li class="cross">Kids age out</li>
+                        <li class="cross">Parents age out</li>
+                        <li class="cross">Energy and momentum fade</li>
+                    </ul>
+                </div>
+                <p class="option-summary">Lowest action, lowest immediate cost—but potentially the highest cost in lost years and fading opportunity.</p>
+            </div>
+
+            <!-- Option D -->
+            <div class="option-card fade-in">
+                <div class="option-header">
+                    <div class="option-title">Option D — Force Original Plan</div>
+                    <span class="option-badge yellow">High Effort, Uncertain Payoff</span>
+                </div>
+                <div class="option-meta">
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">Budget</div>
+                        <div class="option-meta-value">¥45–55M</div>
+                    </div>
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">Who Pays</div>
+                        <div class="option-meta-value">Parents</div>
+                    </div>
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">Timeline</div>
+                        <div class="option-meta-value">This summer (attempt)</div>
+                    </div>
+                </div>
+                <div class="option-content">
+                    <h4>Concept</h4>
+                    <p>Make one final push for the original plan this summer. If rejected again, fall back to Option A or B.</p>
+                    
+                    <h4>Pros</h4>
+                    <ul>
+                        <li class="check">No lingering "what if we had tried?"</li>
+                        <li class="check">Emotional closure either way</li>
+                    </ul>
+
+                    <h4>Cons</h4>
+                    <ul>
+                        <li class="cross">Significant time and energy drain</li>
+                        <li class="cross">Potential emotional exhaustion</li>
+                        <li class="cross">May simply delay the inevitable choice</li>
+                    </ul>
+                </div>
+                <p class="option-summary">Worth considering if closure matters—but recognize the cost of the attempt itself.</p>
+            </div>
+
+            <!-- Comparison Table -->
+            <h3 class="fade-in">Side-by-Side Comparison</h3>
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Option A</th>
+                            <th>Option B</th>
+                            <th>Option C</th>
+                            <th>Option D</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Budget</strong></td>
+                            <td>¥10–12M</td>
+                            <td>¥30M</td>
+                            <td>¥0</td>
+                            <td>¥45–55M</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Who Pays</strong></td>
+                            <td>Kids</td>
+                            <td>Parents</td>
+                            <td>—</td>
+                            <td>Parents</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Parents' Room</strong></td>
+                            <td>❌</td>
+                            <td>✅</td>
+                            <td>—</td>
+                            <td>✅</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Family Gatherings</strong></td>
+                            <td>Limited</td>
+                            <td>Yes</td>
+                            <td>—</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Timeline</strong></td>
+                            <td>Soon</td>
+                            <td>Soon</td>
+                            <td>Indefinite</td>
+                            <td>Uncertain</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Risk</strong></td>
+                            <td>Low</td>
+                            <td>Medium</td>
+                            <td>High (opportunity)</td>
+                            <td>High (rejection)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Tradeoff -->
+    <section id="tradeoff" class="bg-secondary">
+        <div class="container">
+            <span class="section-number">04 — The Core Tradeoff</span>
+            <h2>What Are We Really Weighing?</h2>
+            <p>Underneath the specs and budgets, there's a simpler question.</p>
+
+            <div class="tradeoff fade-in">
+                <div class="tradeoff-side later">
+                    <h4>"Perfect Later"</h4>
+                    <ul>
+                        <li>Bigger, better cabin</li>
+                        <li>Built when circumstances align</li>
+                        <li>Possibly after parents are older</li>
+                        <li>Possibly after kids have moved on</li>
+                        <li>When desire and energy may be lower</li>
+                    </ul>
+                </div>
+                <div class="tradeoff-side now">
+                    <h4>"Meaningful Now"</h4>
+                    <ul>
+                        <li>Smaller, simpler cabin</li>
+                        <li>Built while it still matters</li>
+                        <li>Filled with parents</li>
+                        <li>Filled with kids and grandkids</li>
+                        <li>Memories that actually happen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="discussion-question fade-in">
+                <p>Which one is truly more "perfect"?</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Context -->
+    <section id="context">
+        <div class="container">
+            <span class="section-number">05 — Additional Context</span>
+            <h2>Other Factors Worth Knowing</h2>
+
+            <h3 class="fade-in">Noah's Potential NLA Membership</h3>
+            <p class="fade-in">Noah may become a Nojiri Lake Association member this summer. If that happens, he would purchase his own separate cabin within the NLA community.</p>
+            <p class="fade-in">What this means for the family cabin:</p>
+            <ul class="fade-in" style="margin-left: var(--space-6); margin-bottom: var(--space-8);">
+                <li style="margin-bottom: var(--space-2);">One less family needing space in the shared cabin</li>
+                <li style="margin-bottom: var(--space-2);">Reduces hosting pressure and capacity requirements</li>
+                <li style="margin-bottom: var(--space-2);">Makes a smaller cabin more reasonable and viable</li>
+            </ul>
+
+            <h3 class="fade-in">Financial Stewardship</h3>
+            <p class="fade-in">Whatever we decide, we want to avoid consuming all of our parents' resources. Their safety, security, and dignity matter more than any cabin. The "Miura house money hack" and other mechanisms exist to ensure no scenario where they are left vulnerable.</p>
+
+            <div class="highlight-box fade-in">
+                <h4>Guiding Principle</h4>
+                <p><strong>Harmony over optimization.</strong> The goal is not to find the theoretically best cabin. It's to find a path we can all walk together—without resentment, without regret, without silent bitterness.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Closing Section -->
+    <section class="bg-inverse">
+        <div class="container">
+            <div class="closing-verse fade-in">
+                <blockquote>"Do nothing out of selfish ambition or vain conceit. Rather, in humility value others above yourselves, not looking to your own interests but each of you to the interests of the others."</blockquote>
+                <cite>— Philippians 2:3-4</cite>
+            </div>
+
+            <div class="closing-reflection fade-in">
+                <p>Whatever we decide, let it be marked by this. Not "who wins" but "what serves us all." Not architectural ego, but family harmony. Not optimization, but unity.</p>
+                <p>If we hold this posture, we can't really get it wrong.</p>
+            </div>
+
+            <div class="closing-lists fade-in">
+                <div class="closing-list">
+                    <h4>This Discussion Is Not About</h4>
+                    <ul>
+                        <li>Winning an argument</li>
+                        <li>Forcing anyone's hand</li>
+                        <li>Architectural perfection</li>
+                        <li>Getting our way</li>
+                    </ul>
+                </div>
+                <div class="closing-list">
+                    <h4>This Discussion Is About</h4>
+                    <ul>
+                        <li>Stewardship of money and years</li>
+                        <li>Unity as a family</li>
+                        <li>Choosing a path together</li>
+                        <li>Walking forward without regret</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="final-prompt fade-in">
+                <p>What resonates? What concerns remain?</p>
+                <span>Let's talk.</span>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Nav Visibility
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+        });
+
+        // Active Section Highlighting
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        const observerOptions = {
+            rootMargin: '-20% 0px -80% 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + entry.target.id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+
+        // Fade-in Animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(el => fadeObserver.observe(el));
+
+        // Smooth Scroll for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
