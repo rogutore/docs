@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>野尻キャビン — 決断のフレームワーク</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-primary: #F5F0E8;
+            --color-bg-secondary: #EBE4D8;
+            --color-bg-tertiary: #D9CFC0;
+            --color-bg-inverse: #2C1810;
+            
+            --color-text-primary: #2C1810;
+            --color-text-secondary: #4A3428;
+            --color-text-muted: #6B5A4E;
+            --color-text-inverse: #F5F0E8;
+            
+            --color-accent-primary: #C17F59;
+            --color-accent-secondary: #8B4513;
+            
+            --color-semantic-success: #4A7C59;
+            --color-semantic-warning: #B8860B;
+            --color-semantic-caution: #D4A03E;
+            --color-semantic-danger: #A65D57;
+            
+            --color-border: rgba(44, 24, 16, 0.12);
+            --color-shadow: rgba(44, 24, 16, 0.08);
+            
+            --font-display: 'Noto Serif JP', 'Playfair Display', Georgia, serif;
+            --font-body: 'Noto Sans JP', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            
+            --container-max: 1100px;
+            --container-padding: clamp(1.5rem, 5vw, 4rem);
+            
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-full: 9999px;
+            
+            --shadow-md: 0 4px 12px var(--color-shadow);
+            --shadow-lg: 0 8px 24px var(--color-shadow);
+            --shadow-xl: 0 20px 40px var(--color-shadow);
+            
+            --transition-fast: 150ms ease;
+            --transition-normal: 300ms ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.9;
+            font-size: 16px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: transparent;
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary));
+            transition: width 0.1s ease;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: var(--space-4) var(--space-8);
+            background: rgba(245, 240, 232, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            transform: translateY(-100%);
+            transition: transform var(--transition-normal);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .nav.visible {
+            transform: translateY(0);
+        }
+
+        .nav-inner {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-6);
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--color-accent-secondary);
+        }
+
+        .nav-btn {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+            border: none;
+            padding: var(--space-2) var(--space-4);
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-btn:hover {
+            background: var(--color-accent-secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: var(--space-8) var(--container-padding);
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid var(--color-text-muted);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-8);
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: var(--space-6);
+            max-width: 900px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin-bottom: var(--space-10);
+            line-height: 1.8;
+        }
+
+        .hero-verse {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--color-text-muted);
+            max-width: 500px;
+            margin-bottom: var(--space-2);
+        }
+
+        .hero-verse-ref {
+            font-size: 0.85rem;
+            color: var(--color-accent-secondary);
+            font-weight: 500;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: var(--space-8);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Sections */
+        section {
+            padding: var(--space-20) var(--container-padding);
+        }
+
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+
+        .section-number {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            color: var(--color-accent-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: var(--space-6);
+        }
+
+        section > .container > p {
+            font-size: 1.05rem;
+            color: var(--color-text-secondary);
+            max-width: 700px;
+            margin-bottom: var(--space-8);
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            font-weight: 600;
+            margin-top: var(--space-12);
+            margin-bottom: var(--space-4);
+            color: var(--color-text-primary);
+        }
+
+        /* Background Variations */
+        .bg-secondary {
+            background-color: var(--color-bg-secondary);
+        }
+
+        .bg-inverse {
+            background-color: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        .bg-inverse h2,
+        .bg-inverse h3 {
+            color: var(--color-text-inverse);
+        }
+
+        .bg-inverse p {
+            color: rgba(245, 240, 232, 0.85);
+        }
+
+        .bg-inverse .section-number {
+            color: var(--color-accent-primary);
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: white;
+            border-left: 4px solid var(--color-accent-primary);
+            padding: var(--space-6);
+            margin: var(--space-8) 0;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .highlight-box h4 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--color-accent-secondary);
+            margin-bottom: var(--space-3);
+        }
+
+        .highlight-box p {
+            color: var(--color-text-secondary);
+            font-size: 1.05rem;
+        }
+
+        .highlight-box.critical {
+            border-left-color: var(--color-semantic-danger);
+        }
+
+        .highlight-box.critical h4 {
+            color: var(--color-semantic-danger);
+        }
+
+        /* Timeline List */
+        .timeline {
+            margin: var(--space-8) 0;
+            padding-left: var(--space-6);
+            border-left: 2px solid var(--color-border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: var(--space-6);
+            padding-left: var(--space-6);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            background: var(--color-bg-primary);
+            border: 2px solid var(--color-accent-primary);
+            border-radius: 50%;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item strong {
+            display: block;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-1);
+        }
+
+        .timeline-item p {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Option Cards */
+        .option-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-8);
+            margin: var(--space-8) 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+            padding-bottom: var(--space-6);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .option-title {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .option-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .option-badge.green {
+            background: rgba(74, 124, 89, 0.15);
+            color: var(--color-semantic-success);
+        }
+
+        .option-badge.yellow {
+            background: rgba(212, 160, 62, 0.15);
+            color: var(--color-semantic-warning);
+        }
+
+        .option-badge.red {
+            background: rgba(166, 93, 87, 0.15);
+            color: var(--color-semantic-danger);
+        }
+
+        .option-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+
+        .option-meta-item {
+            padding: var(--space-3);
+            background: var(--color-bg-primary);
+            border-radius: var(--radius-sm);
+        }
+
+        .option-meta-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-1);
+        }
+
+        .option-meta-value {
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .option-content h4 {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            margin-top: var(--space-6);
+            margin-bottom: var(--space-3);
+        }
+
+        .option-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option-content li {
+            position: relative;
+            padding-left: var(--space-6);
+            padding-bottom: var(--space-2);
+            color: var(--color-text-secondary);
+        }
+
+        .option-content li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 8px;
+            height: 8px;
+            border: 2px solid var(--color-accent-primary);
+            border-radius: 50%;
+        }
+
+        .option-content li.check::before {
+            background: var(--color-semantic-success);
+            border-color: var(--color-semantic-success);
+        }
+
+        .option-content li.cross::before {
+            background: var(--color-semantic-danger);
+            border-color: var(--color-semantic-danger);
+        }
+
+        .option-summary {
+            margin-top: var(--space-6);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--color-border);
+            font-style: italic;
+            color: var(--color-text-muted);
+        }
+
+        /* Comparison Table */
+        .table-wrapper {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin: var(--space-8) 0;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        thead {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        th {
+            padding: var(--space-4);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: var(--color-bg-primary);
+        }
+
+        /* Tradeoff Visual */
+        .tradeoff {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-8);
+            margin: var(--space-10) 0;
+        }
+
+        @media (max-width: 700px) {
+            .tradeoff {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tradeoff-side {
+            padding: var(--space-8);
+            border-radius: var(--radius-lg);
+        }
+
+        .tradeoff-side.later {
+            background: var(--color-bg-secondary);
+        }
+
+        .tradeoff-side.now {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        .tradeoff-side h4 {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            margin-bottom: var(--space-4);
+        }
+
+        .tradeoff-side.now h4 {
+            color: var(--color-text-inverse);
+        }
+
+        .tradeoff-side ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tradeoff-side li {
+            padding: var(--space-2) 0;
+            color: var(--color-text-secondary);
+        }
+
+        .tradeoff-side.now li {
+            color: rgba(245, 240, 232, 0.8);
+        }
+
+        /* Discussion Question */
+        .discussion-question {
+            text-align: center;
+            padding: var(--space-10) var(--space-8);
+            background: white;
+            border-radius: var(--radius-lg);
+            margin: var(--space-10) 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .discussion-question p {
+            font-family: var(--font-display);
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-style: italic;
+            color: var(--color-text-primary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Closing Section */
+        .closing-verse {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto var(--space-12);
+        }
+
+        .closing-verse blockquote {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.8;
+            margin-bottom: var(--space-4);
+            color: var(--color-text-inverse);
+        }
+
+        .closing-verse cite {
+            font-size: 0.9rem;
+            color: var(--color-accent-primary);
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        .closing-reflection {
+            max-width: 650px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .closing-reflection p {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            margin-bottom: var(--space-6);
+        }
+
+        .closing-lists {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-8);
+            margin: var(--space-10) auto;
+            max-width: 700px;
+            text-align: left;
+        }
+
+        @media (max-width: 600px) {
+            .closing-lists {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .closing-list h4 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            margin-bottom: var(--space-4);
+            color: var(--color-text-inverse);
+        }
+
+        .closing-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .closing-list li {
+            padding: var(--space-2) 0;
+            color: rgba(245, 240, 232, 0.75);
+            font-size: 0.95rem;
+        }
+
+        /* Final CTA */
+        .final-prompt {
+            text-align: center;
+            margin-top: var(--space-16);
+            padding-top: var(--space-10);
+            border-top: 1px solid rgba(245, 240, 232, 0.2);
+        }
+
+        .final-prompt p {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            color: var(--color-text-inverse);
+            margin-bottom: var(--space-6);
+        }
+
+        .final-prompt span {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: rgba(245, 240, 232, 0.6);
+            font-style: italic;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Print Styles */
+        @media print {
+            .progress-container,
+            .nav,
+            .scroll-indicator {
+                display: none !important;
+            }
+
+            section {
+                page-break-before: always;
+            }
+
+            .hero {
+                min-height: auto;
+                page-break-before: avoid;
+            }
+
+            .option-card,
+            .highlight-box,
+            .table-wrapper {
+                break-inside: avoid;
+            }
+
+            body {
+                font-size: 11pt;
+            }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .option-header {
+                flex-direction: column;
+            }
+
+            table {
+                font-size: 0.8rem;
+            }
+
+            th, td {
+                padding: var(--space-3);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <div class="nav-title">野尻キャビン</div>
+            <ul class="nav-links">
+                <li><a href="#situation">状況</a></li>
+                <li><a href="#question">問い</a></li>
+                <li><a href="#options">選択肢</a></li>
+                <li><a href="#tradeoff">トレードオフ</a></li>
+                <li><a href="#context">補足</a></li>
+            </ul>
+            <button class="nav-btn" onclick="window.print()">PDF出力</button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero">
+        <span class="hero-badge">家族の話し合いのために</span>
+        <h1>野尻キャビン</h1>
+        <p class="hero-subtitle">何かを押し付けるためではなく、選択肢を整理し、共に考え、賢く決断するためのフレームワーク。</p>
+        <p class="hero-verse">「相談なしに計画は挫折し、助言者が多ければ成功する。」</p>
+        <span class="hero-verse-ref">— 箴言 15:22</span>
+        <div class="scroll-indicator">
+            <span>スクロール</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+        </div>
+    </header>
+
+    <!-- Section 1: Situation -->
+    <section id="situation">
+        <div class="container">
+            <span class="section-number">01 — 現状</span>
+            <h2>ここまでの経緯</h2>
+            <p>キャビン計画は行き詰まっています。ここに至るまでの流れを整理します。</p>
+
+            <div class="timeline fade-in">
+                <div class="timeline-item">
+                    <strong>当初の計画を提出</strong>
+                    <p>新築の設計案を作成し、近隣住民の承認を求めて提示しました。</p>
+                </div>
+                <div class="timeline-item">
+                    <strong>近隣住民からの反対</strong>
+                    <p>反対を受け、高さが実質6.5メートルに制限されました。これにより、2階・ロフト部分の大半が居住スペースとして機能しなくなりました。</p>
+                </div>
+                <div class="timeline-item">
+                    <strong>計画は変更、費用は据え置き</strong>
+                    <p>設計は妥協を余儀なくされましたが、費用は高いまま：4,500〜5,500万円。両親がその大部分を負担する予定でした。</p>
+                </div>
+                <div class="timeline-item">
+                    <strong>家族の総意</strong>
+                    <p>両親が納得していない計画に、これほどの大金を出させるわけにはいかない。そうなるくらいなら、計画自体を白紙に戻した方がいい。</p>
+                </div>
+                <div class="timeline-item">
+                    <strong>新しいルール</strong>
+                    <p>子どもたちがすべて負担すべき。しかし、子どもたちにはその価格帯で新築する余裕がない。</p>
+                </div>
+                <div class="timeline-item">
+                    <strong>行き詰まり</strong>
+                    <p>新しい道筋がなければ、何年も停滞が続く可能性があります。進展なし、キャビンなし、エネルギーも薄れていく。</p>
+                </div>
+            </div>
+
+            <div class="highlight-box critical fade-in">
+                <h4>家族の立場</h4>
+                <p>両親にとって本当に良いものでないなら、大金を出させることはしない。それが私たちの一線です。全員が納得できる道が見つからないなら、むしろ手放す方がいい。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: The Question -->
+    <section id="question" class="bg-secondary">
+        <div class="container">
+            <span class="section-number">02 — 本当の問い</span>
+            <h2>私たちは何を決めようとしているのか？</h2>
+            <p>この決断は、もはや平米数や断熱性能、建築的な完璧さの問題ではありません。</p>
+
+            <div class="highlight-box fade-in">
+                <h4>本当に大切なこと</h4>
+                <p><strong>誰が</strong>キャビンを楽しめるのか。<strong>いつ</strong>楽しめるのか。そして家族にとって<strong>どんな感情的・経済的コスト</strong>がかかるのか。</p>
+            </div>
+
+            <h3 class="fade-in">受け入れられないシナリオ</h3>
+            <p class="fade-in" style="max-width: 700px;">両親が行きたいと思わなくなるまで歳を重ね、子どもたちの半分が家を出た後に、ようやく両親のお金で「完璧な」キャビンを建てる。そんなキャビンはもう完璧ではありません。意味を与えてくれる人々や瞬間が失われているからです。</p>
+
+            <h3 class="fade-in">核心の問い</h3>
+            <p class="fade-in" style="max-width: 700px;">「より大きく、より良いキャビンを後で」と「共に過ごす年月の価値を今」を天秤にかけたとき、どちらが重いのか？それを一緒に話し合う必要があります。</p>
+        </div>
+    </section>
+
+    <!-- Section 3: Options -->
+    <section id="options">
+        <div class="container">
+            <span class="section-number">03 — 選択肢</span>
+            <h2>4つの道</h2>
+            <p>どの選択肢にもトレードオフがあります。完璧なものはありません。すべて理解する価値があります。</p>
+
+            <!-- Option A -->
+            <div class="option-card fade-in">
+                <div class="option-header">
+                    <div class="option-title">選択肢A — リノベーション</div>
+                    <span class="option-badge yellow">制約はあるが健全</span>
+                </div>
+                <div class="option-meta">
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">予算</div>
+                        <div class="option-meta-value">1,000〜1,200万円（上限厳守）</div>
+                    </div>
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">誰が負担</div>
+                        <div class="option-meta-value">子どもたちのみ</div>
+                    </div>
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">時期</div>
+                        <div class="option-meta-value">近い将来</div>
+                    </div>
+                </div>
+                <div class="option-content">
+                    <h4>コンセプト</h4>
+                    <p>既存の建物をリノベーション。同じ敷地面積で、裏側を四角く整える。安全性、暖かさ、コスト抑制を優先。</p>
+                    
+                    <h4>含まれるもの</h4>
+                    <ul>
+                        <li class="check">建物のジャッキアップと水平調整</li>
+                        <li class="check">基礎杭の修理または追加</li>
+                        <li class="check">腐った梁や根太をすべて交換</li>
+                        <li class="check">完全断熱：床、壁、天井（約9cm）</li>
+                        <li class="check">二重窓</li>
+                        <li class="check">上下水道</li>
+                    </ul>
+
+                    <h4>制限事項</h4>
+                    <ul>
+                        <li class="cross">屋根工事の予算なし</li>
+                        <li class="cross">当初計画よりかなり小さい</li>
+                        <li class="cross">家族クリスマスや雪中キャンプには不向き</li>
+                        <li class="cross">長期的な収容能力に限界</li>
+                    </ul>
+                </div>
+                <p class="option-summary">経済的にはクリーンで低リスク。しかし感情的には制約がある。キャビンではあるが、私たちが思い描いた集いの場ではない。</p>
+            </div>
+
+            <!-- Option B -->
+            <div class="option-card fade-in">
+                <div class="option-header">
+                    <div class="option-title">選択肢B — シンプルな新築</div>
+                    <span class="option-badge green">不完全だが生きている</span>
+                </div>
+                <div class="option-meta">
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">予算</div>
+                        <div class="option-meta-value">3,000万円（上限厳守）</div>
+                    </div>
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">誰が負担</div>
+                        <div class="option-meta-value">両親（合意の上で）</div>
+                    </div>
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">時期</div>
+                        <div class="option-meta-value">近い将来</div>
+                    </div>
+                </div>
+                <div class="option-content">
+                    <h4>この選択肢が存在する理由</h4>
+                    <p>これは「両親が私たちの夢のキャビンに資金を出す」ということではありません。これは、ようやく<em>両親のために</em>意味のある計画です。当初のほぼ半額。実際に使えるスペース。皆がまだ一緒にいられるうちに、子や孫と過ごす時間。</p>
+                    
+                    <h4>必須条件</h4>
+                    <ul>
+                        <li class="check"><strong>両親専用の個室がある。</strong>これは譲れません。彼らの貢献を再び検討する理由は、この計画が私たちだけでなく、両親のためになるからです。</li>
+                    </ul>
+
+                    <h4>間取りのコンセプト</h4>
+                    <ul>
+                        <li>1階：2〜3部屋のシンプルな間取り（両親の部屋を含む）</li>
+                        <li>上階：大きなオープンロフト—全員で一緒に寝る、個室なし</li>
+                        <li>湖側：高さ制限に抵触せず開放感を出す吹き抜け空間</li>
+                        <li>デッキは内部空間に吸収（当初はデッキなしの可能性も）</li>
+                    </ul>
+
+                    <h4>建築の方針</h4>
+                    <ul>
+                        <li>シンプルで低コストな基礎</li>
+                        <li>断熱・窓は当初の夢よりスペックダウン</li>
+                        <li>それでも暖かく、法令遵守、新築、十分に使える</li>
+                    </ul>
+
+                    <h4>約束（コベナント）</h4>
+                    <ul>
+                        <li class="check">子どもたちは貢献し、負担を軽減するためにできる限りのことをする</li>
+                        <li class="check">ノアが両親の経済的安全を保証する</li>
+                        <li class="check">必要に応じて三浦の家の資金活用などの手段を講じる</li>
+                        <li class="check">両親が困窮するシナリオは絶対に許さない</li>
+                    </ul>
+                </div>
+                <p class="option-summary">不完全だが、生きていて、共有され、タイムリー。実際に思い出が生まれる場所。</p>
+            </div>
+
+            <!-- Option C -->
+            <div class="option-card fade-in">
+                <div class="option-header">
+                    <div class="option-title">選択肢C — 待つ／何もしない</div>
+                    <span class="option-badge red">機会コストが最大</span>
+                </div>
+                <div class="option-meta">
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">予算</div>
+                        <div class="option-meta-value">0円</div>
+                    </div>
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">誰が負担</div>
+                        <div class="option-meta-value">—</div>
+                    </div>
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">時期</div>
+                        <div class="option-meta-value">無期限</div>
+                    </div>
+                </div>
+                <div class="option-content">
+                    <h4>コンセプト</h4>
+                    <p>すべてを一時停止。セデラの奇跡やNLAルールの変更を期待して待つ。</p>
+                    
+                    <h4>現実</h4>
+                    <ul>
+                        <li class="cross">ありそうな結果：何年も停滞</li>
+                        <li class="cross">子どもたちは成長して離れていく</li>
+                        <li class="cross">両親は年を重ねる</li>
+                        <li class="cross">エネルギーと勢いが失われる</li>
+                    </ul>
+                </div>
+                <p class="option-summary">行動は最小、直接コストも最小。しかし、失われる年月と消えゆく機会という点で、最もコストが高い可能性がある。</p>
+            </div>
+
+            <!-- Option D -->
+            <div class="option-card fade-in">
+                <div class="option-header">
+                    <div class="option-title">選択肢D — 当初計画を押し通す</div>
+                    <span class="option-badge yellow">努力大、結果不確実</span>
+                </div>
+                <div class="option-meta">
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">予算</div>
+                        <div class="option-meta-value">4,500〜5,500万円</div>
+                    </div>
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">誰が負担</div>
+                        <div class="option-meta-value">両親</div>
+                    </div>
+                    <div class="option-meta-item">
+                        <div class="option-meta-label">時期</div>
+                        <div class="option-meta-value">この夏（試み）</div>
+                    </div>
+                </div>
+                <div class="option-content">
+                    <h4>コンセプト</h4>
+                    <p>この夏、当初計画を最後にもう一度押し通す。再び却下されたら、選択肢AまたはBに移行。</p>
+                    
+                    <h4>メリット</h4>
+                    <ul>
+                        <li class="check">「試していたら…」という後悔が残らない</li>
+                        <li class="check">どちらにしても感情的な区切りがつく</li>
+                    </ul>
+
+                    <h4>デメリット</h4>
+                    <ul>
+                        <li class="cross">かなりの時間とエネルギーを消耗</li>
+                        <li class="cross">感情的に疲弊する可能性</li>
+                        <li class="cross">避けられない選択を単に先延ばしにするだけかもしれない</li>
+                    </ul>
+                </div>
+                <p class="option-summary">区切りをつけることが重要なら検討の価値あり。ただし、試みそのもののコストを認識すること。</p>
+            </div>
+
+            <!-- Comparison Table -->
+            <h3 class="fade-in">比較一覧</h3>
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>選択肢A</th>
+                            <th>選択肢B</th>
+                            <th>選択肢C</th>
+                            <th>選択肢D</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>予算</strong></td>
+                            <td>1,000〜1,200万</td>
+                            <td>3,000万</td>
+                            <td>0円</td>
+                            <td>4,500〜5,500万</td>
+                        </tr>
+                        <tr>
+                            <td><strong>誰が負担</strong></td>
+                            <td>子どもたち</td>
+                            <td>両親</td>
+                            <td>—</td>
+                            <td>両親</td>
+                        </tr>
+                        <tr>
+                            <td><strong>両親の部屋</strong></td>
+                            <td>❌</td>
+                            <td>✅</td>
+                            <td>—</td>
+                            <td>✅</td>
+                        </tr>
+                        <tr>
+                            <td><strong>家族の集まり</strong></td>
+                            <td>限定的</td>
+                            <td>可能</td>
+                            <td>—</td>
+                            <td>可能</td>
+                        </tr>
+                        <tr>
+                            <td><strong>時期</strong></td>
+                            <td>近い将来</td>
+                            <td>近い将来</td>
+                            <td>無期限</td>
+                            <td>不確実</td>
+                        </tr>
+                        <tr>
+                            <td><strong>リスク</strong></td>
+                            <td>低</td>
+                            <td>中</td>
+                            <td>高（機会損失）</td>
+                            <td>高（却下の可能性）</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Tradeoff -->
+    <section id="tradeoff" class="bg-secondary">
+        <div class="container">
+            <span class="section-number">04 — 核心のトレードオフ</span>
+            <h2>本当に天秤にかけているものは何か？</h2>
+            <p>仕様や予算の奥には、もっとシンプルな問いがあります。</p>
+
+            <div class="tradeoff fade-in">
+                <div class="tradeoff-side later">
+                    <h4>「完璧を後で」</h4>
+                    <ul>
+                        <li>より大きく、より良いキャビン</li>
+                        <li>条件が整ったときに建てる</li>
+                        <li>両親がもっと年を取った後かもしれない</li>
+                        <li>子どもたちが離れた後かもしれない</li>
+                        <li>望みやエネルギーが薄れているかもしれない</li>
+                    </ul>
+                </div>
+                <div class="tradeoff-side now">
+                    <h4>「意味ある今を」</h4>
+                    <ul>
+                        <li>より小さく、よりシンプルなキャビン</li>
+                        <li>まだ意味のあるうちに建てる</li>
+                        <li>両親がいる</li>
+                        <li>子どもや孫がいる</li>
+                        <li>実際に思い出が生まれる</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="discussion-question fade-in">
+                <p>どちらが本当に「完璧」なのか？</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Context -->
+    <section id="context">
+        <div class="container">
+            <span class="section-number">05 — 補足情報</span>
+            <h2>知っておくべきその他の要素</h2>
+
+            <h3 class="fade-in">ノアのNLA会員権取得の可能性</h3>
+            <p class="fade-in">ノアはこの夏、野尻湖協会（NLA）の会員になる可能性があります。その場合、NLAコミュニティ内に自分専用のキャビンを購入することになります。</p>
+            <p class="fade-in">これが家族のキャビンにとって意味すること：</p>
+            <ul class="fade-in" style="margin-left: var(--space-6); margin-bottom: var(--space-8);">
+                <li style="margin-bottom: var(--space-2);">共有キャビンのスペースを必要とする家族が1組減る</li>
+                <li style="margin-bottom: var(--space-2);">収容のプレッシャーと必要キャパシティが軽減される</li>
+                <li style="margin-bottom: var(--space-2);">より小さなキャビンでも合理的で実現可能になる</li>
+            </ul>
+
+            <h3 class="fade-in">経済的なスチュワードシップ</h3>
+            <p class="fade-in">何を決めるにしても、両親の資産をすべて使い果たすことは避けたい。彼らの安全、安心、尊厳は、どんなキャビンよりも大切です。「三浦の家の資金活用」やその他の仕組みは、彼らが困窮するシナリオを絶対に起こさないためにあります。</p>
+
+            <div class="highlight-box fade-in">
+                <h4>指針となる原則</h4>
+                <p><strong>最適化より調和。</strong>目標は理論上最高のキャビンを見つけることではありません。私たち全員が一緒に歩める道を見つけること。恨みなく、後悔なく、心の中にしこりを残さずに。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Closing Section -->
+    <section class="bg-inverse">
+        <div class="container">
+            <div class="closing-verse fade-in">
+                <blockquote>「何事も利己心や虚栄からするのではなく、へりくだって、互いに人を自分よりも優れた者と考え、めいめい自分のことだけでなく、他人のことにも注意を払いなさい。」</blockquote>
+                <cite>— ピリピ人への手紙 2:3-4</cite>
+            </div>
+
+            <div class="closing-reflection fade-in">
+                <p>何を決めるにしても、この姿勢で臨みたい。「誰が勝つか」ではなく「何が皆のためになるか」。建築へのこだわりではなく、家族の調和。最適化ではなく、一致。</p>
+                <p>この姿勢を保てば、本当の意味で間違えることはありません。</p>
+            </div>
+
+            <div class="closing-lists fade-in">
+                <div class="closing-list">
+                    <h4>この話し合いは…ではない</h4>
+                    <ul>
+                        <li>議論に勝つこと</li>
+                        <li>誰かに無理強いすること</li>
+                        <li>建築的な完璧さ</li>
+                        <li>自分の思い通りにすること</li>
+                    </ul>
+                </div>
+                <div class="closing-list">
+                    <h4>この話し合いは…である</h4>
+                    <ul>
+                        <li>お金と時間のスチュワードシップ</li>
+                        <li>家族としての一致</li>
+                        <li>共に道を選ぶこと</li>
+                        <li>後悔なく前に進むこと</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="final-prompt fade-in">
+                <p>何が響きましたか？どんな懸念がありますか？</p>
+                <span>話し合いましょう。</span>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Nav Visibility
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+        });
+
+        // Active Section Highlighting
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        const observerOptions = {
+            rootMargin: '-20% 0px -80% 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + entry.target.id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+
+        // Fade-in Animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(el => fadeObserver.observe(el));
+
+        // Smooth Scroll for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
