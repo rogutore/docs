@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tokyo Coffee Brand Style Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Alegreya+Sans:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Tokyo Coffee Brand Colors */
+            --tc-gold-primary: #EBD578;
+            --tc-gold-button: #F5DF8B;
+            --tc-gold-active: #F1D467;
+            --tc-gray-logo: #716D6D;
+            --tc-gray-text: #6A6D73;
+            --tc-gray-body: #4D4D4D;
+            --tc-teal-packaging: #4A7C8B;
+            --tc-cream-bg: #F9F7F4;
+            --tc-white: #FFFFFF;
+            
+            /* Extended Palette */
+            --tc-gold-light: #F8EFC4;
+            --tc-gold-dark: #C9A94A;
+            --tc-teal-light: #6A9CAB;
+            --tc-teal-dark: #3A6270;
+            --tc-gray-light: #9B9B9B;
+            --tc-gray-dark: #333333;
+            
+            /* Semantic Colors */
+            --color-bg-primary: var(--tc-cream-bg);
+            --color-bg-secondary: #EDE8E0;
+            --color-bg-inverse: var(--tc-gray-dark);
+            --color-text-primary: var(--tc-gray-dark);
+            --color-text-secondary: var(--tc-gray-body);
+            --color-text-muted: var(--tc-gray-text);
+            --color-text-inverse: var(--tc-cream-bg);
+            --color-accent-primary: var(--tc-gold-primary);
+            --color-accent-secondary: var(--tc-teal-packaging);
+            
+            /* Typography */
+            --font-display: 'Josefin Sans', sans-serif;
+            --font-body: 'Alegreya Sans', sans-serif;
+            --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-24: 6rem;
+            
+            /* Layout */
+            --container-max: 1200px;
+            --container-padding: clamp(1.5rem, 5vw, 4rem);
+            
+            /* Effects */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+            --transition: 300ms ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--color-text-primary);
+            background: var(--color-bg-primary);
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 1000;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--tc-gold-primary), var(--tc-teal-packaging));
+            width: 0%;
+            transition: width 100ms ease;
+        }
+        
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(249, 247, 244, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            padding: var(--space-4) var(--container-padding);
+            z-index: 999;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: all var(--transition);
+        }
+        
+        .nav.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .nav-content {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-6);
+        }
+        
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--tc-gray-logo);
+        }
+        
+        .nav-logo span {
+            color: var(--tc-gold-primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: var(--space-6);
+            list-style: none;
+        }
+        
+        .nav-links a {
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--tc-gray-text);
+            text-decoration: none;
+            padding: var(--space-2) 0;
+            border-bottom: 2px solid transparent;
+            transition: all var(--transition);
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--tc-gray-dark);
+            border-bottom-color: var(--tc-gold-primary);
+        }
+        
+        .nav-btn {
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: var(--space-2) var(--space-4);
+            background: var(--tc-gold-button);
+            color: var(--tc-white);
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+        
+        .nav-btn:hover {
+            background: var(--tc-gold-dark);
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--space-24) var(--container-padding);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(235, 213, 120, 0.1) 100%);
+            z-index: 0;
+        }
+        
+        .hero-content {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--tc-teal-packaging);
+            border: 1px solid var(--tc-teal-packaging);
+            border-radius: var(--radius-lg);
+            padding: var(--space-2) var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+        
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 400;
+            line-height: 1.1;
+            color: var(--tc-gray-logo);
+            margin-bottom: var(--space-6);
+        }
+        
+        .hero h1 strong {
+            color: var(--tc-gold-primary);
+            font-weight: 600;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin-bottom: var(--space-8);
+        }
+        
+        .hero-meta {
+            display: flex;
+            gap: var(--space-8);
+            font-family: var(--font-ui);
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: var(--space-8);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--color-text-muted);
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+        
+        /* Sections */
+        section {
+            padding: var(--space-24) var(--container-padding);
+        }
+        
+        .section-content {
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+        
+        .section-number {
+            display: block;
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--tc-teal-packaging);
+            margin-bottom: var(--space-4);
+        }
+        
+        section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 500;
+            color: var(--tc-gray-logo);
+            margin-bottom: var(--space-4);
+        }
+        
+        section > .section-content > p:first-of-type {
+            font-size: 1.15rem;
+            color: var(--color-text-secondary);
+            max-width: 700px;
+            margin-bottom: var(--space-12);
+        }
+        
+        h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+            font-weight: 500;
+            color: var(--tc-gray-logo);
+            margin-top: var(--space-12);
+            margin-bottom: var(--space-6);
+        }
+        
+        /* Background Variants */
+        .bg-secondary {
+            background: var(--color-bg-secondary);
+        }
+        
+        .bg-inverse {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+        
+        .bg-inverse h2,
+        .bg-inverse h3,
+        .bg-inverse .section-number {
+            color: var(--tc-gold-primary);
+        }
+        
+        .bg-inverse p {
+            color: rgba(249, 247, 244, 0.85);
+        }
+        
+        /* Color Swatches */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--space-6);
+            margin-top: var(--space-8);
+        }
+        
+        .color-card {
+            background: var(--tc-white);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition);
+        }
+        
+        .color-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .color-swatch {
+            height: 120px;
+            position: relative;
+        }
+        
+        .color-swatch::after {
+            content: attr(data-hex);
+            position: absolute;
+            bottom: var(--space-3);
+            right: var(--space-3);
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: inherit;
+            background: rgba(255,255,255,0.9);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+        }
+        
+        .color-swatch.dark-text::after {
+            color: var(--tc-gray-dark);
+        }
+        
+        .color-swatch.light-text::after {
+            color: var(--tc-white);
+            background: rgba(0,0,0,0.5);
+        }
+        
+        .color-info {
+            padding: var(--space-4);
+        }
+        
+        .color-name {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--tc-gray-logo);
+            margin-bottom: var(--space-1);
+        }
+        
+        .color-usage {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+        
+        .color-values {
+            margin-top: var(--space-3);
+            padding-top: var(--space-3);
+            border-top: 1px solid rgba(0,0,0,0.08);
+            font-family: var(--font-ui);
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+        }
+        
+        /* Typography Samples */
+        .type-sample {
+            background: var(--tc-white);
+            border-radius: var(--radius-md);
+            padding: var(--space-8);
+            margin-top: var(--space-6);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .type-sample-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            padding-bottom: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+        
+        .type-sample-name {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--tc-teal-packaging);
+        }
+        
+        .type-sample-spec {
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+        
+        .font-josefin {
+            font-family: 'Josefin Sans', sans-serif;
+        }
+        
+        .font-alegreya {
+            font-family: 'Alegreya Sans', sans-serif;
+        }
+        
+        .sample-display {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            color: var(--tc-gray-logo);
+            margin-bottom: var(--space-4);
+        }
+        
+        .sample-alphabet {
+            font-size: 1.5rem;
+            color: var(--tc-gray-text);
+            letter-spacing: 0.05em;
+        }
+        
+        /* Logo Section */
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-6);
+            margin-top: var(--space-8);
+        }
+        
+        .logo-card {
+            background: var(--tc-white);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .logo-preview {
+            padding: var(--space-12) var(--space-8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+        
+        .logo-preview.bg-white { background: var(--tc-white); }
+        .logo-preview.bg-cream { background: var(--tc-cream-bg); }
+        .logo-preview.bg-dark { background: var(--tc-gray-dark); }
+        
+        .logo-mock {
+            text-align: center;
+        }
+        
+        .logo-mock .tagline {
+            font-family: var(--font-display);
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-2);
+        }
+        
+        .logo-mock .wordmark {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        
+        .logo-mock .wordmark .bean {
+            display: inline-block;
+            width: 0.8em;
+            height: 1.2em;
+            background: var(--tc-gold-primary);
+            border-radius: 50%;
+            vertical-align: middle;
+            margin: 0 -0.1em;
+        }
+        
+        .logo-mock .submark {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            margin-top: var(--space-2);
+        }
+        
+        .logo-mock.dark .tagline,
+        .logo-mock.dark .wordmark,
+        .logo-mock.dark .submark {
+            color: var(--tc-cream-bg);
+        }
+        
+        .logo-mock.default .tagline,
+        .logo-mock.default .wordmark,
+        .logo-mock.default .submark {
+            color: var(--tc-gray-logo);
+        }
+        
+        .logo-description {
+            padding: var(--space-4);
+            border-top: 1px solid rgba(0,0,0,0.08);
+        }
+        
+        .logo-description h4 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--tc-gray-logo);
+            margin-bottom: var(--space-1);
+        }
+        
+        .logo-description p {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+        
+        /* Highlight Box */
+        .highlight-box {
+            background: var(--tc-white);
+            border-left: 4px solid var(--tc-gold-primary);
+            padding: var(--space-6);
+            margin: var(--space-8) 0;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        }
+        
+        .highlight-box h4 {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--tc-teal-packaging);
+            margin-bottom: var(--space-3);
+        }
+        
+        .highlight-box.critical {
+            border-left-color: var(--tc-teal-packaging);
+        }
+        
+        /* Action List */
+        .action-list {
+            list-style: none;
+            margin: var(--space-6) 0;
+        }
+        
+        .action-list li {
+            padding: var(--space-4) 0;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-4);
+        }
+        
+        .action-list li::before {
+            content: '';
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--tc-gold-primary);
+            border-radius: 50%;
+            margin-top: 2px;
+        }
+        
+        .action-list li strong {
+            color: var(--tc-gray-logo);
+        }
+        
+        /* Do/Don't Grid */
+        .do-dont-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-6);
+            margin: var(--space-8) 0;
+        }
+        
+        .do-card, .dont-card {
+            background: var(--tc-white);
+            border-radius: var(--radius-md);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .do-card {
+            border-top: 4px solid #4A7C59;
+        }
+        
+        .dont-card {
+            border-top: 4px solid #B85450;
+        }
+        
+        .do-card h4, .dont-card h4 {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-4);
+        }
+        
+        .do-card h4 { color: #4A7C59; }
+        .dont-card h4 { color: #B85450; }
+        
+        .do-card ul, .dont-card ul {
+            list-style: none;
+        }
+        
+        .do-card li, .dont-card li {
+            padding: var(--space-2) 0;
+            padding-left: var(--space-6);
+            position: relative;
+            font-size: 0.95rem;
+        }
+        
+        .do-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4A7C59;
+            font-weight: 700;
+        }
+        
+        .dont-card li::before {
+            content: '✗';
+            position: absolute;
+            left: 0;
+            color: #B85450;
+            font-weight: 700;
+        }
+        
+        /* Code Block */
+        .code-block {
+            background: var(--tc-gray-dark);
+            color: var(--tc-cream-bg);
+            padding: var(--space-6);
+            border-radius: var(--radius-md);
+            margin: var(--space-6) 0;
+            overflow-x: auto;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+        
+        .code-block .comment { color: #6A9955; }
+        .code-block .property { color: #9CDCFE; }
+        .code-block .value { color: #CE9178; }
+        
+        /* Table */
+        .table-wrapper {
+            background: var(--tc-white);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            margin: var(--space-8) 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: var(--tc-gray-dark);
+            color: var(--tc-cream-bg);
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-align: left;
+            padding: var(--space-4);
+        }
+        
+        td {
+            padding: var(--space-4);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            font-size: 0.95rem;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--tc-gray-dark);
+            color: var(--tc-cream-bg);
+            padding: var(--space-16) var(--container-padding);
+            text-align: center;
+        }
+        
+        footer .logo-mock {
+            margin-bottom: var(--space-6);
+        }
+        
+        footer p {
+            font-size: 0.9rem;
+            color: rgba(249, 247, 244, 0.7);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-meta {
+                flex-direction: column;
+                gap: var(--space-2);
+            }
+            
+            .color-grid,
+            .logo-grid,
+            .do-dont-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Print Styles */
+        @media print {
+            .progress-container,
+            .nav,
+            .scroll-indicator,
+            .nav-btn {
+                display: none !important;
+            }
+            
+            section {
+                page-break-inside: avoid;
+                page-break-before: auto;
+            }
+            
+            .hero {
+                min-height: auto;
+                padding: var(--space-12) 0;
+            }
+            
+            body {
+                font-size: 11pt;
+            }
+        }
+        
+        /* Fade-in Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-content">
+            <div class="nav-logo">T<span>●</span>KYO COFFEE</div>
+            <ul class="nav-links">
+                <li><a href="#colors">Colors</a></li>
+                <li><a href="#typography">Typography</a></li>
+                <li><a href="#logo">Logo</a></li>
+                <li><a href="#voice">Voice</a></li>
+                <li><a href="#photography">Photography</a></li>
+            </ul>
+            <button class="nav-btn" onclick="window.print()">Export PDF</button>
+        </div>
+    </nav>
+    
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span>●</span> Official Brand Guidelines
+            </div>
+            <h1><strong>Tokyo</strong> Coffee<br>Style Guide</h1>
+            <p class="hero-subtitle">
+                Comprehensive brand guidelines for maintaining consistency across all Tokyo Coffee touchpoints — from digital to print, café signage to product packaging.
+            </p>
+            <div class="hero-meta">
+                <span><strong>Version:</strong> 1.0</span>
+                <span><strong>Updated:</strong> January 2026</span>
+                <span><strong>Entity:</strong> ROGUE TRADE K.K.</span>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll to explore</span>
+            <span>↓</span>
+        </div>
+    </section>
+    
+    <!-- Colors Section -->
+    <section id="colors" class="fade-in">
+        <div class="section-content">
+            <span class="section-number">01 — Color System</span>
+            <h2>Brand Colors</h2>
+            <p>
+                Our color palette reflects Tokyo Coffee's warmth, organic values, and premium positioning. The gold represents fresh roasting and quality, while the teal connects to organic freshness and the earth.
+            </p>
+            
+            <h3>Primary Colors</h3>
+            <p>These colors form the core of Tokyo Coffee's visual identity and should be used most frequently.</p>
+            
+            <div class="color-grid">
+                <div class="color-card">
+                    <div class="color-swatch dark-text" style="background: #EBD578;" data-hex="#EBD578"></div>
+                    <div class="color-info">
+                        <div class="color-name">Gold Primary</div>
+                        <div class="color-usage">Logo coffee bean, window signage, primary accents</div>
+                        <div class="color-values">RGB: 235, 213, 120 • HSL: 47°, 70%, 70%</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-swatch dark-text" style="background: #F5DF8B;" data-hex="#F5DF8B"></div>
+                    <div class="color-info">
+                        <div class="color-name">Gold Button</div>
+                        <div class="color-usage">CTA buttons, interactive elements, highlights</div>
+                        <div class="color-values">RGB: 245, 223, 139 • HSL: 48°, 85%, 75%</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-swatch light-text" style="background: #716D6D;" data-hex="#716D6D"></div>
+                    <div class="color-info">
+                        <div class="color-name">Gray Logo</div>
+                        <div class="color-usage">Logo wordmark "TOKYO COFFEE", headings</div>
+                        <div class="color-values">RGB: 113, 109, 109 • HSL: 0°, 2%, 44%</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-swatch light-text" style="background: #6A6D73;" data-hex="#6A6D73"></div>
+                    <div class="color-info">
+                        <div class="color-name">Gray Text</div>
+                        <div class="color-usage">Navigation, secondary text, UI elements</div>
+                        <div class="color-values">RGB: 106, 109, 115 • HSL: 220°, 4%, 43%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Secondary Colors</h3>
+            <p>Supporting colors used for packaging, accents, and specific applications.</p>
+            
+            <div class="color-grid">
+                <div class="color-card">
+                    <div class="color-swatch light-text" style="background: #4A7C8B;" data-hex="#4A7C8B"></div>
+                    <div class="color-info">
+                        <div class="color-name">Teal Packaging</div>
+                        <div class="color-usage">Product bag logo, packaging illustrations, secondary brand mark</div>
+                        <div class="color-values">RGB: 74, 124, 139 • HSL: 194°, 31%, 42%</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-swatch dark-text" style="background: #F9F7F4;" data-hex="#F9F7F4"></div>
+                    <div class="color-info">
+                        <div class="color-name">Cream Background</div>
+                        <div class="color-usage">Website sidebar, footer, warm neutral backgrounds</div>
+                        <div class="color-values">RGB: 249, 247, 244 • HSL: 36°, 33%, 97%</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-swatch light-text" style="background: #4D4D4D;" data-hex="#4D4D4D"></div>
+                    <div class="color-info">
+                        <div class="color-name">Body Text</div>
+                        <div class="color-usage">Product descriptions, paragraphs, body copy</div>
+                        <div class="color-values">RGB: 77, 77, 77 • HSL: 0°, 0%, 30%</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-swatch dark-text" style="background: #FFFFFF;" data-hex="#FFFFFF"></div>
+                    <div class="color-info">
+                        <div class="color-name">Pure White</div>
+                        <div class="color-usage">Main content background, button text on gold</div>
+                        <div class="color-values">RGB: 255, 255, 255 • HSL: 0°, 0%, 100%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="highlight-box">
+                <h4>Color Usage Note</h4>
+                <p>The <strong>Teal Packaging</strong> color (#4A7C8B) is specific to product packaging and should not be used as a primary accent on digital platforms. For digital applications, use the Gold colors as primary accents.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Typography Section -->
+    <section id="typography" class="bg-secondary fade-in">
+        <div class="section-content">
+            <span class="section-number">02 — Typography</span>
+            <h2>Type System</h2>
+            <p>
+                Typography creates hierarchy and personality. Our fonts balance modern elegance with approachability, reflecting our premium yet welcoming brand position.
+            </p>
+            
+            <h3>Display Font — Josefin Sans</h3>
+            <p>Used for headlines, the logo, and prominent display text. Its geometric elegance conveys sophistication while remaining friendly.</p>
+            
+            <div class="type-sample">
+                <div class="type-sample-header">
+                    <span class="type-sample-name">Josefin Sans</span>
+                    <span class="type-sample-spec">Google Fonts • Weights: 300, 400, 500, 600, 700</span>
+                </div>
+                <div class="font-josefin sample-display">
+                    TOKYO COFFEE<br>
+                    <span style="font-weight: 300;">新鮮な焙煎</span>
+                </div>
+                <div class="font-josefin sample-alphabet">
+                    Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz<br>
+                    0123456789
+                </div>
+            </div>
+            
+            <h3>Body Font — Alegreya Sans</h3>
+            <p>Used for body copy, descriptions, and longer-form text. Its humanist design ensures excellent readability at all sizes.</p>
+            
+            <div class="type-sample">
+                <div class="type-sample-header">
+                    <span class="type-sample-name">Alegreya Sans</span>
+                    <span class="type-sample-spec">Google Fonts • Weights: 300, 400, 500, 700</span>
+                </div>
+                <div class="font-alegreya sample-display" style="font-size: 2.5rem; font-weight: 400;">
+                    Organic Coffee,<br>Freshly Roasted
+                </div>
+                <div class="font-alegreya" style="font-size: 1.1rem; max-width: 600px; margin-top: var(--space-4);">
+                    東京発の人気オーガニックコーヒーロースター「TOKYO COFFEE」。有機JAS認証、100%オーガニック。体にも地球にも優しい自家焙煎コーヒー。
+                </div>
+            </div>
+            
+            <h3>Typography Scale</h3>
+            
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Font</th>
+                            <th>Weight</th>
+                            <th>Size (Desktop)</th>
+                            <th>Line Height</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>H1 — Hero Title</td>
+                            <td>Josefin Sans</td>
+                            <td>400 / 600</td>
+                            <td>48–72px</td>
+                            <td>1.1</td>
+                        </tr>
+                        <tr>
+                            <td>H2 — Section Title</td>
+                            <td>Josefin Sans</td>
+                            <td>500</td>
+                            <td>32–48px</td>
+                            <td>1.2</td>
+                        </tr>
+                        <tr>
+                            <td>H3 — Subsection</td>
+                            <td>Josefin Sans</td>
+                            <td>500</td>
+                            <td>20–26px</td>
+                            <td>1.3</td>
+                        </tr>
+                        <tr>
+                            <td>Body Copy</td>
+                            <td>Alegreya Sans</td>
+                            <td>400</td>
+                            <td>16–18px</td>
+                            <td>1.7</td>
+                        </tr>
+                        <tr>
+                            <td>Navigation / UI</td>
+                            <td>Inter (or system)</td>
+                            <td>500</td>
+                            <td>14–15px</td>
+                            <td>1.4</td>
+                        </tr>
+                        <tr>
+                            <td>Captions / Labels</td>
+                            <td>Inter (or system)</td>
+                            <td>600</td>
+                            <td>11–13px</td>
+                            <td>1.4</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Logo Section -->
+    <section id="logo" class="fade-in">
+        <div class="section-content">
+            <span class="section-number">03 — Logo System</span>
+            <h2>Logo & Marks</h2>
+            <p>
+                The Tokyo Coffee logo features a distinctive coffee bean replacing the "O" in TOKYO, symbolizing our focus on quality coffee. The tagline "新鮮な焙煎" (Fresh Roasting) reinforces our roasting expertise.
+            </p>
+            
+            <h3>Primary Logo</h3>
+            <p>The primary logo should be used in most applications. It includes the tagline and full wordmark.</p>
+            
+            <div class="logo-grid">
+                <div class="logo-card">
+                    <div class="logo-preview bg-white">
+                        <div class="logo-mock default">
+                            <div class="tagline">新 鮮 な 焙 煎</div>
+                            <div class="wordmark">T<span class="bean"></span>KYO</div>
+                            <div class="submark">COFFEE</div>
+                        </div>
+                    </div>
+                    <div class="logo-description">
+                        <h4>On White Background</h4>
+                        <p>Primary usage for most digital and print applications.</p>
+                    </div>
+                </div>
+                
+                <div class="logo-card">
+                    <div class="logo-preview bg-cream">
+                        <div class="logo-mock default">
+                            <div class="tagline">新 鮮 な 焙 煎</div>
+                            <div class="wordmark">T<span class="bean"></span>KYO</div>
+                            <div class="submark">COFFEE</div>
+                        </div>
+                    </div>
+                    <div class="logo-description">
+                        <h4>On Cream Background</h4>
+                        <p>For warm, organic-feeling contexts.</p>
+                    </div>
+                </div>
+                
+                <div class="logo-card">
+                    <div class="logo-preview bg-dark">
+                        <div class="logo-mock dark">
+                            <div class="tagline">新 鮮 な 焙 煎</div>
+                            <div class="wordmark">T<span class="bean"></span>KYO</div>
+                            <div class="submark">COFFEE</div>
+                        </div>
+                    </div>
+                    <div class="logo-description">
+                        <h4>On Dark Background</h4>
+                        <p>For dramatic, premium contexts. Text inverts to cream.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Clear Space & Minimum Size</h3>
+            
+            <div class="highlight-box">
+                <h4>Clear Space Rule</h4>
+                <p>Always maintain clear space around the logo equal to the height of the "O" (coffee bean) on all sides. This ensures the logo remains legible and impactful in all contexts.</p>
+            </div>
+            
+            <ul class="action-list">
+                <li><strong>Minimum width (digital):</strong> 120px to maintain legibility</li>
+                <li><strong>Minimum width (print):</strong> 30mm for clear reproduction</li>
+                <li><strong>Clear space:</strong> Equal to the height of the coffee bean element</li>
+            </ul>
+            
+            <h3>Logo Don'ts</h3>
+            
+            <div class="do-dont-grid">
+                <div class="do-card">
+                    <h4>✓ Do</h4>
+                    <ul>
+                        <li>Use official color combinations</li>
+                        <li>Maintain clear space</li>
+                        <li>Scale proportionally</li>
+                        <li>Use on approved backgrounds</li>
+                    </ul>
+                </div>
+                <div class="dont-card">
+                    <h4>✗ Don't</h4>
+                    <ul>
+                        <li>Stretch or distort the logo</li>
+                        <li>Change the colors</li>
+                        <li>Add effects (shadows, outlines)</li>
+                        <li>Place on busy backgrounds</li>
+                        <li>Rotate the logo</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Voice Section -->
+    <section id="voice" class="bg-inverse fade-in">
+        <div class="section-content">
+            <span class="section-number">04 — Voice & Messaging</span>
+            <h2>Brand Voice</h2>
+            <p>
+                Tokyo Coffee's voice is warm, confident, and knowledgeable. We speak with the expertise of passionate roasters while remaining approachable and welcoming to all coffee lovers.
+            </p>
+            
+            <h3>Key Messages</h3>
+            
+            <ul class="action-list" style="border-color: rgba(255,255,255,0.2);">
+                <li><strong>Lead with:</strong> "東京発の人気オーガニックコーヒーロースター" — Popular Tokyo organic coffee roaster</li>
+                <li><strong>Emphasize:</strong> 有機JAS認証, 100%オーガニック, 自家焙煎 — Organic certification, in-house roasting</li>
+                <li><strong>Close with:</strong> "Amazonオーガニックコーヒー販売数No.1" — #1 Amazon organic coffee sales</li>
+            </ul>
+            
+            <h3>Tagline</h3>
+            <p style="font-family: var(--font-display); font-size: 1.8rem; color: var(--tc-gold-primary); margin: var(--space-6) 0;">
+                "体にも地球にも優しい"<br>
+                <span style="font-size: 1rem; color: rgba(249,247,244,0.7);">Good for body and earth</span>
+            </p>
+            
+            <h3>Messaging Do's and Don'ts</h3>
+            
+            <div class="do-dont-grid">
+                <div class="do-card" style="background: rgba(255,255,255,0.05); border-top-color: var(--tc-gold-primary);">
+                    <h4 style="color: var(--tc-gold-primary);">✓ Say</h4>
+                    <ul style="color: var(--tc-cream-bg);">
+                        <li>"東京発の人気オーガニックコーヒーロースター"</li>
+                        <li>"体にも地球にも優しい"</li>
+                        <li>"有機JAS認証取得"</li>
+                        <li>"新鮮な焙煎"</li>
+                    </ul>
+                </div>
+                <div class="dont-card" style="background: rgba(255,255,255,0.05); border-top-color: #B85450;">
+                    <h4>✗ Avoid</h4>
+                    <ul style="color: var(--tc-cream-bg);">
+                        <li>"お届けします" (too generic)</li>
+                        <li>"立川" in national marketing (too local)</li>
+                        <li>"ロースタリー" alone (prefer "人気ロースター")</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Photography Section -->
+    <section id="photography" class="fade-in">
+        <div class="section-content">
+            <span class="section-number">05 — Photography Style</span>
+            <h2>Visual Style</h2>
+            <p>
+                Photography should feel warm, natural, and inviting — capturing the essence of quality craft coffee and the welcoming atmosphere of our cafés.
+            </p>
+            
+            <h3>Photography Guidelines</h3>
+            
+            <ul class="action-list">
+                <li><strong>Lighting:</strong> Natural light preferred, soft and warm. Avoid harsh shadows or overly cool tones.</li>
+                <li><strong>Composition:</strong> Clean, uncluttered backgrounds. Focus on the product or experience.</li>
+                <li><strong>Textures:</strong> Incorporate warm wood, greenery, natural materials to reinforce organic values.</li>
+                <li><strong>Depth of field:</strong> Soft bokeh backgrounds to create focus and warmth.</li>
+                <li><strong>Color grading:</strong> Warm tones, slightly desaturated for a calm, premium feel.</li>
+            </ul>
+            
+            <h3>Subject Matter</h3>
+            
+            <div class="do-dont-grid">
+                <div class="do-card">
+                    <h4>✓ Include</h4>
+                    <ul>
+                        <li>Coffee beans (whole and ground)</li>
+                        <li>Brewing processes and equipment</li>
+                        <li>Café interiors with warm ambiance</li>
+                        <li>Lifestyle moments — people enjoying coffee</li>
+                        <li>Origin imagery — farms, landscapes</li>
+                        <li>Product packaging in context</li>
+                    </ul>
+                </div>
+                <div class="dont-card">
+                    <h4>✗ Avoid</h4>
+                    <ul>
+                        <li>Stock photo aesthetics</li>
+                        <li>Cold, clinical lighting</li>
+                        <li>Overly busy or cluttered scenes</li>
+                        <li>Heavy filters or effects</li>
+                        <li>Generic coffee imagery</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="highlight-box critical">
+                <h4>AI Image Generation</h4>
+                <p>When using AI tools (ImageFX, Photoshop, etc.) to generate lifestyle imagery, always incorporate these elements: natural lighting, warm wood textures, greenery/plants, clean backgrounds, and the Tokyo Coffee packaging or products as focal points.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CSS Variables Reference -->
+    <section class="bg-secondary fade-in">
+        <div class="section-content">
+            <span class="section-number">06 — Implementation</span>
+            <h2>CSS Variables</h2>
+            <p>
+                Copy these CSS custom properties into your project for consistent brand implementation across digital properties.
+            </p>
+            
+            <div class="code-block">
+<span class="comment">/* Tokyo Coffee Brand Colors */</span>
+:root {
+    <span class="comment">/* Primary Gold Palette */</span>
+    <span class="property">--tc-gold-primary</span>: <span class="value">#EBD578</span>;
+    <span class="property">--tc-gold-button</span>: <span class="value">#F5DF8B</span>;
+    <span class="property">--tc-gold-active</span>: <span class="value">#F1D467</span>;
+    
+    <span class="comment">/* Gray Palette */</span>
+    <span class="property">--tc-gray-logo</span>: <span class="value">#716D6D</span>;
+    <span class="property">--tc-gray-text</span>: <span class="value">#6A6D73</span>;
+    <span class="property">--tc-gray-body</span>: <span class="value">#4D4D4D</span>;
+    
+    <span class="comment">/* Secondary / Packaging */</span>
+    <span class="property">--tc-teal-packaging</span>: <span class="value">#4A7C8B</span>;
+    
+    <span class="comment">/* Backgrounds */</span>
+    <span class="property">--tc-cream-bg</span>: <span class="value">#F9F7F4</span>;
+    <span class="property">--tc-white</span>: <span class="value">#FFFFFF</span>;
+    
+    <span class="comment">/* Typography */</span>
+    <span class="property">--font-display</span>: <span class="value">'Josefin Sans', sans-serif</span>;
+    <span class="property">--font-body</span>: <span class="value">'Alegreya Sans', sans-serif</span>;
+}
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="logo-mock dark">
+            <div class="tagline" style="color: rgba(249,247,244,0.6);">新 鮮 な 焙 煎</div>
+            <div class="wordmark" style="color: var(--tc-cream-bg);">T<span class="bean"></span>KYO</div>
+            <div class="submark" style="color: var(--tc-cream-bg);">COFFEE</div>
+        </div>
+        <p>© 2026 ROGUE TRADE K.K. All rights reserved.</p>
+        <p style="margin-top: var(--space-2);">Tokyo Coffee Brand Style Guide v1.0</p>
+    </footer>
+    
+    <script>
+        // Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        });
+        
+        // Nav visibility
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+        });
+        
+        // Active section highlighting
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        
+        const observerOptions = {
+            rootMargin: '-20% 0px -80% 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + entry.target.id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+        
+        sections.forEach(section => observer.observe(section));
+        
+        // Fade-in animation
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        fadeElements.forEach(el => fadeObserver.observe(el));
+        
+        // Smooth scroll for nav links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
