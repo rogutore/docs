@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Grounded Moonshot — 2026 NISA戦略完全ガイド v2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-primary: #F5F0E8;
+            --color-bg-secondary: #EBE4D8;
+            --color-bg-tertiary: #D9CFC0;
+            --color-bg-inverse: #1a1f2e;
+            
+            --color-text-primary: #2C1810;
+            --color-text-secondary: #4A3428;
+            --color-text-muted: #6B5A4E;
+            --color-text-inverse: #F5F0E8;
+            
+            --color-accent-primary: #C17F59;
+            --color-accent-secondary: #8B4513;
+            --color-accent-nuclear: #f59e0b;
+            --color-accent-quality: #3b82f6;
+            --color-accent-japan: #dc2626;
+            --color-accent-space: #8b5cf6;
+            --color-accent-blockchain: #06b6d4;
+            
+            --color-semantic-success: #4A7C59;
+            --color-semantic-warning: #B8860B;
+            --color-semantic-gain: #16a34a;
+            --color-semantic-loss: #dc2626;
+            
+            --color-border: rgba(44, 24, 16, 0.12);
+            --color-shadow: rgba(44, 24, 16, 0.08);
+            
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Noto Sans JP', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            
+            --container-max: 1200px;
+            --container-padding: clamp(1.5rem, 5vw, 4rem);
+            
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-full: 9999px;
+            
+            --shadow-md: 0 4px 12px var(--color-shadow);
+            --shadow-lg: 0 8px 24px var(--color-shadow);
+            --shadow-xl: 0 20px 40px var(--color-shadow);
+            
+            --transition-fast: 150ms ease;
+            --transition-normal: 300ms ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--color-text-primary);
+            background-color: var(--color-bg-primary);
+        }
+
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: transparent;
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-nuclear));
+            transition: width 0.1s ease;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(245, 240, 232, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            transform: translateY(-100%);
+            transition: transform var(--transition-normal);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        nav.visible { transform: translateY(0); }
+
+        .nav-content {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: var(--space-4) var(--container-padding);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-6);
+        }
+
+        .nav-links a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: var(--color-accent-primary); }
+
+        .nav-btn {
+            background: var(--color-text-primary);
+            color: var(--color-text-inverse);
+            border: none;
+            padding: var(--space-2) var(--space-4);
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-btn:hover { background: var(--color-accent-primary); }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: var(--space-24) var(--container-padding);
+            background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-accent-primary);
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid var(--color-accent-primary);
+            border-radius: var(--radius-full);
+            margin-bottom: var(--space-8);
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: var(--space-6);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--color-text-secondary);
+            max-width: 700px;
+            margin-bottom: var(--space-10);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: var(--space-12);
+            margin-top: var(--space-8);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .hero-stat { text-align: center; }
+
+        .hero-stat-value {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-accent-primary);
+        }
+
+        .hero-stat-label {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            margin-top: var(--space-1);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: var(--space-8);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        section { padding: var(--space-20) var(--container-padding); }
+
+        .section-content {
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+
+        .section-number {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-accent-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 600;
+            margin-bottom: var(--space-6);
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            font-weight: 500;
+            margin: var(--space-10) 0 var(--space-4);
+        }
+
+        h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--color-accent-secondary);
+            margin-bottom: var(--space-3);
+        }
+
+        p {
+            margin-bottom: var(--space-4);
+            color: var(--color-text-secondary);
+        }
+
+        .lead {
+            font-size: 1.125rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-8);
+        }
+
+        .bg-primary { background: var(--color-bg-primary); }
+        .bg-secondary { background: var(--color-bg-secondary); }
+        
+        .bg-inverse {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+        
+        .bg-inverse h2, .bg-inverse h3, .bg-inverse .section-number { color: var(--color-text-inverse); }
+        .bg-inverse p, .bg-inverse .lead { color: rgba(245, 240, 232, 0.8); }
+
+        .highlight-box {
+            background: white;
+            border-left: 4px solid var(--color-accent-primary);
+            padding: var(--space-6);
+            margin: var(--space-6) 0;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .highlight-box.critical {
+            border-left-color: var(--color-semantic-warning);
+            background: #FFFBF0;
+        }
+
+        .highlight-box.success {
+            border-left-color: var(--color-semantic-success);
+            background: #F0FFF4;
+        }
+
+        .highlight-box h4 { color: var(--color-text-primary); margin-bottom: var(--space-2); }
+        .highlight-box p { margin-bottom: 0; }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-4);
+            margin: var(--space-8) 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: var(--space-6);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-accent-primary);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            margin-top: var(--space-2);
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin: var(--space-6) 0;
+            overflow-x: auto;
+        }
+
+        table { width: 100%; border-collapse: collapse; }
+        thead { background: var(--color-bg-inverse); }
+
+        th {
+            color: var(--color-text-inverse);
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: var(--space-4);
+            text-align: left;
+        }
+
+        td {
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--color-border);
+            font-size: 0.9rem;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        .ticker {
+            font-family: 'SF Mono', Monaco, monospace;
+            font-weight: 600;
+            background: var(--color-bg-secondary);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+        }
+
+        .gain { color: var(--color-semantic-gain); font-weight: 600; }
+        .loss { color: var(--color-semantic-loss); font-weight: 600; }
+
+        .action-list { list-style: none; margin: var(--space-6) 0; }
+
+        .action-list li {
+            padding: var(--space-4) 0;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-3);
+        }
+
+        .action-list li:last-child { border-bottom: none; }
+
+        .action-list li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border: 2px solid var(--color-accent-primary);
+            border-radius: 50%;
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        .alpha-layer {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin: var(--space-6) 0;
+            box-shadow: var(--shadow-md);
+            border-left: 4px solid var(--color-accent-primary);
+        }
+
+        .alpha-layer.layer-1 { border-left-color: var(--color-accent-quality); }
+        .alpha-layer.layer-2 { border-left-color: var(--color-accent-nuclear); }
+        .alpha-layer.layer-3 { border-left-color: var(--color-semantic-success); }
+        .alpha-layer.layer-4 { border-left-color: var(--color-accent-space); }
+        .alpha-layer.layer-5 { border-left-color: var(--color-accent-blockchain); }
+        .alpha-layer.layer-6 { border-left-color: var(--color-accent-japan); }
+
+        .alpha-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+
+        .alpha-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .alpha-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .alpha-subtitle {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+        }
+
+        .sleeve-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-6);
+            margin: var(--space-8) 0;
+        }
+
+        .sleeve-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sleeve-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .sleeve-card.quality::before { background: var(--color-accent-quality); }
+        .sleeve-card.nuclear::before { background: var(--color-accent-nuclear); }
+        .sleeve-card.japan::before { background: var(--color-accent-japan); }
+        .sleeve-card.space::before { background: var(--color-accent-space); }
+        .sleeve-card.blockchain::before { background: var(--color-accent-blockchain); }
+
+        .sleeve-weight {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--space-2);
+        }
+
+        .sleeve-card.quality .sleeve-weight { color: var(--color-accent-quality); }
+        .sleeve-card.nuclear .sleeve-weight { color: var(--color-accent-nuclear); }
+        .sleeve-card.japan .sleeve-weight { color: var(--color-accent-japan); }
+        .sleeve-card.space .sleeve-weight { color: var(--color-accent-space); }
+        .sleeve-card.blockchain .sleeve-weight { color: var(--color-accent-blockchain); }
+
+        .sleeve-name { font-weight: 600; font-size: 1.1rem; margin-bottom: var(--space-3); }
+        .sleeve-tickers { font-size: 0.875rem; color: var(--color-text-muted); }
+
+        .big-number {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 700;
+            line-height: 1;
+            background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-nuclear));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-8);
+            margin: var(--space-8) 0;
+        }
+
+        .comparison-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-8);
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+        }
+
+        .comparison-card.highlight {
+            background: linear-gradient(135deg, var(--color-bg-inverse) 0%, #2a3441 100%);
+            color: var(--color-text-inverse);
+        }
+
+        .comparison-card.highlight .comparison-label { color: rgba(245, 240, 232, 0.7); }
+
+        .comparison-value {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: var(--space-2);
+        }
+
+        .comparison-card.highlight .comparison-value { color: var(--color-accent-nuclear); }
+
+        .comparison-label {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .comparison-multiple {
+            display: inline-block;
+            background: var(--color-semantic-success);
+            color: white;
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-top: var(--space-4);
+        }
+
+        .phase-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+            margin: var(--space-8) 0;
+        }
+
+        .phase-item {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: var(--space-6);
+            align-items: start;
+        }
+
+        .phase-period {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .phase-content { padding: var(--space-2) 0; }
+
+        .phase-cagr {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-accent-primary);
+        }
+
+        .scenario-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin: var(--space-4) 0;
+            box-shadow: var(--shadow-md);
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            gap: var(--space-6);
+            align-items: center;
+        }
+
+        .scenario-prob {
+            background: var(--color-bg-secondary);
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .scenario-name { font-weight: 600; font-size: 1.1rem; }
+        .scenario-desc { font-size: 0.875rem; color: var(--color-text-muted); }
+
+        .scenario-result {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .scenario-multiple {
+            font-size: 1rem;
+            font-weight: 600;
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-md);
+        }
+
+        .scenario-card.most-likely {
+            border: 2px solid var(--color-accent-primary);
+            background: #FFFAF5;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-8);
+            margin: var(--space-8) 0;
+        }
+
+        @media (max-width: 768px) {
+            .two-column, .comparison-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .hero-stats { flex-direction: column; gap: var(--space-6); }
+            .scenario-card { grid-template-columns: 1fr; text-align: center; }
+            .phase-item { grid-template-columns: 1fr; }
+        }
+
+        .regime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-4);
+            margin: var(--space-8) 0;
+        }
+
+        .regime-card {
+            background: white;
+            padding: var(--space-6);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .regime-card h4 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-3);
+        }
+
+        .regime-stars { color: var(--color-accent-nuclear); }
+
+        .footer {
+            text-align: center;
+            padding: var(--space-8);
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        @media print {
+            nav, .progress-container, .scroll-indicator { display: none; }
+            section { page-break-inside: avoid; }
+            .hero { min-height: auto; padding: var(--space-12) var(--space-8); }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <nav id="navbar">
+        <div class="nav-content">
+            <div class="nav-logo">Grounded Moonshot v2</div>
+            <div class="nav-links">
+                <a href="#philosophy">投資哲学</a>
+                <a href="#alpha">アルファレイヤー</a>
+                <a href="#sectors">セクター分析</a>
+                <a href="#allocation">最終配分</a>
+                <a href="#projection">35年予測</a>
+            </div>
+            <button class="nav-btn" onclick="window.print()">PDFエクスポート</button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <span class="hero-badge">2026 NISA 成長投資枠 完全戦略 v2</span>
+        <h1>The Grounded Moonshot</h1>
+        <p class="hero-subtitle">
+            オルカンを8-10倍上回らなければ意味がない。<br>
+            7つのアルファレイヤーで10x候補を特定し、非課税複利で富を指数関数的に増幅する。
+        </p>
+        
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-value">¥12億</div>
+                <div class="hero-stat-label">35年後目標（最も可能性の高いケース）</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">8-10x</div>
+                <div class="hero-stat-label">オルカン比</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">60-65%</div>
+                <div class="hero-stat-label">成功確率</div>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <span>スクロールして詳細を見る</span>
+            <span>↓</span>
+        </div>
+    </header>
+
+    <!-- Philosophy Section -->
+    <section id="philosophy" class="bg-primary">
+        <div class="section-content fade-in">
+            <span class="section-number">01 — 投資哲学</span>
+            <h2>なぜこの戦略なのか</h2>
+            
+            <div class="highlight-box critical">
+                <h4>核心的な問い</h4>
+                <p>
+                    <strong>オルカンを圧倒的に上回らなければ、集中投資の意味がない。</strong><br>
+                    50銘柄への分散で7%なら、16銘柄への集中で25%以上を狙う。それができないなら最初からオルカンを買えばいい。
+                </p>
+            </div>
+
+            <h3>この戦略の存在意義</h3>
+            <ul class="action-list">
+                <li><strong>NISAの非課税複利は「聖杯」：</strong>通常20.315%の税金がゼロ。この優位性を50銘柄に薄めるのは愚行。</li>
+                <li><strong>深いリサーチで10x候補を特定：</strong>1銘柄5時間以上のAI支援分析。機関投資家級のリサーチを個人で実行。</li>
+                <li><strong>集中投資 × 非課税複利 = 指数関数的成長：</strong>勝者に大きく賭け、複利で増幅する。</li>
+                <li><strong>テーゼが機能しなければ修正：</strong>「信じて待つ」ではない。2-3年でS&Pを10%上回れなければ戦略見直し。</li>
+            </ul>
+
+            <h3>ポートフォリオ構造</h3>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-number">65%</div>
+                    <div class="stat-label">基盤（Nuclear + Quality）</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">35%</div>
+                    <div class="stat-label">フロンティア（Japan + Space + Blockchain）</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">16</div>
+                    <div class="stat-label">厳選銘柄</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">テーマスリーブ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alpha Layers Section -->
+    <section id="alpha" class="bg-secondary">
+        <div class="section-content fade-in">
+            <span class="section-number">02 — アルファレイヤー</span>
+            <h2>7つの情報優位性</h2>
+            <p class="lead">
+                単純なファンダメンタル分析だけでなく、複数の「アルファソース」を組み合わせることで、
+                10x候補を特定する。
+            </p>
+
+            <div class="alpha-layer layer-1">
+                <div class="alpha-header">
+                    <div class="alpha-icon">📊</div>
+                    <div>
+                        <div class="alpha-title">Layer 1: 基本ファンダメンタル分析</div>
+                        <div class="alpha-subtitle">P/E、EV/EBITDA、FCF利回り、ROIC、正規化収益</div>
+                    </div>
+                </div>
+                <p><strong>適用例：</strong>Googleは20倍P/Eで支配的AIインフラ企業として割安。</p>
+            </div>
+
+            <div class="alpha-layer layer-2">
+                <div class="alpha-header">
+                    <div class="alpha-icon">🏛️</div>
+                    <div>
+                        <div class="alpha-title">Layer 2: 米国議員取引データ</div>
+                        <div class="alpha-subtitle">Capitol Trades / Quiver Quantitative</div>
+                    </div>
+                </div>
+                <p>委員会メンバーの取引パターンで政策方向を先読み。Josh Gottheimer（年間$96M投資）等を監視。</p>
+            </div>
+
+            <div class="alpha-layer layer-3">
+                <div class="alpha-header">
+                    <div class="alpha-icon">👔</div>
+                    <div>
+                        <div class="alpha-title">Layer 3: インサイダー買い（SEC Form 4）</div>
+                        <div class="alpha-subtitle">OpenInsider — クラスター買いが最強シグナル</div>
+                    </div>
+                </div>
+                <p><strong>適用例：</strong>Redwire（RDW）は2025年末にCEO・CFO・取締役による$1M+クラスター買いを確認。Space Sleeve 70%配分の根拠。</p>
+            </div>
+
+            <div class="alpha-layer layer-4">
+                <div class="alpha-header">
+                    <div class="alpha-icon">📈</div>
+                    <div>
+                        <div class="alpha-title">Layer 4: Pre-Index Alpha</div>
+                        <div class="alpha-subtitle">指数採用前の機械的買い需要を先取り</div>
+                    </div>
+                </div>
+                <p><strong>適用例：</strong>BWXTは時価総額$16Bで、S&P 500採用閾値$22.7Bに接近中。採用時に大量のパッシブ資金流入。</p>
+            </div>
+
+            <div class="alpha-layer layer-5">
+                <div class="alpha-header">
+                    <div class="alpha-icon">🐋</div>
+                    <div>
+                        <div class="alpha-title">Layer 5: 13F Holdings</div>
+                        <div class="alpha-subtitle">WhaleWisdom — スーパーインベスター追跡</div>
+                    </div>
+                </div>
+                <p>Berkshire Hathaway、Pershing Square等の新規ポジションと集中投資を監視。</p>
+            </div>
+
+            <div class="alpha-layer layer-6">
+                <div class="alpha-header">
+                    <div class="alpha-icon">📜</div>
+                    <div>
+                        <div class="alpha-title">Layer 6: 政府契約・規制動向</div>
+                        <div class="alpha-subtitle">USAspending.gov / DOE発表</div>
+                    </div>
+                </div>
+                <p>ADVANCE Act、ロシア産ウラン禁止（2028年）、DOE $6.1B原子力支援 — すべて「通過済み」の政策。</p>
+            </div>
+
+            <div class="alpha-layer">
+                <div class="alpha-header">
+                    <div class="alpha-icon">🧮</div>
+                    <div>
+                        <div class="alpha-title">Layer 7: Convex 10× Discovery Engine</div>
+                        <div class="alpha-subtitle">75点満点の独自スコアリングシステム</div>
+                    </div>
+                </div>
+                <p>ファンダメンタル（35点）+ 構造的シグナル（15点）+ タイミング（10点）+ イベント・フロー（15点）= 24-36ヶ月で10x可能性を定量評価。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sectors Section -->
+    <section id="sectors" class="bg-primary">
+        <div class="section-content fade-in">
+            <span class="section-number">03 — セクター分析</span>
+            <h2>5つのテーマスリーブ</h2>
+
+            <div class="sleeve-grid">
+                <div class="sleeve-card quality">
+                    <div class="sleeve-weight">35%</div>
+                    <div class="sleeve-name">Quality Compounders</div>
+                    <div class="sleeve-tickers">GOOGL</div>
+                </div>
+                <div class="sleeve-card nuclear">
+                    <div class="sleeve-weight">30%</div>
+                    <div class="sleeve-name">Nuclear + Grid</div>
+                    <div class="sleeve-tickers">CCJ, BWXT, LEU, CEG, ETN, UEC</div>
+                </div>
+                <div class="sleeve-card japan">
+                    <div class="sleeve-weight">14%</div>
+                    <div class="sleeve-name">Japan</div>
+                    <div class="sleeve-tickers">キーエンス, 信越化学, ショーボンド, 三菱重工</div>
+                </div>
+                <div class="sleeve-card blockchain">
+                    <div class="sleeve-weight">12%</div>
+                    <div class="sleeve-name">Blockchain + Volatility</div>
+                    <div class="sleeve-tickers">XYZ, CME, COIN</div>
+                </div>
+                <div class="sleeve-card space">
+                    <div class="sleeve-weight">9%</div>
+                    <div class="sleeve-name">Space</div>
+                    <div class="sleeve-tickers">RDW, LUNR</div>
+                </div>
+            </div>
+
+            <h3>Nuclear + Grid — コアテーゼ</h3>
+            <div class="highlight-box">
+                <h4>「AIデータセンターは電力を食う」— これは物理法則</h4>
+                <p>
+                    2030年までにデータセンターは世界電力消費の8%を占める（現在2%）。
+                    原子力は唯一のスケーラブルなベースロード電源。
+                    ウラン供給不足（ロシア産禁止2028年）、濃縮独占（LEU）、建設人材枯渇 — すべて構造的。
+                </p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>銘柄</th>
+                            <th>配分</th>
+                            <th>10x可能性の根拠</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="ticker">LEU</span> Centrus</td>
+                            <td>20%</td>
+                            <td>米国唯一のHALEU商業生産者。10年独占供給契約。SMR需要爆発で3-5x最低ライン。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="ticker">BWXT</span></td>
+                            <td>22%</td>
+                            <td>米海軍原子炉独占。S&P 500採用間近（Pre-Index Alpha）。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="ticker">CCJ</span> Cameco</td>
+                            <td>22%</td>
+                            <td>世界最大ウラン生産者。Westinghouse買収で垂直統合完了。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="ticker">CEG</span> Constellation</td>
+                            <td>15%</td>
+                            <td>米国最大原子力発電。Microsoft契約。政策支援で収益安定。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="ticker">ETN</span> Eaton</td>
+                            <td>12%</td>
+                            <td>送電網ボトルネック受益者。原子力遅延でも勝てるヘッジ。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="ticker">UEC</span></td>
+                            <td>9%</td>
+                            <td>米国最大ウラン生産者（ISR）。ウラン価格ベータ。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Space — 最大の非対称性</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>銘柄</th>
+                            <th>配分</th>
+                            <th>10x可能性の根拠</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="ticker">RDW</span> Redwire</td>
+                            <td>70%</td>
+                            <td>インサイダー$1M+クラスター買い。P/S 5.8倍で割安。2026年EBITDA黒字化。NATO契約。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="ticker">LUNR</span> Intuitive Machines</td>
+                            <td>30%</td>
+                            <td>月面着陸成功実績。NASA契約パイプライン。Lanteris買収。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Allocation Section -->
+    <section id="allocation" class="bg-secondary">
+        <div class="section-content fade-in">
+            <span class="section-number">04 — 最終配分</span>
+            <h2>16銘柄の実際の保有状況</h2>
+            <p class="lead">2026年1月に楽天証券NISA成長投資枠で全銘柄を購入済み。</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>銘柄</th>
+                            <th>ティッカー</th>
+                            <th>スリーブ</th>
+                            <th>株数</th>
+                            <th>取得価額</th>
+                            <th>評価額</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Alphabet</td><td><span class="ticker">GOOGL</span></td><td>Quality</td><td>15株</td><td>$328.56</td><td>$4,991</td></tr>
+                        <tr><td>Cameco</td><td><span class="ticker">CCJ</span></td><td>Nuclear</td><td>9株</td><td>$110.00</td><td>$1,016</td></tr>
+                        <tr><td>BWX Technologies</td><td><span class="ticker">BWXT</span></td><td>Nuclear</td><td>5株</td><td>$196.37</td><td>$1,066</td></tr>
+                        <tr><td>Centrus Energy</td><td><span class="ticker">LEU</span></td><td>Nuclear</td><td>3株</td><td>$302.31</td><td>$918</td></tr>
+                        <tr><td>Constellation</td><td><span class="ticker">CEG</span></td><td>Nuclear</td><td>2株</td><td>$340.24</td><td>$682</td></tr>
+                        <tr><td>Eaton</td><td><span class="ticker">ETN</span></td><td>Nuclear</td><td>2株</td><td>$323.01</td><td>$667</td></tr>
+                        <tr><td>Uranium Energy</td><td><span class="ticker">UEC</span></td><td>Nuclear</td><td>28株</td><td>$15.12</td><td>$489</td></tr>
+                        <tr><td>キーエンス</td><td><span class="ticker">6861</span></td><td>Japan</td><td>2株</td><td>¥59,400</td><td>¥120,020</td></tr>
+                        <tr><td>信越化学</td><td><span class="ticker">4063</span></td><td>Japan</td><td>17株</td><td>¥5,326</td><td>¥95,404</td></tr>
+                        <tr><td>ショーボンドHD</td><td><span class="ticker">1414</span></td><td>Japan</td><td>50株</td><td>¥1,399</td><td>¥71,275</td></tr>
+                        <tr><td>三菱重工業</td><td><span class="ticker">7011</span></td><td>Japan</td><td>13株</td><td>¥4,445</td><td>¥61,984</td></tr>
+                        <tr><td>Block</td><td><span class="ticker">XYZ</span></td><td>Blockchain</td><td>11株</td><td>$66.35</td><td>$714</td></tr>
+                        <tr><td>CME Group</td><td><span class="ticker">CME</span></td><td>Blockchain</td><td>2株</td><td>$274.39</td><td>$545</td></tr>
+                        <tr><td>Coinbase</td><td><span class="ticker">COIN</span></td><td>Blockchain</td><td>2株</td><td>$250.44</td><td>$479</td></tr>
+                        <tr><td>Redwire</td><td><span class="ticker">RDW</span></td><td>Space</td><td>102株</td><td>$9.90</td><td>$1,108</td></tr>
+                        <tr><td>Intuitive Machines</td><td><span class="ticker">LUNR</span></td><td>Space</td><td>31株</td><td>$17.37</td><td>$605</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight-box success">
+                <h4>投資枠使用状況</h4>
+                <p><strong>利用済：</strong>¥2,383,002 / ¥2,400,000（<strong>99.3%</strong>）</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projection Section -->
+    <section id="projection" class="bg-inverse">
+        <div class="section-content fade-in">
+            <span class="section-number">05 — 35年予測</span>
+            <h2>オルカン vs Grounded Moonshot</h2>
+            <p class="lead">
+                この戦略の存在意義は「オルカンを8-10倍上回ること」。
+                それができなければ最初からオルカンを買えばいい。
+            </p>
+
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <div class="comparison-value">¥1.4億</div>
+                    <div class="comparison-label">オルカン（7% CAGR）</div>
+                    <p style="margin-top: var(--space-4); font-size: 0.875rem;">安全、退屈、凡庸を保証</p>
+                </div>
+                <div class="comparison-card highlight">
+                    <div class="comparison-value">¥12億</div>
+                    <div class="comparison-label">Grounded Moonshot（最も可能性の高いケース）</div>
+                    <div class="comparison-multiple">8-10x</div>
+                </div>
+            </div>
+
+            <h3>フェーズ別リターン設計</h3>
+            <div class="phase-timeline">
+                <div class="phase-item">
+                    <div class="phase-period">Year 1-5<br>デプロイメント期</div>
+                    <div class="phase-content">
+                        <div class="phase-cagr">25-35% CAGR</div>
+                        <p>原子力テーゼが現在進行中。CEG +300%、CCJ 2倍は既に実現。LEU HALEU独占で3-5x可能性。</p>
+                    </div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-period">Year 6-15<br>コンパウンディング期</div>
+                    <div class="phase-content">
+                        <div class="phase-cagr">15-20% CAGR</div>
+                        <p>勝者が複利成長、敗者はカット。ローテーションで次の10x候補へ。</p>
+                    </div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-period">Year 16-35<br>成熟期</div>
+                    <div class="phase-content">
+                        <div class="phase-cagr">12-15% CAGR</div>
+                        <p>平均回帰しつつもインデックス上回る。大きな勝負は既に完了。</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>シナリオ別最終資産額</h3>
+            
+            <div class="scenario-card">
+                <div class="scenario-prob">10-15%</div>
+                <div>
+                    <div class="scenario-name">失敗ケース</div>
+                    <div class="scenario-desc">テーゼ崩壊、インデックス下回る</div>
+                </div>
+                <div class="scenario-result loss">¥0.8-1.2億</div>
+                <div class="scenario-multiple loss" style="background: #FEE2E2;">0.6-0.8x</div>
+            </div>
+
+            <div class="scenario-card">
+                <div class="scenario-prob">20-25%</div>
+                <div>
+                    <div class="scenario-name">弱気ケース</div>
+                    <div class="scenario-desc">テーゼ部分的成功、それでもインデックス上回る</div>
+                </div>
+                <div class="scenario-result">¥3-4億</div>
+                <div class="scenario-multiple" style="background: #FEF3C7;">2-3x</div>
+            </div>
+
+            <div class="scenario-card most-likely">
+                <div class="scenario-prob" style="background: var(--color-accent-primary); color: white;">60-65%</div>
+                <div>
+                    <div class="scenario-name">最も可能性の高いケース ★</div>
+                    <div class="scenario-desc">テーゼ70-80%成功、2-3の大きな勝者（3-5x）を獲得</div>
+                </div>
+                <div class="scenario-result gain">¥10-15億</div>
+                <div class="scenario-multiple gain" style="background: #D1FAE5;">8-10x</div>
+            </div>
+
+            <div class="scenario-card">
+                <div class="scenario-prob">10-15%</div>
+                <div>
+                    <div class="scenario-name">強気ケース</div>
+                    <div class="scenario-desc">すべてが噛み合う、複数の10x達成</div>
+                </div>
+                <div class="scenario-result gain">¥20-30億</div>
+                <div class="scenario-multiple gain" style="background: #D1FAE5;">15-20x</div>
+            </div>
+
+            <div class="highlight-box" style="background: rgba(255,255,255,0.1); border-left-color: var(--color-accent-nuclear);">
+                <h4 style="color: var(--color-text-inverse);">検証チェックポイント</h4>
+                <p style="color: rgba(245,240,232,0.9);">
+                    <strong>最初の2-3年でS&Pを年率10%以上上回れなければ、戦略の見直しが必要。</strong><br>
+                    これは「信じて待つ」戦略ではない。テーゼが機能しているかを常に検証する。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Regime Analysis -->
+    <section id="regimes" class="bg-secondary">
+        <div class="section-content fade-in">
+            <span class="section-number">06 — レジーム分析</span>
+            <h2>6つのマクロシナリオ</h2>
+
+            <div class="regime-grid">
+                <div class="regime-card">
+                    <h4>AIブーム + 原子力ルネサンス<span class="regime-stars">★★★★★</span></h4>
+                    <p>コアテーゼ完全実現。GOOGL、Nuclear全銘柄、Spaceが同時に爆発。</p>
+                </div>
+                <div class="regime-card">
+                    <h4>AI設備投資停滞 + 送電網ボトルネック<span class="regime-stars">★★★★☆</span></h4>
+                    <p>ETNが救済役。送電網アップグレードはAI遅延でも必要。</p>
+                </div>
+                <div class="regime-card">
+                    <h4>スタグフレーション<span class="regime-stars">★★★☆☆</span></h4>
+                    <p>ショーボンド（インフラ補修）とMHI（防衛）が相対的に堅調。</p>
+                </div>
+                <div class="regime-card">
+                    <h4>仮想通貨冬<span class="regime-stars">★★★★☆</span></h4>
+                    <p>CMEはボラティリティから収益。Blockchainスリーブは12%のみで影響限定。</p>
+                </div>
+                <div class="regime-card">
+                    <h4>円高進行（140円台）<span class="regime-stars">★★★★☆</span></h4>
+                    <p>Japanスリーブ（14%）が円建てでプラス。</p>
+                </div>
+                <div class="regime-card">
+                    <h4>全面的リセッション<span class="regime-stars">★★☆☆☆</span></h4>
+                    <p>最も厳しい。ただしショーボンド、BWXT、CEGは相対的に耐性。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Monitoring -->
+    <section id="monitoring" class="bg-primary">
+        <div class="section-content fade-in">
+            <span class="section-number">07 — モニタリング</span>
+            <h2>監視・リバランス基準</h2>
+
+            <h3>四半期レビュー項目</h3>
+            <ul class="action-list">
+                <li><strong>Pre-Index Alpha状況：</strong>BWXTの時価総額が$22.7B閾値に近づいているか</li>
+                <li><strong>13F所有変化：</strong>主要機関投資家のポジション増減</li>
+                <li><strong>インサイダー活動：</strong>経営陣の売買パターンに異変がないか</li>
+                <li><strong>テーゼ有効性：</strong>原子力需要、AI設備投資、政策支援が継続しているか</li>
+            </ul>
+
+            <h3>撤退トリガー（キルコンディション）</h3>
+            <ul class="action-list">
+                <li><strong>競争環境の根本的変化：</strong>LEUのHALEU独占が破られる等</li>
+                <li><strong>インサイダーの大量売却：</strong>経営陣が理由なく保有株を処分</li>
+                <li><strong>規制環境の逆転：</strong>原子力支援政策の撤回</li>
+                <li><strong>2-3年でS&Pを10%上回れない：</strong>戦略自体の見直し</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>
+            作成日：2026年1月31日 | The Grounded Moonshot NISA Strategy v2<br>
+            本資料は投資助言ではありません。投資判断は自己責任で行ってください。
+        </p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        });
+
+        const nav = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) { nav.classList.add('visible'); } 
+            else { nav.classList.remove('visible'); }
+        });
+
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + entry.target.id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+        sections.forEach(section => observer.observe(section));
+
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { entry.target.classList.add('visible'); }
+            });
+        }, { threshold: 0.1 });
+        fadeElements.forEach(el => fadeObserver.observe(el));
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
