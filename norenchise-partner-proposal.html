@@ -231,31 +231,6 @@
             line-height: 2;
         }
 
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: var(--space-12);
-            flex-wrap: wrap;
-        }
-
-        .hero-stat {
-            text-align: center;
-        }
-
-        .hero-stat-value {
-            font-family: var(--font-display);
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            font-weight: 700;
-            color: var(--color-semantic-success);
-            line-height: 1;
-        }
-
-        .hero-stat-label {
-            font-size: 0.875rem;
-            color: var(--color-text-muted);
-            margin-top: var(--space-2);
-        }
-
         .scroll-indicator {
             position: absolute;
             bottom: var(--space-8);
@@ -360,7 +335,7 @@
 
         .big-message h3 {
             margin-top: 0;
-            color: var(--color-semantic-success);
+            color: var(--color-text-primary);
         }
 
         .big-message .big-number {
@@ -370,6 +345,10 @@
             color: var(--color-semantic-success);
             line-height: 1;
             margin: var(--space-4) 0;
+        }
+
+        .big-message .big-number.warning {
+            color: var(--color-semantic-danger);
         }
 
         .big-message p {
@@ -426,101 +405,6 @@
             color: var(--color-text-muted);
             font-size: 0.9375rem;
             line-height: 1.8;
-        }
-
-        /* Comparison Section */
-        .comparison-header {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: var(--space-4);
-            margin-bottom: var(--space-2);
-        }
-
-        @media (max-width: 768px) {
-            .comparison-header {
-                display: none;
-            }
-        }
-
-        .comparison-header span {
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--color-text-muted);
-            padding: var(--space-4);
-        }
-
-        .comparison-header span:not(:first-child) {
-            text-align: center;
-        }
-
-        .comparison-header .highlight-col {
-            background: var(--color-semantic-success);
-            color: white;
-            border-radius: var(--radius-md) var(--radius-md) 0 0;
-        }
-
-        .comparison-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: var(--space-4);
-            background: white;
-            border-radius: var(--radius-md);
-            margin-bottom: var(--space-2);
-            overflow: hidden;
-        }
-
-        @media (max-width: 768px) {
-            .comparison-row {
-                grid-template-columns: 1fr;
-                padding: var(--space-4);
-            }
-        }
-
-        .comparison-row > div {
-            padding: var(--space-4) var(--space-6);
-            display: flex;
-            align-items: center;
-        }
-
-        @media (max-width: 768px) {
-            .comparison-row > div {
-                padding: var(--space-2) 0;
-            }
-            .comparison-row > div::before {
-                content: attr(data-label);
-                font-weight: 600;
-                font-size: 0.75rem;
-                text-transform: uppercase;
-                color: var(--color-text-muted);
-                width: 120px;
-                flex-shrink: 0;
-            }
-        }
-
-        .comparison-row .label {
-            font-weight: 600;
-            font-size: 0.9375rem;
-        }
-
-        .comparison-row .value {
-            justify-content: center;
-            font-size: 0.9375rem;
-        }
-
-        .comparison-row .highlight {
-            background: rgba(74, 124, 89, 0.1);
-            font-weight: 600;
-            color: var(--color-semantic-success);
-        }
-
-        .comparison-row .negative {
-            color: var(--color-semantic-danger);
-        }
-
-        .comparison-row .muted {
-            color: var(--color-text-muted);
         }
 
         /* Stat Cards */
@@ -648,14 +532,146 @@
             background: linear-gradient(135deg, rgba(74, 124, 89, 0.08) 0%, white 100%);
         }
 
+        .highlight-box.warning {
+            border-left-color: var(--color-semantic-danger);
+            background: linear-gradient(135deg, rgba(192, 57, 43, 0.08) 0%, white 100%);
+        }
+
         .highlight-box h4 {
-            color: var(--color-semantic-success);
+            color: var(--color-text-primary);
             margin-bottom: var(--space-3);
+        }
+
+        .highlight-box.success h4 {
+            color: var(--color-semantic-success);
+        }
+
+        .highlight-box.warning h4 {
+            color: var(--color-semantic-danger);
         }
 
         .highlight-box p {
             font-size: 1.0625rem;
             line-height: 1.9;
+        }
+
+        /* Two column layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-8);
+            margin: var(--space-10) 0;
+        }
+
+        @media (max-width: 768px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .col-box {
+            background: white;
+            padding: var(--space-8);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .col-box h4 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            text-transform: none;
+            letter-spacing: normal;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        .col-box ul {
+            list-style: none;
+        }
+
+        .col-box li {
+            padding: var(--space-2) 0;
+            padding-left: var(--space-6);
+            position: relative;
+            color: var(--color-text-secondary);
+        }
+
+        .col-box li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--color-semantic-success);
+            font-weight: 700;
+        }
+
+        .col-box.negative li::before {
+            content: '✗';
+            color: var(--color-semantic-danger);
+        }
+
+        /* Consulting Price List */
+        .price-list {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-8);
+            box-shadow: var(--shadow-lg);
+            margin: var(--space-8) 0;
+        }
+
+        .price-list h4 {
+            font-family: var(--font-display);
+            font-size: 1.125rem;
+            text-transform: none;
+            letter-spacing: normal;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-6);
+            padding-bottom: var(--space-4);
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-4) 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .price-item:last-child {
+            border-bottom: none;
+        }
+
+        .price-item .service {
+            font-size: 1rem;
+            color: var(--color-text-primary);
+        }
+
+        .price-item .price {
+            font-family: var(--font-display);
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--color-accent-secondary);
+        }
+
+        .price-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-6) 0 0;
+            margin-top: var(--space-4);
+            border-top: 3px solid var(--color-bg-inverse);
+        }
+
+        .price-total .service {
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
+
+        .price-total .price {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-semantic-danger);
         }
 
         /* Process Steps */
@@ -719,80 +735,6 @@
             color: var(--color-text-muted);
         }
 
-        /* FAQ Accordion */
-        .faq-item {
-            background: white;
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-4);
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-        }
-
-        .faq-item summary {
-            padding: var(--space-6);
-            font-weight: 600;
-            font-size: 1.0625rem;
-            cursor: pointer;
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .faq-item summary::-webkit-details-marker {
-            display: none;
-        }
-
-        .faq-item summary::after {
-            content: '+';
-            font-size: 1.5rem;
-            color: var(--color-accent-primary);
-            transition: transform var(--transition-fast);
-        }
-
-        .faq-item[open] summary::after {
-            transform: rotate(45deg);
-        }
-
-        .faq-content {
-            padding: 0 var(--space-6) var(--space-6);
-            color: var(--color-text-secondary);
-            line-height: 1.9;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            text-align: center;
-            padding: var(--space-20) var(--container-padding);
-        }
-
-        .cta-section h2 {
-            margin-bottom: var(--space-4);
-        }
-
-        .cta-section p {
-            font-size: 1.125rem;
-            margin-bottom: var(--space-8);
-            opacity: 0.9;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: var(--color-accent-primary);
-            color: white;
-            padding: var(--space-4) var(--space-10);
-            border-radius: var(--radius-full);
-            font-size: 1.125rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(193, 127, 89, 0.4);
-        }
-
         /* Fade In Animation */
         .fade-in {
             opacity: 0;
@@ -853,60 +795,6 @@
         .emphasis-text strong {
             color: var(--color-semantic-success);
         }
-
-        /* Two column layout */
-        .two-col {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-8);
-            margin: var(--space-10) 0;
-        }
-
-        @media (max-width: 768px) {
-            .two-col {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .col-box {
-            background: white;
-            padding: var(--space-8);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-        }
-
-        .col-box h4 {
-            font-family: var(--font-display);
-            font-size: 1.25rem;
-            text-transform: none;
-            letter-spacing: normal;
-            color: var(--color-text-primary);
-            margin-bottom: var(--space-4);
-        }
-
-        .col-box ul {
-            list-style: none;
-        }
-
-        .col-box li {
-            padding: var(--space-2) 0;
-            padding-left: var(--space-6);
-            position: relative;
-            color: var(--color-text-secondary);
-        }
-
-        .col-box li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--color-semantic-success);
-            font-weight: 700;
-        }
-
-        .col-box.negative li::before {
-            content: '✗';
-            color: var(--color-semantic-danger);
-        }
     </style>
 </head>
 <body>
@@ -921,10 +809,11 @@
             <div class="nav-logo">Norenchise</div>
             <ul class="nav-links">
                 <li><a href="#concept">コンセプト</a></li>
-                <li><a href="#why-royalty">なぜロイヤリティか</a></li>
-                <li><a href="#comparison">モデル比較</a></li>
+                <li><a href="#reality">実態</a></li>
+                <li><a href="#solution">解決策</a></li>
+                <li><a href="#comparison">比較</a></li>
                 <li><a href="#benefits">メリット</a></li>
-                <li><a href="#numbers">収支シミュレーション</a></li>
+                <li><a href="#numbers">収支</a></li>
             </ul>
             <button class="nav-btn" onclick="window.print()">PDF出力</button>
         </div>
@@ -937,21 +826,6 @@
             <h1>Norenchise</h1>
             <p class="hero-tagline">暖簾分け × フランチャイズ = 新時代のパートナーシップ</p>
             <p class="hero-subtitle">信頼と実績に基づく日本の伝統「暖簾分け」の精神と、<br>現代のビジネスシステムを融合させた、<br>新しいカフェ経営の形をご提案します。</p>
-            
-            <div class="hero-stats">
-                <div class="hero-stat">
-                    <span class="hero-stat-value">¥0</span>
-                    <span class="hero-stat-label">加盟金</span>
-                </div>
-                <div class="hero-stat">
-                    <span class="hero-stat-value">2.5%</span>
-                    <span class="hero-stat-label">ロイヤリティ（コーヒーのみ）</span>
-                </div>
-                <div class="hero-stat">
-                    <span class="hero-stat-value">¥3.67M</span>
-                    <span class="hero-stat-label">年間削減額（vs フランチャイズ）</span>
-                </div>
-            </div>
         </div>
         
         <div class="scroll-indicator">
@@ -974,11 +848,6 @@
                     <p>売り手と買い手ではなく、共に成長するパートナー。あなたの成功が、私たちの成功です。</p>
                 </div>
                 <div class="benefit-card">
-                    <div class="benefit-icon">☕</div>
-                    <h4>コーヒーのみのロイヤリティ</h4>
-                    <p>ヨガ教室、ワークショップ、はちみつ販売など、コーヒー以外の収益は100%あなたのもの。</p>
-                </div>
-                <div class="benefit-card">
                     <div class="benefit-icon">📚</div>
                     <h4>充実したサポート</h4>
                     <p>研修、マニュアル、メニュー開発、マーケティング素材など、すべて含まれています。</p>
@@ -987,6 +856,11 @@
                     <div class="benefit-icon">🌱</div>
                     <h4>自由度の高い運営</h4>
                     <p>厳格なルールではなく、信頼に基づくガイドライン。地域に合わせた柔軟な運営が可能です。</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">☕</div>
+                    <h4>Tokyo Coffeeブランド</h4>
+                    <p>Amazonオーガニックコーヒー販売数No.1の実績あるブランドをご活用いただけます。</p>
                 </div>
             </div>
 
@@ -998,12 +872,70 @@
         </div>
     </section>
 
-    <!-- Section 2: Why Royalty -->
-    <section id="why-royalty" class="bg-secondary">
+    <!-- Section 2: The Reality of Consulting Costs -->
+    <section id="reality" class="bg-secondary">
         <div class="container">
-            <span class="section-number">02 — なぜロイヤリティなのか</span>
+            <span class="section-number">02 — カフェ開業の実態</span>
+            <h2>専門家のサポートには<br>コストがかかります</h2>
+            <p class="section-lead">カフェを成功させるには、コーヒーの知識、店舗運営、ブランディング、マーケティングなど、多岐にわたる専門知識が必要です。私たちはこれまで多くのカフェ様にコンサルティングを提供してきました。</p>
+
+            <h3>Tokyo Coffeeの通常コンサルティング料金</h3>
+            
+            <div class="price-list fade-in">
+                <h4>開業前サポート</h4>
+                <div class="price-item">
+                    <span class="service">初期セットアップコンサルティング</span>
+                    <span class="price">¥400,000</span>
+                </div>
+                <div class="price-item">
+                    <span class="service">バリスタ研修プログラム（5日間）</span>
+                    <span class="price">¥125,000</span>
+                </div>
+                <div class="price-item">
+                    <span class="service">メニュー開発・レシピ提供</span>
+                    <span class="price">¥100,000</span>
+                </div>
+                <div class="price-item">
+                    <span class="service">店舗オペレーションマニュアル作成</span>
+                    <span class="price">¥150,000</span>
+                </div>
+            </div>
+
+            <div class="price-list fade-in">
+                <h4>継続サポート（年間）</h4>
+                <div class="price-item">
+                    <span class="service">コンサル・出張費用（月1回）</span>
+                    <span class="price">¥360,000/年</span>
+                </div>
+                <div class="price-item">
+                    <span class="service">メニュー更新・季節商品開発</span>
+                    <span class="price">¥120,000/年</span>
+                </div>
+                <div class="price-item">
+                    <span class="service">マーケティング素材更新</span>
+                    <span class="price">¥80,000/年</span>
+                </div>
+            </div>
+
+            <div class="big-message fade-in">
+                <h3>自力でプロレベルのカフェを立ち上げるには</h3>
+                <div class="big-number warning">¥1,335,000+</div>
+                <p>初年度だけでこれだけのコストがかかります。<br>さらに、ブランド構築やマーケティングは別途必要です。</p>
+            </div>
+
+            <div class="highlight-box warning fade-in">
+                <h4>よくある失敗パターン</h4>
+                <p>「豆だけ仕入れて、あとは自分で何とかする」というアプローチでは、メニュー開発の試行錯誤、オペレーションの非効率、ブランディングの弱さなどで、<strong>想定以上のコストと時間</strong>がかかります。最悪の場合、軌道に乗る前に資金が尽きてしまうことも。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: The Solution -->
+    <section id="solution" class="bg-primary">
+        <div class="container">
+            <span class="section-number">03 — Norenchiseという解決策</span>
             <h2>「適当」を追求した結果、<br>たどり着いた答え</h2>
-            <p class="section-lead">当初、私たちはロイヤリティなしのモデルを目指しました。しかし、あらゆる計算とシミュレーションを重ねた結果、少額のロイヤリティこそが、パートナー様にとって最も有利なモデルであることがわかりました。</p>
+            <p class="section-lead">当初、私たちはロイヤリティなしのモデルを目指しました。しかし、あらゆる計算とシミュレーションを重ねた結果、<strong>少額のロイヤリティこそが、パートナー様にとって最も有利なモデル</strong>であることがわかりました。</p>
 
             <div class="big-message fade-in">
                 <h3>発見：ロイヤリティは「負担」ではなく「投資」</h3>
@@ -1014,11 +946,11 @@
             <h3>なぜロイヤリティがあなたを助けるのか</h3>
             
             <div class="two-col fade-in">
-                <div class="col-box">
+                <div class="col-box negative">
                     <h4>卸売契約の場合（ロイヤリティなし）</h4>
-                    <ul class="negative">
+                    <ul>
                         <li>初期セットアップ費用：¥400,000</li>
-                        <li>質問・相談：¥30,000〜50,000/回</li>
+                        <li>コンサル・出張費用：別途請求</li>
                         <li>研修費用：¥25,000/日</li>
                         <li>ブランド開発：自己負担¥300,000+</li>
                         <li>メニュー開発：試行錯誤で損失</li>
@@ -1032,7 +964,7 @@
                     <h4>Norenchiseの場合（2.5%ロイヤリティ）</h4>
                     <ul>
                         <li>初期セットアップ：<strong>無料（含む）</strong></li>
-                        <li>質問・相談：<strong>無制限・無料</strong></li>
+                        <li>コンサル・出張費用：<strong>無制限・無料</strong></li>
                         <li>研修プログラム：<strong>無料（含む）</strong></li>
                         <li>Tokyo Coffeeブランド：<strong>使用可</strong></li>
                         <li>メニュー・レシピ：<strong>提供</strong></li>
@@ -1046,15 +978,15 @@
 
             <div class="highlight-box success fade-in">
                 <h4>ロイヤリティの本当の意味</h4>
-                <p>2.5%のロイヤリティ（年間約¥38万円）で、<strong>¥100万円以上の価値</strong>（研修、サポート、ブランド、素材）を受け取れます。これは「支払い」ではなく、<strong>最高の投資</strong>です。</p>
+                <p>2.5%のロイヤリティ（年間約¥52万円）で、<strong>¥100万円以上の価値</strong>（研修、サポート、ブランド、素材）を受け取れます。これは「支払い」ではなく、<strong>最高の投資</strong>です。</p>
             </div>
         </div>
     </section>
 
-    <!-- Section 3: Comparison -->
-    <section id="comparison" class="bg-primary">
+    <!-- Section 4: Comparison -->
+    <section id="comparison" class="bg-secondary">
         <div class="container">
-            <span class="section-number">03 — モデル比較</span>
+            <span class="section-number">04 — モデル比較</span>
             <h2>3つの選択肢を比較</h2>
             <p class="section-lead">卸売契約、一般的なフランチャイズ、そしてNorenchise。あなたにとって最適な選択を、数字で比較してください。</p>
 
@@ -1099,14 +1031,8 @@
                         <tr>
                             <td><strong>ロイヤリティ</strong></td>
                             <td class="text-center">0%</td>
-                            <td class="text-center text-success">2.5%（コーヒーのみ）</td>
+                            <td class="text-center text-success">2.5%</td>
                             <td class="text-center text-danger">7%（全売上）</td>
-                        </tr>
-                        <tr>
-                            <td><strong>月額ロイヤリティ（Q4）</strong></td>
-                            <td class="text-center">¥0*</td>
-                            <td class="text-center text-success">¥43,366</td>
-                            <td class="text-center text-danger">¥161,185</td>
                         </tr>
                         <tr>
                             <td><strong>ブランド使用</strong></td>
@@ -1122,7 +1048,7 @@
                         </tr>
                         <tr>
                             <td><strong>継続サポート</strong></td>
-                            <td class="text-center text-danger">✗ 1回¥3〜5万</td>
+                            <td class="text-center text-danger">✗ 有料</td>
                             <td class="text-center text-success">✓ 無制限・無料</td>
                             <td class="text-center">✓ 含む</td>
                         </tr>
@@ -1131,12 +1057,6 @@
                             <td class="text-center text-danger">✗ 自己開発</td>
                             <td class="text-center text-success">✓ 提供</td>
                             <td class="text-center">✓ 提供（必須）</td>
-                        </tr>
-                        <tr>
-                            <td><strong>コーヒー以外の収益</strong></td>
-                            <td class="text-center">100%自分</td>
-                            <td class="text-center text-success">100%自分</td>
-                            <td class="text-center text-danger">7%支払い</td>
                         </tr>
                         <tr>
                             <td><strong>運営の自由度</strong></td>
@@ -1153,23 +1073,19 @@
                     </tbody>
                 </table>
             </div>
-            <p style="font-size: 0.875rem; color: var(--color-text-muted); margin-top: var(--space-2);">
-                *卸売契約はロイヤリティなしですが、コンサル・研修費用が別途必要です
-            </p>
 
             <div class="highlight-box success fade-in">
                 <h4>Norenchiseの優位性</h4>
                 <p><strong>卸売契約より¥66万円お得</strong>（サポート費用を含めると）<br>
-                <strong>フランチャイズより¥367万円お得</strong>（初年度）<br>
-                さらに、ヨガ・イベント・物販の収益は<strong>100%あなたのもの</strong>です。</p>
+                <strong>フランチャイズより¥367万円お得</strong>（初年度）</p>
             </div>
         </div>
     </section>
 
-    <!-- Section 4: Benefits -->
+    <!-- Section 5: Benefits -->
     <section id="benefits" class="bg-inverse">
         <div class="container">
-            <span class="section-number">04 — メリット</span>
+            <span class="section-number">05 — メリット</span>
             <h2>Norenchiseで<br>あなたが得るもの</h2>
             
             <div class="stat-grid fade-in" style="margin-top: var(--space-12);">
@@ -1179,9 +1095,9 @@
                     <p style="font-size: 0.875rem; margin-top: var(--space-2); opacity: 0.7;">初期投資の壁なし</p>
                 </div>
                 <div class="stat-card" style="background: rgba(255,255,255,0.1);">
-                    <div class="stat-number" style="color: var(--color-accent-primary); font-size: 3rem;">100%</div>
-                    <div class="stat-label" style="color: var(--color-text-inverse);">コーヒー以外の収益</div>
-                    <p style="font-size: 0.875rem; margin-top: var(--space-2); opacity: 0.7;">ヨガ、イベント、物販すべて</p>
+                    <div class="stat-number" style="color: var(--color-accent-primary); font-size: 3rem;">2.5%</div>
+                    <div class="stat-label" style="color: var(--color-text-inverse);">ロイヤリティ</div>
+                    <p style="font-size: 0.875rem; margin-top: var(--space-2); opacity: 0.7;">業界最低水準</p>
                 </div>
                 <div class="stat-card" style="background: rgba(255,255,255,0.1);">
                     <div class="stat-number" style="color: var(--color-accent-primary); font-size: 3rem;">∞</div>
@@ -1223,13 +1139,34 @@
                     <p>季節限定メニューや新商品の開発は本部が担当。常に新鮮な提案を。</p>
                 </div>
             </div>
+
+            <h3 style="margin-top: var(--space-16);">ロイヤリティ対象外</h3>
+            <p style="color: rgba(245, 240, 232, 0.85); font-size: 1.125rem; margin-bottom: var(--space-8);">以下の収益にはロイヤリティがかかりません。100%あなたのものです。</p>
+            <div class="stat-grid fade-in">
+                <div class="stat-card" style="background: rgba(255,255,255,0.1);">
+                    <div class="stat-number" style="color: var(--color-semantic-success); font-size: 2rem;">🧘</div>
+                    <div class="stat-label" style="color: var(--color-text-inverse);">ヨガ教室</div>
+                </div>
+                <div class="stat-card" style="background: rgba(255,255,255,0.1);">
+                    <div class="stat-number" style="color: var(--color-semantic-success); font-size: 2rem;">🎨</div>
+                    <div class="stat-label" style="color: var(--color-text-inverse);">ワークショップ</div>
+                </div>
+                <div class="stat-card" style="background: rgba(255,255,255,0.1);">
+                    <div class="stat-number" style="color: var(--color-semantic-success); font-size: 2rem;">🍯</div>
+                    <div class="stat-label" style="color: var(--color-text-inverse);">はちみつ販売</div>
+                </div>
+                <div class="stat-card" style="background: rgba(255,255,255,0.1);">
+                    <div class="stat-number" style="color: var(--color-semantic-success); font-size: 2rem;">🏠</div>
+                    <div class="stat-label" style="color: var(--color-text-inverse);">スペースレンタル</div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Section 5: Numbers -->
+    <!-- Section 6: Numbers -->
     <section id="numbers" class="bg-primary">
         <div class="container">
-            <span class="section-number">05 — 収支シミュレーション</span>
+            <span class="section-number">06 — 収支シミュレーション</span>
             <h2>具体的な数字で見る</h2>
             <p class="section-lead">Q4（安定期）の想定：1日80名来客、月商約230万円をベースに試算しています。</p>
 
@@ -1241,7 +1178,6 @@
                         <tr>
                             <th>売上項目</th>
                             <th class="text-right">月間売上</th>
-                            <th class="text-right">構成比</th>
                             <th class="text-center">ロイヤリティ</th>
                         </tr>
                     </thead>
@@ -1249,52 +1185,35 @@
                         <tr>
                             <td>カフェIN（店内飲食）</td>
                             <td class="text-right">¥1,056,000</td>
-                            <td class="text-right">49%</td>
                             <td class="text-center text-success">対象</td>
                         </tr>
                         <tr>
                             <td>カフェOUT（テイクアウト）</td>
                             <td class="text-right">¥528,000</td>
-                            <td class="text-right">25%</td>
                             <td class="text-center text-success">対象</td>
                         </tr>
                         <tr>
                             <td>コーヒー関連物販</td>
                             <td class="text-right">¥150,640</td>
-                            <td class="text-right">7%</td>
                             <td class="text-center text-success">対象</td>
                         </tr>
                         <tr style="background: rgba(74, 124, 89, 0.05);">
                             <td>物販（はちみつ等）</td>
                             <td class="text-right">¥198,000</td>
-                            <td class="text-right">9%</td>
                             <td class="text-center"><strong>対象外</strong></td>
                         </tr>
                         <tr style="background: rgba(74, 124, 89, 0.05);">
                             <td>ヨガ・イベント・レンタル</td>
                             <td class="text-right">¥370,000</td>
-                            <td class="text-right">17%</td>
                             <td class="text-center"><strong>対象外</strong></td>
                         </tr>
                         <tr class="table-highlight">
                             <td><strong>合計</strong></td>
                             <td class="text-right"><strong>¥2,302,640</strong></td>
-                            <td class="text-right"><strong>100%</strong></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><em>ロイヤリティ対象売上</em></td>
-                            <td class="text-right"><em>¥1,734,640</em></td>
-                            <td class="text-right"><em>75%</em></td>
                             <td></td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-
-            <div class="highlight-box success fade-in">
-                <h4>ポイント：コーヒー以外は100%あなたの収益</h4>
-                <p>ヨガ教室、ワークショップ、はちみつ販売、スペースレンタルなど、<strong>月間¥568,000（売上の25%）は100%あなたのもの</strong>。フランチャイズなら7%（約¥40,000）を支払う必要があります。</p>
             </div>
 
             <h3>月間ロイヤリティ計算</h3>
@@ -1382,11 +1301,11 @@
                         <tr>
                             <td>年間ロイヤリティ</td>
                             <td class="text-right">¥0</td>
-                            <td class="text-right">¥373,353</td>
+                            <td class="text-right">¥520,392</td>
                             <td class="text-right">¥1,362,000</td>
                         </tr>
                         <tr>
-                            <td>コンサル・研修費</td>
+                            <td>コンサル・出張費用</td>
                             <td class="text-right">¥520,000+</td>
                             <td class="text-right text-success">¥0（含む）</td>
                             <td class="text-right">¥0（含む）</td>
@@ -1415,12 +1334,12 @@
         </div>
     </section>
 
-    <!-- Section 6: Growth -->
+    <!-- Section 7: Growth -->
     <section id="growth" class="bg-secondary">
         <div class="container">
-            <span class="section-number">06 — 成長シナリオ</span>
+            <span class="section-number">07 — 成長シナリオ</span>
             <h2>あなたが成長すれば、<br>さらにお得に</h2>
-            <p class="section-lead">イベントやヨガ教室など、コーヒー以外の事業を拡大しても、追加のロイヤリティは一切かかりません。</p>
+            <p class="section-lead">イベントやヨガ教室など、ロイヤリティ対象外の事業を拡大しても、追加のロイヤリティは一切かかりません。</p>
 
             <div class="big-message fade-in">
                 <h3>例：イベント収益が月¥50万に成長した場合</h3>
@@ -1436,16 +1355,16 @@
                         <p style="font-size: 0.875rem;">追加コストなし</p>
                     </div>
                 </div>
-                <p>あなたの努力で伸ばした<strong>コーヒー以外の収益は、100%あなたのもの</strong>です。</p>
+                <p>あなたの努力で伸ばした<strong>対象外事業の収益は、100%あなたのもの</strong>です。</p>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="cta-section bg-inverse">
+    <section class="cta-section bg-inverse" style="text-align: center; padding: var(--space-20) var(--container-padding);">
         <div class="container">
             <h2>新しい時代の<br>パートナーシップへ</h2>
-            <p>Norenchiseは、あなたの成功を本気で願うパートナーシップです。<br>まずはお気軽にご相談ください。</p>
+            <p style="font-size: 1.125rem; margin-bottom: var(--space-8); opacity: 0.9;">Norenchiseは、あなたの成功を本気で願うパートナーシップです。<br>まずはお気軽にご相談ください。</p>
             
             <div class="process-steps fade-in" style="margin: var(--space-12) 0;">
                 <div class="process-step">
