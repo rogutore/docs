@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amex Platinum vs Gold | Decision Brief</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-primary: #F5F0E8;
+            --color-bg-secondary: #EBE4D8;
+            --color-bg-tertiary: #D9CFC0;
+            --color-bg-inverse: #2C1810;
+            --color-text-primary: #2C1810;
+            --color-text-secondary: #4A3428;
+            --color-text-muted: #6B5A4E;
+            --color-text-inverse: #F5F0E8;
+            --color-accent-primary: #C17F59;
+            --color-accent-secondary: #8B4513;
+            --color-semantic-success: #4A7C59;
+            --color-semantic-warning: #B8860B;
+            --color-border: rgba(44, 24, 16, 0.12);
+            --color-shadow: rgba(44, 24, 16, 0.08);
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            --container-max: 1200px;
+            --container-padding: clamp(1.5rem, 5vw, 4rem);
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --shadow-md: 0 4px 12px var(--color-shadow);
+            --shadow-lg: 0 8px 24px var(--color-shadow);
+            --transition-fast: 150ms ease;
+            --transition-normal: 300ms ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--color-bg-secondary);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary));
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        .sticky-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(245, 240, 232, 0.95);
+            backdrop-filter: blur(10px);
+            padding: var(--space-4) var(--container-padding);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 999;
+            transform: translateY(-100%);
+            transition: transform var(--transition-normal);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .sticky-nav.visible { transform: translateY(0); }
+
+        .nav-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-6);
+        }
+
+        .nav-links a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: var(--color-accent-primary); }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-primary {
+            background: var(--color-accent-primary);
+            color: white;
+        }
+
+        .btn-primary:hover { background: var(--color-accent-secondary); }
+
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--space-24) var(--container-padding);
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid var(--color-accent-primary);
+            border-radius: var(--radius-md);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-accent-primary);
+            margin-bottom: var(--space-6);
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: var(--space-6);
+        }
+
+        .hero .subtitle {
+            font-size: 1.25rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin-bottom: var(--space-8);
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: var(--space-8);
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+        }
+
+        section {
+            padding: var(--space-16) var(--container-padding);
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+
+        .bg-secondary { background: var(--color-bg-secondary); }
+        .bg-inverse { background: var(--color-bg-inverse); color: var(--color-text-inverse); }
+
+        .full-width {
+            max-width: none;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .full-width .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+        }
+
+        .section-number {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-accent-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 600;
+            margin-bottom: var(--space-4);
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+            font-weight: 500;
+            margin: var(--space-10) 0 var(--space-4) 0;
+            color: var(--color-text-primary);
+        }
+
+        p { margin-bottom: var(--space-4); }
+
+        .lead {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            max-width: 700px;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-6);
+            margin: var(--space-8) 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: var(--space-6);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-accent-primary);
+            line-height: 1.1;
+        }
+
+        .stat-number.positive { color: var(--color-semantic-success); }
+        .stat-number.negative { color: #c44; }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            margin-top: var(--space-2);
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            margin: var(--space-8) 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        th, td {
+            padding: var(--space-4);
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        th {
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        td { font-size: 0.95rem; }
+
+        tbody tr:hover { background: var(--color-bg-secondary); }
+
+        .highlight-box {
+            background: white;
+            border-left: 4px solid var(--color-accent-primary);
+            padding: var(--space-6);
+            border-radius: var(--radius-md);
+            margin: var(--space-8) 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .highlight-box.critical {
+            border-left-color: var(--color-semantic-success);
+            background: rgba(74, 124, 89, 0.05);
+        }
+
+        .highlight-box h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-3);
+            color: var(--color-accent-primary);
+        }
+
+        .highlight-box.critical h4 { color: var(--color-semantic-success); }
+
+        .decision-matrix {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-6);
+            margin: var(--space-8) 0;
+        }
+
+        .decision-card {
+            background: white;
+            padding: var(--space-8);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 2px solid transparent;
+        }
+
+        .decision-card.recommended {
+            border-color: var(--color-semantic-success);
+        }
+
+        .decision-card h4 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            margin-bottom: var(--space-4);
+        }
+
+        .decision-card .price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-accent-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        .decision-card ul {
+            list-style: none;
+            margin-bottom: var(--space-6);
+        }
+
+        .decision-card li {
+            padding: var(--space-2) 0;
+            padding-left: var(--space-6);
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .decision-card li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--color-semantic-success);
+            font-weight: bold;
+        }
+
+        .recommendation-badge {
+            display: inline-block;
+            background: var(--color-semantic-success);
+            color: white;
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-md);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--space-4);
+        }
+
+        .action-list {
+            list-style: none;
+            margin: var(--space-6) 0;
+        }
+
+        .action-list li {
+            padding: var(--space-4) 0;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-4);
+        }
+
+        .action-list li::before {
+            content: "○";
+            color: var(--color-accent-primary);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: var(--space-12);
+            margin: var(--space-8) 0;
+        }
+
+        .sticky-header {
+            position: sticky;
+            top: 100px;
+        }
+
+        .flow-chart {
+            background: white;
+            padding: var(--space-8);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            margin: var(--space-8) 0;
+            font-family: var(--font-body);
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-4) 0;
+        }
+
+        .flow-step .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--color-accent-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .flow-step.yes { border-left: 3px solid var(--color-semantic-success); padding-left: var(--space-4); }
+        .flow-step.no { border-left: 3px solid #c44; padding-left: var(--space-4); }
+
+        .footer {
+            text-align: center;
+            padding: var(--space-16) var(--container-padding);
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .two-column { grid-template-columns: 1fr; }
+            .decision-matrix { grid-template-columns: 1fr; }
+            .hero-meta { flex-direction: column; gap: var(--space-2); }
+        }
+
+        @media print {
+            .progress-container, .sticky-nav { display: none; }
+            section { page-break-inside: avoid; }
+            .hero { min-height: auto; padding: var(--space-8) 0; }
+            body { font-size: 11pt; }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <nav class="sticky-nav" id="stickyNav">
+        <div class="nav-title">Amex Decision</div>
+        <div class="nav-links">
+            <a href="#summary">Summary</a>
+            <a href="#comparison">Comparison</a>
+            <a href="#decision">Decision</a>
+            <a href="#action">Action</a>
+        </div>
+        <button class="btn btn-primary" onclick="window.print()">Export PDF</button>
+    </nav>
+
+    <header class="hero fade-in">
+        <span class="badge">Financial Decision Brief</span>
+        <h1>Amex Platinum vs Gold</h1>
+        <p class="subtitle">Quantified analysis for upgrade decision. Annual spend: ¥40,000,000. Upgrade bonus: 60,000 points.</p>
+        <div class="hero-meta">
+            <span>February 2026</span>
+            <span>Japan-issued cards</span>
+            <span>CFO-level analysis</span>
+        </div>
+    </header>
+
+    <section id="summary" class="fade-in">
+        <span class="section-number">01 — Executive Summary</span>
+        <h2>Recommendation: Upgrade to Platinum</h2>
+        <p class="lead">The incremental ¥125,400 annual fee is recovered through quantifiable benefits. Year 1 is strongly positive due to signup bonus. Year 2+ remains positive with moderate benefit utilization.</p>
+
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="stat-number positive">+¥250k</div>
+                <div class="stat-label">Year 1 Net Benefit</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number positive">+¥125k</div>
+                <div class="stat-label">Year 2+ Net Benefit</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">¥125k</div>
+                <div class="stat-label">Incremental Annual Fee</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">Easy</div>
+                <div class="stat-label">Break-even Difficulty</div>
+            </div>
+        </div>
+
+        <div class="highlight-box critical">
+            <h4>Final Verdict</h4>
+            <p><strong>✅ Upgrade to Platinum and keep long-term.</strong> The combination of signup bonus (Year 1), travel credits (¥25k/year), Free Stay Gift with Hilton Gold stacking (¥50-80k), FHR benefits (¥70k+ per stay), and family card multiplier creates clear positive ROI.</p>
+        </div>
+    </section>
+
+    <section id="comparison" class="bg-secondary full-width fade-in">
+        <div class="container">
+            <span class="section-number">02 — Benefit Comparison</span>
+            <h2>Gold vs Platinum: Key Differences</h2>
+            <p class="lead">Platinum unlocks high-value benefits not available on Gold, particularly for travelers and families.</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Benefit</th>
+                            <th>Gold</th>
+                            <th>Platinum</th>
+                            <th>Annual Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Annual Fee</strong></td>
+                            <td>¥39,600</td>
+                            <td>¥165,000</td>
+                            <td>+¥125,400</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Free Stay Gift</strong></td>
+                            <td>Requires ¥2M spend</td>
+                            <td>Automatic</td>
+                            <td>¥50-80k</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hilton in Free Stay</strong></td>
+                            <td>❌ Not included</td>
+                            <td>✅ Included</td>
+                            <td>+¥20k</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hotel Status</strong></td>
+                            <td>Prince Gold only</td>
+                            <td>Marriott + Hilton + Prince + Radisson</td>
+                            <td>¥50-100k</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FHR (Fine Hotels)</strong></td>
+                            <td>❌</td>
+                            <td>✅ 2,600+ hotels</td>
+                            <td>¥70-150k/stay</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Travel Credits</strong></td>
+                            <td>❌</td>
+                            <td>¥20k renewal + ¥5k birthday</td>
+                            <td>¥25,000</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Family Cards</strong></td>
+                            <td>1 free</td>
+                            <td>4 free</td>
+                            <td>¥132k value</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Priority Pass</strong></td>
+                            <td>2 uses/year</td>
+                            <td>Unlimited + 1 guest free</td>
+                            <td>¥50-100k</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Centurion Lounge</strong></td>
+                            <td>❌</td>
+                            <td>✅ Including Haneda</td>
+                            <td>¥10-30k</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>FHR: The Platinum Exclusive</h3>
+            <p>Fine Hotels & Resorts provides hotel elite-level benefits without status requirements. Each stay includes early check-in, room upgrade, free breakfast for 2, late checkout, and $100 hotel credit. Total value: <strong>¥70,000-150,000 per stay</strong>.</p>
+
+            <h3>Hotel Status Stacking</h3>
+            <p>Platinum grants Hilton Gold, which provides <strong>free breakfast</strong> at all Hilton properties. Combined with Free Stay Gift at Hilton properties, this creates ¥60-80k annual value from breakfast alone.</p>
+        </div>
+    </section>
+
+    <section id="decision" class="fade-in">
+        <span class="section-number">03 — Decision Matrix</span>
+        <h2>Which Card Is Right?</h2>
+        <p class="lead">The decision depends on travel frequency and family composition.</p>
+
+        <div class="decision-matrix">
+            <div class="decision-card">
+                <h4>Keep Gold If...</h4>
+                <div class="price">¥39,600/year</div>
+                <ul>
+                    <li>Travel internationally &lt;2 times/year</li>
+                    <li>Hotel stays &lt;5 nights/year</li>
+                    <li>Solo cardholder, no family cards needed</li>
+                    <li>Don't dine at high-end restaurants</li>
+                    <li>Can't commit to ¥2M annual spend</li>
+                </ul>
+            </div>
+            <div class="decision-card recommended">
+                <span class="recommendation-badge">Recommended</span>
+                <h4>Upgrade to Platinum If...</h4>
+                <div class="price">¥165,000/year</div>
+                <ul>
+                    <li>Travel 4+ times/year (domestic or international)</li>
+                    <li>Stay at hotels 10+ nights/year</li>
+                    <li>Have spouse/family to add as cardholders</li>
+                    <li>Will use FHR 1-2 times/year</li>
+                    <li>Value lounge access and hotel upgrades</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>Decision Flow</h3>
+        <div class="flow-chart">
+            <div class="flow-step">
+                <div class="step-icon">1</div>
+                <div>Do you travel internationally 4+ times/year? <strong>→ YES: Upgrade</strong></div>
+            </div>
+            <div class="flow-step">
+                <div class="step-icon">2</div>
+                <div>Do you have family members to add as cardholders? <strong>→ YES: Upgrade</strong></div>
+            </div>
+            <div class="flow-step">
+                <div class="step-icon">3</div>
+                <div>Will you use FHR 1-2 times/year? <strong>→ YES: Upgrade</strong></div>
+            </div>
+            <div class="flow-step">
+                <div class="step-icon">4</div>
+                <div>Do you stay at hotels 10+ nights/year? <strong>→ YES: Upgrade</strong></div>
+            </div>
+            <div class="flow-step">
+                <div class="step-icon">5</div>
+                <div>None of the above? <strong>→ Keep Gold or Upgrade for Year 1 only</strong></div>
+            </div>
+        </div>
+
+        <div class="highlight-box">
+            <h4>Your Profile Assessment</h4>
+            <p>CEO of multi-location business, ¥40M annual spend, frequent travel likely → <strong>All indicators point to Platinum being strongly positive.</strong></p>
+        </div>
+    </section>
+
+    <section id="numbers" class="bg-secondary full-width fade-in">
+        <div class="container">
+            <span class="section-number">04 — The Numbers</span>
+            <h2>Quantified Year-by-Year Analysis</h2>
+
+            <h3>Year 1 (With Signup Bonus)</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Signup Bonus (60k pts @ ¥2)</td><td>+¥120,000</td></tr>
+                        <tr><td>Entry Travel Credit</td><td>+¥30,000</td></tr>
+                        <tr><td>Free Stay Gift (Hilton)</td><td>+¥50,000</td></tr>
+                        <tr><td>Hotel Status Value</td><td>+¥60,000</td></tr>
+                        <tr><td>FHR (1 stay)</td><td>+¥70,000</td></tr>
+                        <tr><td>Priority Pass (6 trips)</td><td>+¥36,000</td></tr>
+                        <tr><td>2-for-1 Dining (3 uses)</td><td>+¥45,000</td></tr>
+                        <tr><td>Family PP Value (spouse)</td><td>+¥42,000</td></tr>
+                        <tr style="background: #f0f0f0; font-weight: bold;"><td>Total Benefits</td><td>¥453,000</td></tr>
+                        <tr><td>Less: Incremental Fee</td><td>-¥125,400</td></tr>
+                        <tr style="background: var(--color-semantic-success); color: white; font-weight: bold;"><td>Net Year 1</td><td>+¥327,600</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Year 2+ (Ongoing)</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Renewal Travel Credit</td><td>+¥20,000</td></tr>
+                        <tr><td>Birthday Travel Credit</td><td>+¥5,000</td></tr>
+                        <tr><td>Free Stay Gift</td><td>+¥50,000</td></tr>
+                        <tr><td>Hotel Status Value</td><td>+¥60,000</td></tr>
+                        <tr><td>FHR (1 stay)</td><td>+¥70,000</td></tr>
+                        <tr><td>Priority Pass</td><td>+¥36,000</td></tr>
+                        <tr><td>2-for-1 Dining</td><td>+¥45,000</td></tr>
+                        <tr><td>Family PP Value</td><td>+¥42,000</td></tr>
+                        <tr style="background: #f0f0f0; font-weight: bold;"><td>Total Benefits</td><td>¥328,000</td></tr>
+                        <tr><td>Less: Incremental Fee</td><td>-¥125,400</td></tr>
+                        <tr style="background: var(--color-semantic-success); color: white; font-weight: bold;"><td>Net Year 2+</td><td>+¥202,600</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="action" class="fade-in">
+        <span class="section-number">05 — Action Plan</span>
+        <h2>Next Steps</h2>
+        <p class="lead">Execute these steps to maximize value from the upgrade.</p>
+
+        <ul class="action-list">
+            <li><strong>Week 1:</strong> Accept upgrade offer to capture 60,000 point bonus</li>
+            <li><strong>Week 2:</strong> Register for all hotel memberships (Marriott Gold, Hilton Gold, Prince Platinum, Radisson Premium) — takes 4-6 weeks to activate</li>
+            <li><strong>Week 2:</strong> Issue family cards (up to 4 free) for spouse and eligible family</li>
+            <li><strong>Week 3:</strong> Register for Priority Pass for all cardholders</li>
+            <li><strong>Month 2:</strong> Book first FHR stay to realize value</li>
+            <li><strong>Month 3:</strong> Use Free Stay Gift at Hilton property (with Gold breakfast benefit)</li>
+            <li><strong>Month 10-11:</strong> Call for retention offer before renewal</li>
+        </ul>
+
+        <h3>Retention Strategy</h3>
+        <p>At month 10-11, call Amex and mention you're evaluating continuation. Typical retention offers: 20,000-40,000 bonus points or statement credit. If offered 20k+ points, continue. If no offer and low perk usage, consider downgrade.</p>
+
+        <div class="highlight-box critical">
+            <h4>Bottom Line</h4>
+            <p>For your profile (CEO, ¥40M spend, business travel), Platinum delivers <strong>¥150,000-300,000 positive annual value</strong>. The math strongly favors upgrading and holding long-term.</p>
+        </div>
+    </section>
+
+    <section class="bg-inverse full-width fade-in">
+        <div class="container" style="text-align: center; padding: var(--space-16) 0;">
+            <h2>Decision: ✅ Upgrade to Platinum</h2>
+            <p style="opacity: 0.8; max-width: 500px; margin: var(--space-6) auto;">Year 1 strongly positive. Year 2+ positive with moderate utilization. Low risk — can always downgrade if value not realized.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>Analysis prepared February 2026 • Japan Amex Cards • Not financial advice</p>
+    </footer>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Sticky nav
+        const nav = document.getElementById('stickyNav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+        });
+
+        // Fade in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Active nav link
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
