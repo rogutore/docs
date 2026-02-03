@@ -153,7 +153,6 @@
             border-radius: var(--radius-full);
             font-size: 0.875rem;
             font-weight: 500;
-            text-decoration: none;
             cursor: pointer;
             border: none;
             transition: opacity var(--transition-fast);
@@ -344,11 +343,6 @@
             color: var(--color-text-inverse);
         }
 
-        .stat-card.danger {
-            background: linear-gradient(135deg, rgba(192, 57, 43, 0.1) 0%, white 100%);
-            border: 2px solid var(--color-semantic-danger);
-        }
-
         .stat-number {
             font-family: var(--font-display);
             font-size: clamp(1.75rem, 4vw, 2.5rem);
@@ -359,10 +353,6 @@
 
         .stat-card.highlight .stat-number {
             color: var(--color-accent-primary);
-        }
-
-        .stat-card.danger .stat-number {
-            color: var(--color-semantic-danger);
         }
 
         .stat-label {
@@ -383,39 +373,15 @@
         }
 
         /* ============================================
-           MOBILE TABLE STYLES
+           MOBILE-RESPONSIVE TABLES
            ============================================ */
-
+        
         .table-wrapper {
             background: white;
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-md);
-            overflow: hidden;
             margin: var(--space-8) 0;
-        }
-
-        .table-scroll-hint {
-            display: none;
-            text-align: center;
-            font-size: 0.6875rem;
-            color: var(--color-text-muted);
-            padding: var(--space-2) var(--space-4);
-            background: var(--color-bg-secondary);
-        }
-
-        @media (max-width: 768px) {
-            .table-scroll-hint {
-                display: block;
-            }
-            
-            .table-wrapper {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            .table-wrapper table {
-                min-width: 500px;
-            }
+            overflow: hidden;
         }
 
         .table-title {
@@ -427,9 +393,30 @@
             border-bottom: 1px solid var(--color-border);
         }
 
+        .table-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 768px) {
+            .table-scroll {
+                /* Gradient shadow indicators for scroll */
+                background: 
+                    linear-gradient(to right, white 30%, transparent),
+                    linear-gradient(to left, white 30%, transparent),
+                    linear-gradient(to right, rgba(0,0,0,0.06), transparent),
+                    linear-gradient(to left, rgba(0,0,0,0.06), transparent);
+                background-position: left center, right center, left center, right center;
+                background-repeat: no-repeat;
+                background-size: 30px 100%, 30px 100%, 15px 100%, 15px 100%;
+                background-attachment: local, local, scroll, scroll;
+            }
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 400px;
         }
 
         thead {
@@ -444,11 +431,13 @@
             font-weight: 600;
             letter-spacing: 0.05em;
             text-transform: uppercase;
+            white-space: nowrap;
         }
 
         td {
             padding: var(--space-4) var(--space-6);
             border-bottom: 1px solid var(--color-border);
+            white-space: nowrap;
         }
 
         tr:last-child td {
@@ -460,102 +449,12 @@
         }
 
         .table-highlight {
-            background: rgba(74, 124, 89, 0.1);
+            background: rgba(74, 124, 89, 0.1) !important;
             font-weight: 600;
         }
 
         .table-danger {
-            background: rgba(192, 57, 43, 0.1);
-        }
-
-        /* Sticky First Column Tables */
-        @media (max-width: 768px) {
-            .table-sticky-first th:first-child,
-            .table-sticky-first td:first-child {
-                position: sticky;
-                left: 0;
-                background: white;
-                z-index: 2;
-                box-shadow: 2px 0 8px rgba(0,0,0,0.06);
-                min-width: 120px;
-                max-width: 150px;
-            }
-            
-            .table-sticky-first thead th:first-child {
-                background: var(--color-bg-inverse);
-                z-index: 3;
-            }
-            
-            .table-sticky-first tbody tr:hover td:first-child {
-                background: var(--color-bg-secondary);
-            }
-        }
-
-        /* Card Stack Tables for Comparison */
-        @media (max-width: 768px) {
-            .table-card-mobile {
-                min-width: unset !important;
-            }
-            
-            .table-card-mobile thead {
-                display: none;
-            }
-            
-            .table-card-mobile tbody {
-                display: block;
-            }
-            
-            .table-card-mobile tr {
-                display: block;
-                margin-bottom: var(--space-4);
-                padding: var(--space-4);
-                background: white;
-                border-radius: var(--radius-md);
-                box-shadow: var(--shadow-sm);
-                border: 1px solid var(--color-border);
-            }
-            
-            .table-card-mobile td {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                padding: var(--space-3) 0;
-                border: none;
-                border-bottom: 1px solid var(--color-border);
-                text-align: right;
-            }
-            
-            .table-card-mobile td:last-child {
-                border-bottom: none;
-            }
-            
-            .table-card-mobile td::before {
-                content: attr(data-label);
-                font-weight: 600;
-                font-size: 0.75rem;
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
-                color: var(--color-text-muted);
-                text-align: left;
-                flex-shrink: 0;
-                max-width: 40%;
-                margin-right: var(--space-4);
-            }
-            
-            .table-card-mobile .table-highlight,
-            .table-card-mobile .table-danger {
-                background: transparent;
-            }
-            
-            .table-card-mobile tr.table-highlight {
-                background: rgba(74, 124, 89, 0.08);
-                border-color: var(--color-semantic-success);
-            }
-            
-            .table-card-mobile tr.table-danger {
-                background: rgba(192, 57, 43, 0.08);
-                border-color: var(--color-semantic-danger);
-            }
+            background: rgba(192, 57, 43, 0.1) !important;
         }
 
         .text-success { color: var(--color-semantic-success); font-weight: 600; }
@@ -729,7 +628,7 @@
 
         @media (max-width: 768px) {
             .bar-row {
-                grid-template-columns: 80px 1fr 80px;
+                grid-template-columns: 70px 1fr 70px;
                 gap: var(--space-2);
             }
         }
@@ -867,11 +766,9 @@
             .nav, .progress-container, .scroll-indicator {
                 display: none !important;
             }
-            
             section {
                 page-break-before: always;
             }
-            
             .hero {
                 min-height: auto;
                 page-break-before: avoid;
@@ -976,139 +873,86 @@
             <h3>Franchise Overhead Breakdown</h3>
             
             <div class="table-wrapper fade-in">
-                <p class="table-scroll-hint">← Scroll horizontally to see all data →</p>
                 <div class="table-title">Regulatory & Legal Compliance</div>
-                <table class="table-sticky-first">
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th class="text-right">Annual Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>FDD preparation</td>
-                            <td class="text-right">¥500K - 1M</td>
-                        </tr>
-                        <tr>
-                            <td>Legal counsel</td>
-                            <td class="text-right">¥300K - 600K</td>
-                        </tr>
-                        <tr>
-                            <td>Registration & renewals</td>
-                            <td class="text-right">¥100K - 200K</td>
-                        </tr>
-                        <tr>
-                            <td>Contract management</td>
-                            <td class="text-right">¥200K</td>
-                        </tr>
-                        <tr class="table-danger">
-                            <td><strong>Subtotal</strong></td>
-                            <td class="text-right text-danger"><strong>¥1.1M - 2M</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th class="text-right">Annual Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>FDD preparation</td><td class="text-right">¥500K - 1M</td></tr>
+                            <tr><td>Legal counsel</td><td class="text-right">¥300K - 600K</td></tr>
+                            <tr><td>Registration & renewals</td><td class="text-right">¥100K - 200K</td></tr>
+                            <tr><td>Contract management</td><td class="text-right">¥200K</td></tr>
+                            <tr class="table-danger"><td><strong>Subtotal</strong></td><td class="text-right text-danger"><strong>¥1.1M - 2M</strong></td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="table-wrapper fade-in">
-                <p class="table-scroll-hint">← Scroll horizontally to see all data →</p>
                 <div class="table-title">Insurance Requirements</div>
-                <table class="table-sticky-first">
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th class="text-right">Annual Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Franchisor liability</td>
-                            <td class="text-right">¥300K - 500K</td>
-                        </tr>
-                        <tr>
-                            <td>E&O insurance</td>
-                            <td class="text-right">¥200K - 400K</td>
-                        </tr>
-                        <tr>
-                            <td>D&O insurance</td>
-                            <td class="text-right">¥150K - 300K</td>
-                        </tr>
-                        <tr class="table-danger">
-                            <td><strong>Subtotal</strong></td>
-                            <td class="text-right text-danger"><strong>¥650K - 1.2M</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th class="text-right">Annual Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Franchisor liability</td><td class="text-right">¥300K - 500K</td></tr>
+                            <tr><td>E&O insurance</td><td class="text-right">¥200K - 400K</td></tr>
+                            <tr><td>D&O insurance</td><td class="text-right">¥150K - 300K</td></tr>
+                            <tr class="table-danger"><td><strong>Subtotal</strong></td><td class="text-right text-danger"><strong>¥650K - 1.2M</strong></td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="table-wrapper fade-in">
-                <p class="table-scroll-hint">← Scroll horizontally to see all data →</p>
                 <div class="table-title">Administrative Overhead</div>
-                <table class="table-sticky-first">
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th class="text-right">Annual Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Compliance manager (0.5 FTE)</td>
-                            <td class="text-right">¥2,500,000</td>
-                        </tr>
-                        <tr>
-                            <td>Systems & reporting</td>
-                            <td class="text-right">¥500,000</td>
-                        </tr>
-                        <tr>
-                            <td>Audit & inspection</td>
-                            <td class="text-right">¥300,000</td>
-                        </tr>
-                        <tr>
-                            <td>Communication systems</td>
-                            <td class="text-right">¥200,000</td>
-                        </tr>
-                        <tr>
-                            <td>Training facility</td>
-                            <td class="text-right">¥400,000</td>
-                        </tr>
-                        <tr class="table-danger">
-                            <td><strong>Subtotal</strong></td>
-                            <td class="text-right text-danger"><strong>¥3,900,000</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th class="text-right">Annual Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Compliance manager (0.5 FTE)</td><td class="text-right">¥2,500,000</td></tr>
+                            <tr><td>Systems & reporting</td><td class="text-right">¥500,000</td></tr>
+                            <tr><td>Audit & inspection</td><td class="text-right">¥300,000</td></tr>
+                            <tr><td>Communication systems</td><td class="text-right">¥200,000</td></tr>
+                            <tr><td>Training facility</td><td class="text-right">¥400,000</td></tr>
+                            <tr class="table-danger"><td><strong>Subtotal</strong></td><td class="text-right text-danger"><strong>¥3,900,000</strong></td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="table-wrapper fade-in">
-                <p class="table-scroll-hint">← Scroll horizontally to see all data →</p>
                 <div class="table-title">Marketing & Brand Management</div>
-                <table class="table-sticky-first">
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th class="text-right">Annual Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Ad fund management</td>
-                            <td class="text-right">¥500,000</td>
-                        </tr>
-                        <tr>
-                            <td>Brand enforcement</td>
-                            <td class="text-right">¥300,000</td>
-                        </tr>
-                        <tr>
-                            <td>Mystery shopper program</td>
-                            <td class="text-right">¥400,000</td>
-                        </tr>
-                        <tr class="table-danger">
-                            <td><strong>Subtotal</strong></td>
-                            <td class="text-right text-danger"><strong>¥1,200,000</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th class="text-right">Annual Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Ad fund management</td><td class="text-right">¥500,000</td></tr>
+                            <tr><td>Brand enforcement</td><td class="text-right">¥300,000</td></tr>
+                            <tr><td>Mystery shopper program</td><td class="text-right">¥400,000</td></tr>
+                            <tr class="table-danger"><td><strong>Subtotal</strong></td><td class="text-right text-danger"><strong>¥1,200,000</strong></td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="big-number-section fade-in">
@@ -1126,41 +970,24 @@
 
             <h3>Norenchise Eliminates This Overhead</h3>
             <div class="table-wrapper fade-in">
-                <p class="table-scroll-hint">← Scroll horizontally to see all data →</p>
-                <table class="table-sticky-first">
-                    <thead>
-                        <tr>
-                            <th>Franchise Requirement</th>
-                            <th>Norenchise Approach</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>FDD & legal compliance</td>
-                            <td class="text-success">Trust-based agreement</td>
-                        </tr>
-                        <tr>
-                            <td>Compliance audits</td>
-                            <td class="text-success">Relationship-based QA</td>
-                        </tr>
-                        <tr>
-                            <td>Franchise manager</td>
-                            <td class="text-success">Existing team handles</td>
-                        </tr>
-                        <tr>
-                            <td>Brand enforcement</td>
-                            <td class="text-success">Partnership alignment</td>
-                        </tr>
-                        <tr>
-                            <td>Mystery shoppers</td>
-                            <td class="text-success">Direct communication</td>
-                        </tr>
-                        <tr class="table-highlight">
-                            <td><strong>Franchise Overhead</strong></td>
-                            <td class="text-success"><strong>¥0 additional</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Franchise Requirement</th>
+                                <th>Norenchise Approach</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>FDD & legal compliance</td><td class="text-success">Trust-based agreement</td></tr>
+                            <tr><td>Compliance audits</td><td class="text-success">Relationship-based QA</td></tr>
+                            <tr><td>Franchise manager</td><td class="text-success">Existing team handles</td></tr>
+                            <tr><td>Brand enforcement</td><td class="text-success">Partnership alignment</td></tr>
+                            <tr><td>Mystery shoppers</td><td class="text-success">Direct communication</td></tr>
+                            <tr class="table-highlight"><td><strong>Franchise Overhead</strong></td><td class="text-success"><strong>¥0 additional</strong></td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </section>
@@ -1242,7 +1069,7 @@
 
             <div class="highlight-box critical fade-in">
                 <h4>Key Insight</h4>
-                <p>Norenchise generates <strong>2.6× the profit of wholesale</strong> per partner, with <strong>zero additional overhead</strong>. Traditional franchise would require <strong>4-5 locations just to break even</strong> on infrastructure costs.</p>
+                <p>Norenchise generates <strong>2.6× the profit of wholesale</strong> per partner, with <strong>zero additional overhead</strong>. Traditional franchise would require <strong>4-5 locations just to break even</strong>.</p>
             </div>
         </div>
     </section>
@@ -1253,81 +1080,42 @@
             <h2>Revenue & Profit Breakdown</h2>
             <p>Understanding where the money comes from and why Norenchise outperforms.</p>
 
-            <h3>Q4 Monthly HQ Revenue & Profit (Per Partner)</h3>
+            <h3>Q4 Monthly HQ Profit (Per Partner)</h3>
             <div class="table-wrapper fade-in">
-                <p class="table-scroll-hint">← Scroll horizontally to see all data →</p>
-                <table class="table-sticky-first">
-                    <thead>
-                        <tr>
-                            <th>Revenue Stream</th>
-                            <th class="text-right">Volume</th>
-                            <th class="text-right">HQ Profit</th>
-                            <th class="text-right">%</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Beans (drinks)</td>
-                            <td class="text-right">58kg</td>
-                            <td class="text-right">¥130,268</td>
-                            <td class="text-right">38%</td>
-                        </tr>
-                        <tr>
-                            <td>Cakes (18%)</td>
-                            <td class="text-right">317</td>
-                            <td class="text-right">¥79,250</td>
-                            <td class="text-right">23%</td>
-                        </tr>
-                        <tr>
-                            <td>Royalty (2.5%)</td>
-                            <td class="text-right">—</td>
-                            <td class="text-right">¥43,366</td>
-                            <td class="text-right">13%</td>
-                        </tr>
-                        <tr>
-                            <td>Other Retail</td>
-                            <td class="text-right">—</td>
-                            <td class="text-right">¥40,000</td>
-                            <td class="text-right">12%</td>
-                        </tr>
-                        <tr>
-                            <td>Retail Bags</td>
-                            <td class="text-right">66</td>
-                            <td class="text-right">¥29,106</td>
-                            <td class="text-right">9%</td>
-                        </tr>
-                        <tr>
-                            <td>Cookies (5%)</td>
-                            <td class="text-right">88</td>
-                            <td class="text-right">¥8,800</td>
-                            <td class="text-right">3%</td>
-                        </tr>
-                        <tr>
-                            <td>Cups (50%)</td>
-                            <td class="text-right">880</td>
-                            <td class="text-right">¥8,800</td>
-                            <td class="text-right">3%</td>
-                        </tr>
-                        <tr class="table-highlight">
-                            <td><strong>TOTAL</strong></td>
-                            <td></td>
-                            <td class="text-right text-success"><strong>¥339,590</strong></td>
-                            <td class="text-right"><strong>100%</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Revenue Stream</th>
+                                <th class="text-right">Volume</th>
+                                <th class="text-right">HQ Profit</th>
+                                <th class="text-right">%</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Beans (drinks)</td><td class="text-right">58kg</td><td class="text-right">¥130,268</td><td class="text-right">38%</td></tr>
+                            <tr><td>Cakes (18%)</td><td class="text-right">317</td><td class="text-right">¥79,250</td><td class="text-right">23%</td></tr>
+                            <tr><td>Royalty (2.5%)</td><td class="text-right">—</td><td class="text-right">¥43,366</td><td class="text-right">13%</td></tr>
+                            <tr><td>Other Retail</td><td class="text-right">—</td><td class="text-right">¥40,000</td><td class="text-right">12%</td></tr>
+                            <tr><td>Retail Bags</td><td class="text-right">66</td><td class="text-right">¥29,106</td><td class="text-right">9%</td></tr>
+                            <tr><td>Cookies (5%)</td><td class="text-right">88</td><td class="text-right">¥8,800</td><td class="text-right">3%</td></tr>
+                            <tr><td>Cups (50%)</td><td class="text-right">880</td><td class="text-right">¥8,800</td><td class="text-right">3%</td></tr>
+                            <tr class="table-highlight"><td><strong>TOTAL</strong></td><td></td><td class="text-right text-success"><strong>¥339,590</strong></td><td class="text-right"><strong>100%</strong></td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <h3>Norenchise vs Wholesale Comparison</h3>
+            <h3>Norenchise vs Wholesale</h3>
             <div class="stat-grid fade-in">
                 <div class="stat-card">
                     <div class="stat-label">WHOLESALE</div>
-                    <div class="stat-number">¥130,268</div>
+                    <div class="stat-number">¥130K</div>
                     <div class="stat-label">Monthly HQ Profit</div>
                 </div>
                 <div class="stat-card highlight">
                     <div class="stat-label" style="color: var(--color-accent-primary);">NORENCHISE</div>
-                    <div class="stat-number">¥339,590</div>
+                    <div class="stat-number">¥340K</div>
                     <div class="stat-label">Monthly HQ Profit</div>
                     <div class="stat-change" style="color: var(--color-accent-primary);">+161% vs Wholesale</div>
                 </div>
@@ -1340,41 +1128,24 @@
 
             <h3>Scale Scenarios</h3>
             <div class="table-wrapper fade-in">
-                <p class="table-scroll-hint">← Scroll horizontally to see all data →</p>
-                <table class="table-sticky-first">
-                    <thead>
-                        <tr>
-                            <th>Scenario</th>
-                            <th class="text-right">Cust/Day</th>
-                            <th class="text-right">Wholesale</th>
-                            <th class="text-right">Norenchise</th>
-                            <th class="text-right">Uplift</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Q4 Baseline</strong></td>
-                            <td class="text-right">80</td>
-                            <td class="text-right">¥130K/mo</td>
-                            <td class="text-right text-success">¥340K/mo</td>
-                            <td class="text-right text-success">+¥2.5M/yr</td>
-                        </tr>
-                        <tr>
-                            <td><strong>1.5× Growth</strong></td>
-                            <td class="text-right">120</td>
-                            <td class="text-right">¥195K/mo</td>
-                            <td class="text-right text-success">¥509K/mo</td>
-                            <td class="text-right text-success">+¥3.8M/yr</td>
-                        </tr>
-                        <tr>
-                            <td><strong>2× Growth</strong></td>
-                            <td class="text-right">160</td>
-                            <td class="text-right">¥261K/mo</td>
-                            <td class="text-right text-success">¥679K/mo</td>
-                            <td class="text-right text-success">+¥5.0M/yr</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Scenario</th>
+                                <th class="text-right">Cust/Day</th>
+                                <th class="text-right">Wholesale</th>
+                                <th class="text-right">Norenchise</th>
+                                <th class="text-right">Uplift</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Q4 Baseline</strong></td><td class="text-right">80</td><td class="text-right">¥130K/mo</td><td class="text-right text-success">¥340K/mo</td><td class="text-right text-success">+¥2.5M/yr</td></tr>
+                            <tr><td><strong>1.5× Growth</strong></td><td class="text-right">120</td><td class="text-right">¥195K/mo</td><td class="text-right text-success">¥509K/mo</td><td class="text-right text-success">+¥3.8M/yr</td></tr>
+                            <tr><td><strong>2× Growth</strong></td><td class="text-right">160</td><td class="text-right">¥261K/mo</td><td class="text-right text-success">¥679K/mo</td><td class="text-right text-success">+¥5.0M/yr</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </section>
@@ -1406,45 +1177,26 @@
                 <p style="font-size: 1.125rem; opacity: 0.9; max-width: 60ch; margin: 0 auto;">With zero additional overhead, every new Norenchise partner adds <strong style="color: var(--color-accent-primary);">¥4.08M annual profit</strong> directly to the bottom line.</p>
             </div>
 
-            <h3 style="margin-top: var(--space-16);">Comparison: What Would Franchise Look Like?</h3>
+            <h3 style="margin-top: var(--space-16);">Norenchise vs Franchise Profit</h3>
             <div class="table-wrapper fade-in" style="background: rgba(255,255,255,0.1);">
-                <p class="table-scroll-hint" style="background: rgba(255,255,255,0.05);">← Scroll horizontally →</p>
-                <table class="table-sticky-first">
-                    <thead>
-                        <tr>
-                            <th>Partners</th>
-                            <th class="text-right">Norenchise</th>
-                            <th class="text-right">Franchise</th>
-                            <th class="text-right">Difference</th>
-                        </tr>
-                    </thead>
-                    <tbody style="color: var(--color-text-inverse);">
-                        <tr>
-                            <td style="background: rgba(255,255,255,0.05);">1</td>
-                            <td class="text-right">¥4.08M</td>
-                            <td class="text-right text-danger">-¥6.09M</td>
-                            <td class="text-right text-success">+¥10.17M</td>
-                        </tr>
-                        <tr>
-                            <td style="background: rgba(255,255,255,0.05);">3</td>
-                            <td class="text-right">¥12.23M</td>
-                            <td class="text-right text-danger">-¥2.73M</td>
-                            <td class="text-right text-success">+¥14.96M</td>
-                        </tr>
-                        <tr>
-                            <td style="background: rgba(255,255,255,0.05);">5</td>
-                            <td class="text-right">¥20.38M</td>
-                            <td class="text-right">¥0.63M</td>
-                            <td class="text-right text-success">+¥19.75M</td>
-                        </tr>
-                        <tr>
-                            <td style="background: rgba(255,255,255,0.05);">10</td>
-                            <td class="text-right">¥40.75M</td>
-                            <td class="text-right">¥9.03M</td>
-                            <td class="text-right text-success">+¥31.72M</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Partners</th>
+                                <th class="text-right">Norenchise</th>
+                                <th class="text-right">Franchise</th>
+                                <th class="text-right">Difference</th>
+                            </tr>
+                        </thead>
+                        <tbody style="color: var(--color-text-inverse);">
+                            <tr><td>1</td><td class="text-right">¥4.08M</td><td class="text-right text-danger">-¥6.09M</td><td class="text-right text-success">+¥10.17M</td></tr>
+                            <tr><td>3</td><td class="text-right">¥12.23M</td><td class="text-right text-danger">-¥2.73M</td><td class="text-right text-success">+¥14.96M</td></tr>
+                            <tr><td>5</td><td class="text-right">¥20.38M</td><td class="text-right">¥0.63M</td><td class="text-right text-success">+¥19.75M</td></tr>
+                            <tr><td>10</td><td class="text-right">¥40.75M</td><td class="text-right">¥9.03M</td><td class="text-right text-success">+¥31.72M</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <p style="font-size: 0.75rem; opacity: 0.6; margin-top: var(--space-2);">Franchise: (n × ¥24M × 7%) - ¥7.77M overhead</p>
         </div>
@@ -1485,49 +1237,25 @@
 
             <h3>The Bottom Line</h3>
             <div class="table-wrapper fade-in">
-                <p class="table-scroll-hint">← Scroll horizontally to see all data →</p>
-                <table class="table-sticky-first">
-                    <thead>
-                        <tr>
-                            <th>Metric</th>
-                            <th class="text-right">Wholesale</th>
-                            <th class="text-right">Franchise</th>
-                            <th class="text-right">Norenchise</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>HQ Overhead</td>
-                            <td class="text-right">¥0</td>
-                            <td class="text-right text-danger">¥7.77M</td>
-                            <td class="text-right text-success">¥0</td>
-                        </tr>
-                        <tr>
-                            <td>Break-even</td>
-                            <td class="text-right">0</td>
-                            <td class="text-right text-danger">4-5 loc</td>
-                            <td class="text-right text-success">0</td>
-                        </tr>
-                        <tr>
-                            <td>Profit (1 partner)</td>
-                            <td class="text-right">¥1.56M</td>
-                            <td class="text-right text-danger">-¥6.09M</td>
-                            <td class="text-right text-success">¥4.08M</td>
-                        </tr>
-                        <tr>
-                            <td>Profit (3 partners)</td>
-                            <td class="text-right">¥4.69M</td>
-                            <td class="text-right text-danger">-¥2.73M</td>
-                            <td class="text-right text-success">¥12.23M</td>
-                        </tr>
-                        <tr>
-                            <td>Relationship</td>
-                            <td class="text-right">Transaction</td>
-                            <td class="text-right">Compliance</td>
-                            <td class="text-right text-success">Partnership</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th class="text-right">Wholesale</th>
+                                <th class="text-right">Franchise</th>
+                                <th class="text-right">Norenchise</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>HQ Overhead</td><td class="text-right">¥0</td><td class="text-right text-danger">¥7.77M</td><td class="text-right text-success">¥0</td></tr>
+                            <tr><td>Break-even</td><td class="text-right">0</td><td class="text-right text-danger">4-5 loc</td><td class="text-right text-success">0</td></tr>
+                            <tr><td>Profit (1 partner)</td><td class="text-right">¥1.56M</td><td class="text-right text-danger">-¥6.09M</td><td class="text-right text-success">¥4.08M</td></tr>
+                            <tr><td>Profit (3 partners)</td><td class="text-right">¥4.69M</td><td class="text-right text-danger">-¥2.73M</td><td class="text-right text-success">¥12.23M</td></tr>
+                            <tr><td>Relationship</td><td class="text-right">Transaction</td><td class="text-right">Compliance</td><td class="text-right text-success">Partnership</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="flow-diagram fade-in">
@@ -1549,7 +1277,7 @@
     </section>
 
     <footer class="bg-inverse" style="padding: var(--space-12) var(--container-padding); text-align: center;">
-        <p style="opacity: 0.6; font-size: 0.875rem;">Tokyo Coffee — Internal Strategy Document — February 2026 v2.1</p>
+        <p style="opacity: 0.6; font-size: 0.875rem;">Tokyo Coffee — Internal Strategy Document — February 2026 v2.2</p>
     </footer>
 
     <script>
@@ -1562,41 +1290,28 @@
 
         const nav = document.getElementById('nav');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 500) {
-                nav.classList.add('visible');
-            } else {
-                nav.classList.remove('visible');
-            }
+            nav.classList.toggle('visible', window.scrollY > 500);
         });
 
         const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('.nav-links a');
 
-        const observerOptions = {
-            rootMargin: '-20% 0px -80% 0px'
-        };
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     navLinks.forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === '#' + entry.target.id) {
-                            link.classList.add('active');
-                        }
+                        link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
                     });
                 }
             });
-        }, observerOptions);
+        }, { rootMargin: '-20% 0px -80% 0px' });
 
         sections.forEach(section => observer.observe(section));
 
         const fadeElements = document.querySelectorAll('.fade-in');
         const fadeObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('visible');
             });
         }, { threshold: 0.1 });
 
@@ -1605,9 +1320,7 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
             });
         });
     </script>
