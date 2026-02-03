@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Norenchise — Tokyo Coffee Expansion Strategy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-primary: #F5F0E8;
+            --color-bg-secondary: #EBE4D8;
+            --color-bg-tertiary: #D9CFC0;
+            --color-bg-inverse: #2C1810;
+            
+            --color-text-primary: #2C1810;
+            --color-text-secondary: #4A3428;
+            --color-text-muted: #6B5A4E;
+            --color-text-inverse: #F5F0E8;
+            
+            --color-accent-primary: #C17F59;
+            --color-accent-secondary: #8B4513;
+            
+            --color-semantic-success: #4A7C59;
+            --color-semantic-warning: #B8860B;
+            
+            --color-border: rgba(44, 24, 16, 0.12);
+            --color-shadow: rgba(44, 24, 16, 0.08);
+            
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            
+            --container-max: 1200px;
+            --container-padding: clamp(1.5rem, 5vw, 4rem);
+            
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-full: 9999px;
+            
+            --shadow-md: 0 4px 12px var(--color-shadow);
+            --shadow-lg: 0 8px 24px var(--color-shadow);
+            --shadow-xl: 0 20px 40px var(--color-shadow);
+            
+            --transition-fast: 150ms ease;
+            --transition-normal: 300ms ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: transparent;
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary));
+            width: 0%;
+            transition: width 50ms ease-out;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(245, 240, 232, 0.95);
+            backdrop-filter: blur(10px);
+            padding: var(--space-4) var(--container-padding);
+            z-index: 900;
+            transform: translateY(-100%);
+            transition: transform var(--transition-normal);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .nav.visible {
+            transform: translateY(0);
+        }
+
+        .nav-content {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-6);
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--color-text-primary);
+        }
+
+        .nav-btn {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: opacity var(--transition-fast);
+        }
+
+        .nav-btn:hover {
+            opacity: 0.85;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--space-24) var(--container-padding);
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-6);
+            color: var(--color-text-muted);
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 500;
+            line-height: 1.1;
+            margin-bottom: var(--space-6);
+            max-width: 14ch;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.125rem, 2vw, 1.375rem);
+            color: var(--color-text-secondary);
+            max-width: 50ch;
+            margin-bottom: var(--space-8);
+            line-height: 1.6;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: var(--space-12);
+            margin-top: var(--space-12);
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-stat-value {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            color: var(--color-accent-secondary);
+        }
+
+        .hero-stat-label {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            margin-top: var(--space-1);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: var(--space-8);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Sections */
+        section {
+            padding: var(--space-20) var(--container-padding);
+        }
+
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+
+        .section-number {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-accent-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 500;
+            margin-bottom: var(--space-6);
+            line-height: 1.2;
+        }
+
+        section > .container > p:first-of-type {
+            font-size: 1.125rem;
+            color: var(--color-text-secondary);
+            max-width: 65ch;
+            margin-bottom: var(--space-12);
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+            font-weight: 500;
+            margin: var(--space-12) 0 var(--space-6);
+            color: var(--color-text-primary);
+        }
+
+        h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-4);
+        }
+
+        /* Background Variations */
+        .bg-primary { background: var(--color-bg-primary); }
+        .bg-secondary { background: var(--color-bg-secondary); }
+        .bg-inverse { 
+            background: var(--color-bg-inverse); 
+            color: var(--color-text-inverse);
+        }
+        .bg-inverse h2,
+        .bg-inverse h3,
+        .bg-inverse .section-number {
+            color: var(--color-text-inverse);
+        }
+        .bg-inverse .section-number {
+            color: var(--color-accent-primary);
+        }
+
+        /* Stat Cards */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-6);
+            margin: var(--space-8) 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: var(--space-6);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-card.highlight {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: var(--space-2);
+        }
+
+        .stat-card.highlight .stat-number {
+            color: var(--color-accent-primary);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+        }
+
+        .stat-card.highlight .stat-label {
+            color: var(--color-text-inverse);
+            opacity: 0.8;
+        }
+
+        .stat-change {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-semantic-success);
+            margin-top: var(--space-2);
+        }
+
+        /* Tables */
+        .table-wrapper {
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            margin: var(--space-8) 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        th {
+            padding: var(--space-4) var(--space-6);
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: var(--space-4) var(--space-6);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: var(--color-bg-secondary);
+        }
+
+        .table-highlight {
+            background: rgba(74, 124, 89, 0.1);
+            font-weight: 600;
+        }
+
+        .text-success { color: var(--color-semantic-success); font-weight: 600; }
+        .text-warning { color: var(--color-semantic-warning); }
+        .text-muted { color: var(--color-text-muted); }
+        .text-right { text-align: right; }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: white;
+            border-left: 4px solid var(--color-accent-primary);
+            padding: var(--space-6);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: var(--space-8) 0;
+        }
+
+        .highlight-box.critical {
+            border-left-color: var(--color-semantic-success);
+            background: rgba(74, 124, 89, 0.08);
+        }
+
+        .highlight-box h4 {
+            margin-bottom: var(--space-2);
+        }
+
+        /* Two Column */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: var(--space-12);
+            align-items: start;
+            margin: var(--space-12) 0;
+        }
+
+        .sticky-header {
+            position: sticky;
+            top: 100px;
+        }
+
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+            .sticky-header {
+                position: static;
+            }
+        }
+
+        /* Comparison Cards */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-6);
+            margin: var(--space-8) 0;
+        }
+
+        @media (max-width: 900px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .comparison-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comparison-card.recommended {
+            border: 2px solid var(--color-semantic-success);
+        }
+
+        .comparison-card.recommended::before {
+            content: 'RECOMMENDED';
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--color-semantic-success);
+            color: white;
+            padding: var(--space-1) var(--space-3);
+            font-size: 0.625rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+
+        .comparison-card h4 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            text-transform: none;
+            letter-spacing: normal;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-2);
+        }
+
+        .comparison-card .price {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--color-accent-secondary);
+            margin: var(--space-4) 0;
+        }
+
+        .comparison-card ul {
+            list-style: none;
+            margin-top: var(--space-4);
+        }
+
+        .comparison-card li {
+            padding: var(--space-2) 0;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-2);
+        }
+
+        .comparison-card li::before {
+            content: '✓';
+            color: var(--color-semantic-success);
+            font-weight: 700;
+        }
+
+        .comparison-card li.negative::before {
+            content: '✗';
+            color: #c0392b;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-md);
+            margin: var(--space-8) 0;
+        }
+
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .bar-row {
+            display: grid;
+            grid-template-columns: 120px 1fr 100px;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .bar-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .bar-track {
+            background: var(--color-bg-secondary);
+            height: 32px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: var(--radius-sm);
+            transition: width 1s ease-out;
+        }
+
+        .bar-fill.wholesale { background: var(--color-text-muted); }
+        .bar-fill.norenchise { background: var(--color-semantic-success); }
+        .bar-fill.franchise { background: var(--color-accent-secondary); }
+
+        .bar-value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        /* Donut Chart */
+        .donut-container {
+            display: flex;
+            align-items: center;
+            gap: var(--space-8);
+            flex-wrap: wrap;
+        }
+
+        .donut-chart {
+            width: 200px;
+            height: 200px;
+            position: relative;
+        }
+
+        .donut-chart svg {
+            transform: rotate(-90deg);
+        }
+
+        .donut-chart circle {
+            fill: none;
+            stroke-width: 40;
+        }
+
+        .donut-legend {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-2) 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: var(--radius-sm);
+        }
+
+        .legend-label {
+            flex: 1;
+            font-size: 0.875rem;
+        }
+
+        .legend-value {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        /* Flow Diagram */
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+            margin: var(--space-8) 0;
+            padding: var(--space-8);
+            background: white;
+            border-radius: var(--radius-lg);
+        }
+
+        .flow-box {
+            background: var(--color-bg-secondary);
+            padding: var(--space-4) var(--space-6);
+            border-radius: var(--radius-md);
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .flow-box.highlight {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--color-text-muted);
+        }
+
+        /* Japanese Text */
+        .jp {
+            font-family: 'Hiragino Kaku Gothic Pro', 'メイリオ', sans-serif;
+        }
+
+        /* Fade In Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Print Styles */
+        @media print {
+            .nav, .progress-container, .scroll-indicator {
+                display: none !important;
+            }
+            
+            section {
+                page-break-before: always;
+            }
+            
+            .hero {
+                min-height: auto;
+                page-break-before: avoid;
+            }
+        }
+
+        /* Action List */
+        .action-list {
+            list-style: none;
+            margin: var(--space-6) 0;
+        }
+
+        .action-list li {
+            padding: var(--space-4) 0;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-4);
+        }
+
+        .action-list li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border: 2px solid var(--color-accent-primary);
+            border-radius: 50%;
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: var(--space-8);
+            margin: var(--space-8) 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--color-border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: var(--space-8);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: calc(-1 * var(--space-8) - 5px);
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            background: var(--color-accent-primary);
+            border-radius: 50%;
+        }
+
+        .timeline-date {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .timeline-content {
+            margin-top: var(--space-2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-content">
+            <div class="nav-logo">Norenchise</div>
+            <ul class="nav-links">
+                <li><a href="#concept">Concept</a></li>
+                <li><a href="#comparison">Comparison</a></li>
+                <li><a href="#financials">Financials</a></li>
+                <li><a href="#hq-economics">HQ Economics</a></li>
+                <li><a href="#summary">Summary</a></li>
+            </ul>
+            <button class="nav-btn" onclick="window.print()">Export PDF</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">Internal Strategy Document</span>
+            <h1>Norenchise</h1>
+            <p class="hero-subtitle">A hybrid expansion model that combines the trust and relationship depth of traditional <span class="jp">暖簾分け</span> with modern systems — delivering 161% more profit than wholesale while being better for partners.</p>
+            
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="hero-stat-value">+161%</span>
+                    <span class="hero-stat-label">HQ Profit vs Wholesale</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-value">¥4.08M</span>
+                    <span class="hero-stat-label">Annual HQ Profit (Q4 run-rate)</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-value">2.5%</span>
+                    <span class="hero-stat-label">Royalty on Coffee Revenue</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <span>Scroll to explore</span>
+            <span>↓</span>
+        </div>
+    </section>
+
+    <!-- Section 1: The Concept -->
+    <section id="concept" class="bg-primary">
+        <div class="container">
+            <span class="section-number">01 — The Concept</span>
+            <h2>What is Norenchise?</h2>
+            <p>A new partnership model that bridges the gap between traditional wholesale relationships and rigid franchise systems — built on trust, mutual success, and the Japanese tradition of <span class="jp">暖簾分け</span>.</p>
+
+            <div class="two-column fade-in">
+                <div class="sticky-header">
+                    <h3><span class="jp">暖簾分け</span> Heritage</h3>
+                    <p>For centuries, Japanese businesses have practiced <span class="jp">暖簾分け</span> (noren-wake) — the tradition of a master allowing a trusted apprentice to use the shop's name and methods to open their own establishment.</p>
+                    <p style="margin-top: var(--space-4);">This wasn't a transaction. It was a relationship built on years of trust, shared values, and mutual respect.</p>
+                </div>
+                <div>
+                    <h3>The Modern Challenge</h3>
+                    <p style="margin-bottom: var(--space-6);">Traditional models fail modern café entrepreneurs:</p>
+                    
+                    <ul class="action-list">
+                        <li><strong>Wholesale</strong> offers no brand, no training, no support — every question costs money, and partners are alone in building their business.</li>
+                        <li><strong>Franchise</strong> provides systems but demands high fees, rigid compliance, and takes royalties on everything — even revenue unrelated to coffee.</li>
+                        <li><strong><span class="jp">暖簾分け</span></strong> is beautiful but doesn't scale — it requires years of apprenticeship and provides no formal structure.</li>
+                    </ul>
+
+                    <div class="highlight-box critical" style="margin-top: var(--space-8);">
+                        <h4>The Norenchise Solution</h4>
+                        <p><strong>Relationship depth + Modern systems + Fair economics.</strong><br>Partners get brand, training, and ongoing support. HQ earns from the full product ecosystem. Both parties succeed together.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Core Principles</h3>
+            <div class="stat-grid fade-in">
+                <div class="stat-card">
+                    <div class="stat-number" style="font-size: 1.5rem;">Partnership</div>
+                    <div class="stat-label">Not vendor-client or franchisor-franchisee. True partners with aligned incentives.</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="font-size: 1.5rem;">Trust-Based</div>
+                    <div class="stat-label">No rigid audits or compliance penalties. Quality maintained through relationship and shared values.</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="font-size: 1.5rem;">Coffee-Only Royalty</div>
+                    <div class="stat-label">We earn from what we contribute. Partner's other ventures (yoga, events, honey) are 100% theirs.</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="font-size: 1.5rem;">Full Ecosystem</div>
+                    <div class="stat-label">Partners buy our complete product suite — beans, cakes, cookies, cups, retail products.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: The Three Models -->
+    <section id="comparison" class="bg-secondary">
+        <div class="container">
+            <span class="section-number">02 — Model Comparison</span>
+            <h2>Three Paths to Partnership</h2>
+            <p>Each model serves different needs. Here's how they compare for a café doing ¥2.15M monthly revenue at Q4 run-rate.</p>
+
+            <div class="comparison-grid fade-in">
+                <div class="comparison-card">
+                    <h4>Wholesale</h4>
+                    <p class="text-muted">Beans only. You're on your own.</p>
+                    <div class="price">¥0<span style="font-size: 1rem; font-weight: 400;">/month</span></div>
+                    <p style="font-size: 0.875rem; color: var(--color-text-muted);">But ¥520K+ in consulting fees Year 1</p>
+                    <ul>
+                        <li>Quality beans at wholesale price</li>
+                        <li class="negative">No brand — build from zero</li>
+                        <li class="negative">No training — pay ¥25K/day</li>
+                        <li class="negative">No support — pay ¥30-50K/call</li>
+                        <li class="negative">No menu — develop yourself</li>
+                        <li class="negative">Every question costs money</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-card recommended">
+                    <h4>Norenchise</h4>
+                    <p class="text-muted">Full partnership. Mutual success.</p>
+                    <div class="price">¥43,366<span style="font-size: 1rem; font-weight: 400;">/month</span></div>
+                    <p style="font-size: 0.875rem; color: var(--color-semantic-success);">2.5% of coffee revenue only</p>
+                    <ul>
+                        <li>Tokyo Coffee brand license</li>
+                        <li>Complete training program</li>
+                        <li>Unlimited ongoing support</li>
+                        <li>Menu, recipes, marketing materials</li>
+                        <li>Full product ecosystem access</li>
+                        <li>Keep 100% of non-coffee revenue</li>
+                        <li>Flexibility within guidelines</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-card">
+                    <h4>Traditional Franchise</h4>
+                    <p class="text-muted">Systems, but at a cost.</p>
+                    <div class="price">¥150,640<span style="font-size: 1rem; font-weight: 400;">/month</span></div>
+                    <p style="font-size: 0.875rem; color: var(--color-text-muted);">7% of ALL revenue + ¥2.3M upfront</p>
+                    <ul>
+                        <li>Brand and full systems</li>
+                        <li>Training and support</li>
+                        <li class="negative">¥2.3M upfront fee</li>
+                        <li class="negative">Royalty on ALL revenue</li>
+                        <li class="negative">Strict operational rules</li>
+                        <li class="negative">Regular compliance audits</li>
+                        <li class="negative">Limited flexibility</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Year 1 Total Cost Comparison</h3>
+            <div class="chart-container fade-in">
+                <div class="bar-chart">
+                    <div class="bar-row">
+                        <span class="bar-label">Norenchise</span>
+                        <div class="bar-track">
+                            <div class="bar-fill norenchise" style="width: 50%;"></div>
+                        </div>
+                        <span class="bar-value text-success">¥3.66M</span>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-label">Wholesale*</span>
+                        <div class="bar-track">
+                            <div class="bar-fill wholesale" style="width: 59%;"></div>
+                        </div>
+                        <span class="bar-value">¥4.32M</span>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-label">Franchise</span>
+                        <div class="bar-track">
+                            <div class="bar-fill franchise" style="width: 100%;"></div>
+                        </div>
+                        <span class="bar-value">¥7.32M</span>
+                    </div>
+                </div>
+                <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: var(--space-4);">*Wholesale includes consulting fees, DIY brand/menu development costs</p>
+            </div>
+
+            <div class="highlight-box critical">
+                <h4>Partner Savings with Norenchise</h4>
+                <p><strong>vs Wholesale:</strong> ¥666,647/year saved<br>
+                <strong>vs Franchise:</strong> ¥3,666,907/year saved</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Financial Model -->
+    <section id="financials" class="bg-primary">
+        <div class="container">
+            <span class="section-number">03 — Partner Financial Model</span>
+            <h2>Real Numbers, Real Projections</h2>
+            <p>Based on actual partner projections: 80 customers/day at Q4 run-rate, 22 operating days/month, ¥2.15M monthly revenue.</p>
+
+            <h3>Revenue Breakdown</h3>
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Revenue Stream</th>
+                            <th class="text-right">Monthly (Q4)</th>
+                            <th class="text-right">% of Total</th>
+                            <th>Royalty?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="jp">カフェIN</span> (Dine-in)</td>
+                            <td class="text-right">¥1,056,000</td>
+                            <td class="text-right">49%</td>
+                            <td class="text-success">✓ Yes</td>
+                        </tr>
+                        <tr>
+                            <td><span class="jp">カフェOUT</span> (Takeout)</td>
+                            <td class="text-right">¥528,000</td>
+                            <td class="text-right">25%</td>
+                            <td class="text-success">✓ Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Retail Coffee Products</td>
+                            <td class="text-right">¥150,640</td>
+                            <td class="text-right">7%</td>
+                            <td class="text-success">✓ Yes</td>
+                        </tr>
+                        <tr>
+                            <td><span class="jp">物販</span> (Honey, etc.)</td>
+                            <td class="text-right">¥198,000</td>
+                            <td class="text-right">9%</td>
+                            <td class="text-muted">✗ No</td>
+                        </tr>
+                        <tr>
+                            <td>Yoga / Events / Rental</td>
+                            <td class="text-right">¥370,000</td>
+                            <td class="text-right">17%</td>
+                            <td class="text-muted">✗ No</td>
+                        </tr>
+                        <tr class="table-highlight">
+                            <td><strong>Total Revenue</strong></td>
+                            <td class="text-right"><strong>¥2,302,640</strong></td>
+                            <td class="text-right"><strong>100%</strong></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><em>Royalty Base (Coffee Only)</em></td>
+                            <td class="text-right"><em>¥1,734,640</em></td>
+                            <td class="text-right"><em>75%</em></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight-box">
+                <h4>The Norenchise Advantage</h4>
+                <p>Partner keeps <strong>100% of non-coffee revenue</strong>. Yoga, events, honey, space rental — that's their business. As these grow, they keep every yen. Franchise would take 7% of everything.</p>
+            </div>
+
+            <h3>What Partners Pay for Products</h3>
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th class="text-right">HQ Cost</th>
+                            <th class="text-right">Partner Pays</th>
+                            <th class="text-right">Partner Sells</th>
+                            <th class="text-right">Partner Margin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Beans (per kg)</td>
+                            <td class="text-right">¥2,674</td>
+                            <td class="text-right">¥4,920</td>
+                            <td class="text-right">—</td>
+                            <td class="text-right">—</td>
+                        </tr>
+                        <tr>
+                            <td>Retail Bags (200g)</td>
+                            <td class="text-right">¥633</td>
+                            <td class="text-right">¥1,074</td>
+                            <td class="text-right">¥1,290</td>
+                            <td class="text-right">¥216 (17%)</td>
+                        </tr>
+                        <tr>
+                            <td>Cakes</td>
+                            <td class="text-right">¥250</td>
+                            <td class="text-right">¥500</td>
+                            <td class="text-right">¥700</td>
+                            <td class="text-right">¥200 (29%)</td>
+                        </tr>
+                        <tr>
+                            <td>Cookies</td>
+                            <td class="text-right">¥50</td>
+                            <td class="text-right">¥150</td>
+                            <td class="text-right">¥250</td>
+                            <td class="text-right">¥100 (40%)</td>
+                        </tr>
+                        <tr>
+                            <td>Takeout Cups</td>
+                            <td class="text-right">¥10</td>
+                            <td class="text-right">¥20</td>
+                            <td class="text-right">—</td>
+                            <td class="text-right">—</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: HQ Economics -->
+    <section id="hq-economics" class="bg-secondary">
+        <div class="container">
+            <span class="section-number">04 — HQ Economics</span>
+            <h2>What This Means for Tokyo Coffee</h2>
+            <p>The critical insight: Norenchise generates 2.6× the profit of a standard wholesale client because we earn from the entire product ecosystem, not just beans.</p>
+
+            <h3>Q4 Monthly HQ Revenue & Profit</h3>
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Revenue Stream</th>
+                            <th class="text-right">Volume</th>
+                            <th class="text-right">HQ Revenue</th>
+                            <th class="text-right">HQ Profit</th>
+                            <th class="text-right">% of Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Beans (drinks)</td>
+                            <td class="text-right">58kg</td>
+                            <td class="text-right">¥285,360</td>
+                            <td class="text-right">¥130,268</td>
+                            <td class="text-right">38%</td>
+                        </tr>
+                        <tr>
+                            <td>Cakes (18%)</td>
+                            <td class="text-right">317</td>
+                            <td class="text-right">¥158,500</td>
+                            <td class="text-right">¥79,250</td>
+                            <td class="text-right">23%</td>
+                        </tr>
+                        <tr>
+                            <td>Royalty (2.5%)</td>
+                            <td class="text-right">—</td>
+                            <td class="text-right">¥43,366</td>
+                            <td class="text-right">¥43,366</td>
+                            <td class="text-right">13%</td>
+                        </tr>
+                        <tr>
+                            <td>Other Retail Products</td>
+                            <td class="text-right">—</td>
+                            <td class="text-right">¥100,000</td>
+                            <td class="text-right">¥40,000</td>
+                            <td class="text-right">12%</td>
+                        </tr>
+                        <tr>
+                            <td>Retail Bags (200g)</td>
+                            <td class="text-right">66</td>
+                            <td class="text-right">¥70,884</td>
+                            <td class="text-right">¥29,106</td>
+                            <td class="text-right">9%</td>
+                        </tr>
+                        <tr>
+                            <td>Cookies (5%)</td>
+                            <td class="text-right">88</td>
+                            <td class="text-right">¥13,200</td>
+                            <td class="text-right">¥8,800</td>
+                            <td class="text-right">3%</td>
+                        </tr>
+                        <tr>
+                            <td>Takeout Cups (50%)</td>
+                            <td class="text-right">880</td>
+                            <td class="text-right">¥17,600</td>
+                            <td class="text-right">¥8,800</td>
+                            <td class="text-right">3%</td>
+                        </tr>
+                        <tr class="table-highlight">
+                            <td><strong>TOTAL NORENCHISE</strong></td>
+                            <td></td>
+                            <td class="text-right"><strong>¥688,910</strong></td>
+                            <td class="text-right text-success"><strong>¥339,590</strong></td>
+                            <td class="text-right"><strong>100%</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>HQ Profit Breakdown</h3>
+            <div class="chart-container fade-in">
+                <div class="donut-container">
+                    <div class="donut-chart">
+                        <svg viewBox="0 0 200 200">
+                            <circle cx="100" cy="100" r="80" stroke="#EBE4D8" stroke-dasharray="502.4" stroke-dashoffset="0"></circle>
+                            <circle cx="100" cy="100" r="80" stroke="#8B4513" stroke-dasharray="502.4" stroke-dashoffset="311.5"></circle>
+                            <circle cx="100" cy="100" r="80" stroke="#C17F59" stroke-dasharray="502.4" stroke-dashoffset="196.9"></circle>
+                            <circle cx="100" cy="100" r="80" stroke="#4A7C59" stroke-dasharray="502.4" stroke-dashoffset="131.6"></circle>
+                            <circle cx="100" cy="100" r="80" stroke="#6B5A4E" stroke-dasharray="502.4" stroke-dashoffset="71.3"></circle>
+                            <circle cx="100" cy="100" r="80" stroke="#D9CFC0" stroke-dasharray="502.4" stroke-dashoffset="25.1"></circle>
+                        </svg>
+                    </div>
+                    <div class="donut-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #8B4513;"></div>
+                            <span class="legend-label">Beans (drinks)</span>
+                            <span class="legend-value">38%</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #C17F59;"></div>
+                            <span class="legend-label">Cakes</span>
+                            <span class="legend-value">23%</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #4A7C59;"></div>
+                            <span class="legend-label">Royalty</span>
+                            <span class="legend-value">13%</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #6B5A4E;"></div>
+                            <span class="legend-label">Retail Products</span>
+                            <span class="legend-value">12%</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #D9CFC0;"></div>
+                            <span class="legend-label">Other (bags, cookies, cups)</span>
+                            <span class="legend-value">14%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Norenchise vs Wholesale: The Real Comparison</h3>
+            <div class="stat-grid fade-in">
+                <div class="stat-card">
+                    <div class="stat-label">WHOLESALE (Beans Only)</div>
+                    <div class="stat-number">¥130,268</div>
+                    <div class="stat-label">Monthly HQ Profit</div>
+                </div>
+                <div class="stat-card highlight">
+                    <div class="stat-label" style="color: var(--color-accent-primary);">NORENCHISE (Full Ecosystem)</div>
+                    <div class="stat-number">¥339,590</div>
+                    <div class="stat-label">Monthly HQ Profit</div>
+                    <div class="stat-change" style="color: var(--color-accent-primary);">+161% vs Wholesale</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">UPLIFT</div>
+                    <div class="stat-number" style="color: var(--color-semantic-success);">+¥209,322</div>
+                    <div class="stat-label">Additional Monthly Profit</div>
+                </div>
+            </div>
+
+            <h3>Scale Scenarios</h3>
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Scenario</th>
+                            <th class="text-right">Customers/Day</th>
+                            <th class="text-right">Wholesale Profit</th>
+                            <th class="text-right">Norenchise Profit</th>
+                            <th class="text-right">Annual Uplift</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Q4 (Baseline)</strong></td>
+                            <td class="text-right">80</td>
+                            <td class="text-right">¥130,268/mo</td>
+                            <td class="text-right text-success">¥339,590/mo</td>
+                            <td class="text-right text-success">+¥2,511,864</td>
+                        </tr>
+                        <tr>
+                            <td><strong>1.5× Growth</strong></td>
+                            <td class="text-right">120</td>
+                            <td class="text-right">¥195,402/mo</td>
+                            <td class="text-right text-success">¥509,260/mo</td>
+                            <td class="text-right text-success">+¥3,766,296</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2× Growth</strong></td>
+                            <td class="text-right">160</td>
+                            <td class="text-right">¥260,536/mo</td>
+                            <td class="text-right text-success">¥679,180/mo</td>
+                            <td class="text-right text-success">+¥5,023,728</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight-box critical">
+                <h4>Key Insight</h4>
+                <p><strong>One Norenchise partner = 2.6× the profit of one wholesale client.</strong><br>
+                Because wholesale only gets beans. Norenchise gets beans + cakes + cookies + cups + retail products + royalty.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Annual Projections -->
+    <section id="projections" class="bg-inverse">
+        <div class="container">
+            <span class="section-number">05 — Annual Projections</span>
+            <h2>HQ Annual Profit per Partner</h2>
+            
+            <div class="stat-grid fade-in" style="margin-top: var(--space-12);">
+                <div class="stat-card" style="background: rgba(255,255,255,0.1);">
+                    <div class="stat-label" style="color: var(--color-text-inverse); opacity: 0.7;">Q4 RUN-RATE</div>
+                    <div class="stat-number" style="color: var(--color-accent-primary);">¥4.08M</div>
+                    <div class="stat-label" style="color: var(--color-text-inverse);">Annual HQ Profit</div>
+                    <div style="margin-top: var(--space-4); font-size: 0.875rem; opacity: 0.7;">80 customers/day</div>
+                </div>
+                <div class="stat-card" style="background: rgba(255,255,255,0.1);">
+                    <div class="stat-label" style="color: var(--color-text-inverse); opacity: 0.7;">1.5× GROWTH</div>
+                    <div class="stat-number" style="color: var(--color-accent-primary);">¥6.11M</div>
+                    <div class="stat-label" style="color: var(--color-text-inverse);">Annual HQ Profit</div>
+                    <div style="margin-top: var(--space-4); font-size: 0.875rem; opacity: 0.7;">120 customers/day</div>
+                </div>
+                <div class="stat-card" style="background: rgba(255,255,255,0.1);">
+                    <div class="stat-label" style="color: var(--color-text-inverse); opacity: 0.7;">2× GROWTH</div>
+                    <div class="stat-number" style="color: var(--color-accent-primary);">¥8.15M</div>
+                    <div class="stat-label" style="color: var(--color-text-inverse);">Annual HQ Profit</div>
+                    <div style="margin-top: var(--space-4); font-size: 0.875rem; opacity: 0.7;">160 customers/day</div>
+                </div>
+            </div>
+
+            <div style="margin-top: var(--space-16); text-align: center;">
+                <p style="font-size: 1.25rem; opacity: 0.9; max-width: 50ch; margin: 0 auto;">Norenchise consistently delivers <strong style="color: var(--color-accent-primary);">161% more profit</strong> than wholesale at any scale — while being better for the partner.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Summary -->
+    <section id="summary" class="bg-primary">
+        <div class="container">
+            <span class="section-number">06 — Summary</span>
+            <h2>The Win-Win Model</h2>
+            <p>Norenchise creates value for both parties — HQ earns more than wholesale while partners pay less than franchise. True partnership economics.</p>
+
+            <div class="two-column fade-in">
+                <div>
+                    <h3>For HQ</h3>
+                    <div class="highlight-box">
+                        <ul class="action-list" style="margin: 0;">
+                            <li><strong>161% more profit</strong> than wholesale per partner</li>
+                            <li><strong>¥4.08M annual profit</strong> per partner at Q4 run-rate</li>
+                            <li><strong>Full ecosystem revenue</strong> — beans, cakes, cookies, cups, retail</li>
+                            <li><strong>2.5% royalty</strong> adds pure margin on top of product sales</li>
+                            <li><strong>Better relationships</strong> — partnership vs transaction</li>
+                            <li><strong>Easier scaling</strong> — lower barriers, happier partners</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h3>For Partner</h3>
+                    <div class="highlight-box">
+                        <ul class="action-list" style="margin: 0;">
+                            <li><strong>¥666K savings</strong> vs wholesale (Year 1)</li>
+                            <li><strong>¥3.67M savings</strong> vs franchise (Year 1)</li>
+                            <li><strong>¥0 upfront fee</strong> — no franchise fee barrier</li>
+                            <li><strong>100% of non-coffee revenue</strong> — yoga, events, honey are theirs</li>
+                            <li><strong>Brand + training + support</strong> all included</li>
+                            <li><strong>Flexibility</strong> to adapt to local market</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>The Bottom Line</h3>
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th class="text-right">Wholesale</th>
+                            <th class="text-right">Franchise</th>
+                            <th class="text-right">Norenchise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Partner Year 1 Cost</td>
+                            <td class="text-right">¥4.32M</td>
+                            <td class="text-right">¥7.32M</td>
+                            <td class="text-right text-success">¥3.66M</td>
+                        </tr>
+                        <tr>
+                            <td>HQ Annual Profit (Q4)</td>
+                            <td class="text-right">¥1.56M</td>
+                            <td class="text-right">¥4.5M+</td>
+                            <td class="text-right text-success">¥4.08M</td>
+                        </tr>
+                        <tr>
+                            <td>HQ vs Wholesale</td>
+                            <td class="text-right">—</td>
+                            <td class="text-right">+188%</td>
+                            <td class="text-right text-success">+161%</td>
+                        </tr>
+                        <tr>
+                            <td>Partner Autonomy</td>
+                            <td class="text-right">Total</td>
+                            <td class="text-right">Limited</td>
+                            <td class="text-right text-success">High</td>
+                        </tr>
+                        <tr>
+                            <td>Relationship</td>
+                            <td class="text-right">Transactional</td>
+                            <td class="text-right">Compliance</td>
+                            <td class="text-right text-success">Partnership</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flow-diagram fade-in">
+                <div class="flow-box">Partner Succeeds</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box">Sells More Coffee</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box">Buys More Products</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box highlight">HQ Succeeds</div>
+            </div>
+
+            <div style="text-align: center; margin-top: var(--space-16);">
+                <p style="font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem); max-width: 30ch; margin: 0 auto; line-height: 1.4;">
+                    Norenchise: Where <span class="jp">暖簾分け</span> tradition meets modern partnership economics.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-inverse" style="padding: var(--space-12) var(--container-padding); text-align: center;">
+        <p style="opacity: 0.6; font-size: 0.875rem;">Tokyo Coffee — Internal Strategy Document — February 2026</p>
+    </footer>
+
+    <script>
+        // Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Nav visibility
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+        });
+
+        // Active section highlighting
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        const observerOptions = {
+            rootMargin: '-20% 0px -80% 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + entry.target.id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+
+        // Fade in on scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(el => fadeObserver.observe(el));
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
