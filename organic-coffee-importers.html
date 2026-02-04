@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tokyo Coffee — Organic Green Bean Importers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-primary: #F5F0E8;
+            --color-bg-secondary: #EBE4D8;
+            --color-bg-tertiary: #D9CFC0;
+            --color-bg-inverse: #2C1810;
+            
+            --color-text-primary: #2C1810;
+            --color-text-secondary: #4A3428;
+            --color-text-muted: #6B5A4E;
+            --color-text-inverse: #F5F0E8;
+            
+            --color-accent-primary: #C17F59;
+            --color-accent-secondary: #8B4513;
+            
+            --color-semantic-success: #4A7C59;
+            --color-semantic-warning: #B8860B;
+            
+            --color-border: rgba(44, 24, 16, 0.12);
+            --color-shadow: rgba(44, 24, 16, 0.08);
+            
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            
+            --container-max: 1200px;
+            --container-padding: clamp(1.5rem, 5vw, 4rem);
+            
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            
+            --shadow-md: 0 4px 12px var(--color-shadow);
+            --shadow-lg: 0 8px 24px var(--color-shadow);
+            
+            --transition-normal: 300ms ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--color-bg-secondary);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary));
+            transition: width 0.1s ease;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(245, 240, 232, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem var(--container-padding);
+            z-index: 999;
+            transform: translateY(-100%);
+            transition: transform var(--transition-normal);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        nav.visible {
+            transform: translateY(0);
+        }
+
+        nav .nav-inner {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        nav .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        nav .nav-links a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color var(--transition-normal);
+        }
+
+        nav .nav-links a:hover,
+        nav .nav-links a.active {
+            color: var(--color-accent-primary);
+        }
+
+        .btn-print {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: opacity var(--transition-normal);
+        }
+
+        .btn-print:hover {
+            opacity: 0.85;
+        }
+
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--space-20) var(--container-padding);
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+
+        .hero .badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-accent-primary);
+            border: 1px solid var(--color-accent-primary);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            margin-bottom: var(--space-6);
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 500;
+            line-height: 1.15;
+            margin-bottom: var(--space-6);
+            max-width: 800px;
+        }
+
+        .hero .subtitle {
+            font-size: 1.15rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin-bottom: var(--space-8);
+        }
+
+        .hero .meta {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+
+        /* Sections */
+        section {
+            padding: var(--space-16) 0;
+        }
+
+        .section-number {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-accent-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 500;
+            margin-bottom: var(--space-6);
+        }
+
+        section > .container > p {
+            font-size: 1.05rem;
+            color: var(--color-text-secondary);
+            max-width: 700px;
+            margin-bottom: var(--space-8);
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.3rem, 2vw, 1.6rem);
+            font-weight: 500;
+            margin: var(--space-12) 0 var(--space-6) 0;
+            color: var(--color-text-primary);
+        }
+
+        /* Highlight box */
+        .highlight-box {
+            background: white;
+            border-left: 4px solid var(--color-accent-primary);
+            padding: var(--space-6);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: var(--space-8) 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .highlight-box h4 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-accent-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box p {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Supplier cards */
+        .supplier-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-8);
+            margin: var(--space-8) 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .supplier-card .supplier-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: var(--space-6);
+            padding-bottom: var(--space-4);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .supplier-card h4 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 500;
+        }
+
+        .status-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-confirmed {
+            background: rgba(74, 124, 89, 0.15);
+            color: var(--color-semantic-success);
+        }
+
+        .status-verify {
+            background: rgba(184, 134, 11, 0.15);
+            color: var(--color-semantic-warning);
+        }
+
+        .supplier-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+
+        .detail-item {
+            font-size: 0.9rem;
+        }
+
+        .detail-item .label {
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-item a {
+            color: var(--color-accent-primary);
+            text-decoration: none;
+        }
+
+        .detail-item a:hover {
+            text-decoration: underline;
+        }
+
+        .supplier-notes {
+            background: var(--color-bg-secondary);
+            padding: var(--space-4);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        .supplier-notes strong {
+            color: var(--color-text-primary);
+        }
+
+        .action-item {
+            margin-top: var(--space-4);
+            padding-top: var(--space-4);
+            border-top: 1px solid var(--color-border);
+            font-size: 0.9rem;
+        }
+
+        .action-item .action-label {
+            color: var(--color-accent-secondary);
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Tables */
+        .table-wrapper {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin: var(--space-8) 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--color-border);
+            font-size: 0.9rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: var(--color-bg-secondary);
+        }
+
+        /* Background variations */
+        .bg-secondary {
+            background: var(--color-bg-secondary);
+        }
+
+        .bg-inverse {
+            background: var(--color-bg-inverse);
+            color: var(--color-text-inverse);
+        }
+
+        .bg-inverse h2,
+        .bg-inverse h3 {
+            color: var(--color-text-inverse);
+        }
+
+        .bg-inverse .section-number {
+            color: var(--color-accent-primary);
+        }
+
+        /* Footer */
+        footer {
+            padding: var(--space-12) var(--container-padding);
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav .nav-links {
+                display: none;
+            }
+
+            .supplier-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Print */
+        @media print {
+            nav, .progress-container {
+                display: none;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 2rem 0;
+            }
+
+            section {
+                page-break-inside: avoid;
+            }
+
+            .supplier-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <nav id="nav">
+        <div class="nav-inner">
+            <div class="nav-logo">Tokyo Coffee</div>
+            <div class="nav-links">
+                <a href="#summary">Summary</a>
+                <a href="#suppliers">Suppliers</a>
+                <a href="#existing">Existing</a>
+                <a href="#actions">Actions</a>
+            </div>
+            <button class="btn-print" onclick="window.print()">Export PDF</button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <span class="badge">Direct Sourcing Strategy</span>
+        <h1>Organic Green Bean Importer Research</h1>
+        <p class="subtitle">Verified JAS-certified suppliers for Tokyo Coffee's 商社 dependency reduction initiative. Target: 15-25% margin improvement.</p>
+        <p class="meta">Last Updated: February 4, 2026 &nbsp;•&nbsp; Status: Ready for Outreach</p>
+    </header>
+
+    <section id="summary">
+        <div class="container">
+            <span class="section-number">01 — Executive Summary</span>
+            <h2>Key Findings</h2>
+            <p>This document consolidates verified organic JAS-certified green bean suppliers for Tokyo Coffee's direct sourcing initiative.</p>
+
+            <div class="highlight-box">
+                <h4>Critical JAS Regulation</h4>
+                <p><strong>JAS表示 is only permitted on 原袋 (30kg/60kg/69kg) purchases.</strong> Small-lot purchases can only be labeled "有機JAS認証生豆を原材料に使用" without the JAS mark. Tokyo Coffee's existing JAS certification allows 原袋購入→自社焙煎→JASマーク表示 workflow.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="suppliers" class="bg-secondary">
+        <div class="container">
+            <span class="section-number">02 — New Suppliers</span>
+            <h2>Verified Organic JAS Importers</h2>
+            <p>Five vetted suppliers ready for account registration and sampling.</p>
+
+            <div class="supplier-card fade-in">
+                <div class="supplier-header">
+                    <h4>1. ユーエスフーズ株式会社</h4>
+                    <span class="status-badge status-confirmed">✓ JAS Confirmed</span>
+                </div>
+                <div class="supplier-details">
+                    <div class="detail-item">
+                        <span class="label">Website</span>
+                        <a href="https://usfoods.co.jp/" target="_blank">usfoods.co.jp</a>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Parent Company</span>
+                        石光商事 (東証スタンダード 2750)
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Min Order</span>
+                        1kg~ (Amazon "USプレミアム")
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Shipping</span>
+                        20kg+ 送料無料 (沖縄除く)
+                    </div>
+                </div>
+                <div class="supplier-notes">
+                    <strong>Confirmed JAS Products:</strong> Ecuador Andes Mountain JAS S18 (SCA 81.5), Mexico Oaxaca Petate Dry Honey JAS (SCA 82), Mexico Coati JAS. Allied Coffee Roasters全工場有機JAS認証.
+                </div>
+                <div class="action-item">
+                    <span class="action-label">Priority Action:</span> Register business account (審査2-5日) → Sample: Mexico Coati JAS
+                </div>
+            </div>
+
+            <div class="supplier-card fade-in">
+                <div class="supplier-header">
+                    <h4>2. 小川珈琲株式会社</h4>
+                    <span class="status-badge status-confirmed">✓ JAS Confirmed</span>
+                </div>
+                <div class="supplier-details">
+                    <div class="detail-item">
+                        <span class="label">Website</span>
+                        <a href="https://ogawa-pro.jp/" target="_blank">ogawa-pro.jp</a>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Location</span>
+                        京都本社 (右京区), 1952年創業
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Min Order</span>
+                        500g~
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Certifications</span>
+                        JAS + Fairtrade + Bird Friendly
+                    </div>
+                </div>
+                <div class="supplier-notes">
+                    <strong>JAS Origins:</strong> Peru, Ethiopia, Mexico, Honduras, Indonesia, Uganda. 業務用オンラインショップ launched Sept 2024. 新規会員1,000円OFFクーポン available.
+                </div>
+                <div class="action-item">
+                    <span class="action-label">Priority Action:</span> Register 業務用オンラインショップ → Use 1,000円OFF coupon → Review 30種生豆カタログ
+                </div>
+            </div>
+
+            <div class="supplier-card fade-in">
+                <div class="supplier-header">
+                    <h4>3. キャラバンコーヒー生豆ショップ</h4>
+                    <span class="status-badge status-verify">⚠ Requires Verification</span>
+                </div>
+                <div class="supplier-details">
+                    <div class="detail-item">
+                        <span class="label">Website</span>
+                        <a href="https://www.greenbean.caravan-coffee.jp/" target="_blank">greenbean.caravan-coffee.jp</a>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Parent</span>
+                        ユニマットライフ
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Min Order</span>
+                        5kg単位販売
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">History</span>
+                        1928年横浜創業, ~100年
+                    </div>
+                </div>
+                <div class="supplier-notes">
+                    Retail organic confirmed. Wholesale JAS lineup needs verification. 横浜工場1日5,000kg+焙煎. 業務用のみ (個人販売不可).
+                </div>
+                <div class="action-item">
+                    <span class="action-label">Priority Action:</span> Contact directly to confirm organic JAS wholesale offerings
+                </div>
+            </div>
+
+            <div class="supplier-card fade-in">
+                <div class="supplier-header">
+                    <h4>4. 丸山珈琲 KOP</h4>
+                    <span class="status-badge status-verify">⚠ Requires Inquiry</span>
+                </div>
+                <div class="supplier-details">
+                    <div class="detail-item">
+                        <span class="label">Green Beans</span>
+                        <a href="https://green.maruyamacoffee.com/" target="_blank">green.maruyamacoffee.com</a>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Wholesale</span>
+                        <a href="https://official.maruyamacoffee.com/wholesale/" target="_blank">official.maruyamacoffee.com/wholesale</a>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Specialty</span>
+                        COE85点+ トップスペシャルティ
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Min Order</span>
+                        問い合わせ経由
+                    </div>
+                </div>
+                <div class="supplier-notes">
+                    Partial organic offerings. 代表丸山氏 COE国際審査員世界最多参加. 全生豆自社輸入, 20年+生産者直接取引.
+                </div>
+                <div class="action-item">
+                    <span class="action-label">Priority Action:</span> Submit inquiry via wholesale form to confirm JAS offerings
+                </div>
+            </div>
+
+            <div class="supplier-card fade-in">
+                <div class="supplier-header">
+                    <h4>5. ボルカフェ株式会社 (Volcafe Japan)</h4>
+                    <span class="status-badge status-verify">⚠ Requires Inquiry</span>
+                </div>
+                <div class="supplier-details">
+                    <div class="detail-item">
+                        <span class="label">Website</span>
+                        <a href="https://volcafe.co.jp/" target="_blank">volcafe.co.jp</a>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Location</span>
+                        神戸 (日本法人1919年設立)
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Parent</span>
+                        ED&F Man Group (London)
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Coverage</span>
+                        日本・韓国市場
+                    </div>
+                </div>
+                <div class="supplier-notes">
+                    Major global trader with organic available. Traditional B2B 商社 model — no public e-commerce. Volcafe Way: 10カ国43,000農家支援プログラム. VSPシリーズ: 29kg小分け包装.
+                </div>
+                <div class="action-item">
+                    <span class="action-label">Priority Action:</span> Direct contact for organic JAS offerings and minimum order requirements
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="existing">
+        <div class="container">
+            <span class="section-number">03 — Existing Accounts</span>
+            <h2>Current Supplier Relationships</h2>
+            <p>Tokyo Coffee already maintains accounts with these suppliers.</p>
+
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Supplier</th>
+                            <th>Status</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>TYPICA</td>
+                            <td>✓ Active</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>兼松株式会社 (Kanematsu)</td>
+                            <td>✓ Active</td>
+                            <td>Colombia only currently. ¥2,190/kg. Discount system available.</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Wataru</td>
+                            <td>✓ Active</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Umi no Mukou</td>
+                            <td>✓ Active</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Latorre & Dutch</td>
+                            <td>✓ Active</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Trabocca</td>
+                            <td>✓ Active</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>UCC</td>
+                            <td>✓ Active</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>Cerrado</td>
+                            <td>✓ Active</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>Windfarm</td>
+                            <td>✓ Active</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>豆乃木</td>
+                            <td>✓ Active</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                            <td>コーヒー流通センター</td>
+                            <td>✓ Active</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td>オリジンコーヒートレーダーズ</td>
+                            <td>✓ Active</td>
+                            <td>—</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="actions" class="bg-inverse">
+        <div class="container">
+            <span class="section-number">04 — Action Items</span>
+            <h2>Priority Actions Q1 2026</h2>
+
+            <div class="table-wrapper fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Priority</th>
+                            <th>Supplier</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>ユーエスフーズ</td>
+                            <td>Register business account (審査2-5日) → Sample: Mexico Coati JAS</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>小川珈琲</td>
+                            <td>Register 業務用オンラインショップ → 1,000円OFFクーポン利用</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>キャラバンコーヒー</td>
+                            <td>Contact to verify organic JAS wholesale lineup</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>ボルカフェ</td>
+                            <td>Direct inquiry for organic JAS offerings and pricing</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>丸山珈琲</td>
+                            <td>Submit wholesale inquiry for JAS-certified lots</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Tokyo Coffee — Direct Sourcing Strategy Document</p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem;">This document supports Tokyo Coffee's organic green bean procurement initiative.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Nav visibility
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+        });
+
+        // Active section highlighting
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('nav .nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Fade in animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(el => observer.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
