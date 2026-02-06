@@ -11,830 +11,450 @@
             --color-bg-secondary: #EBE4D8;
             --color-bg-tertiary: #D9CFC0;
             --color-bg-inverse: #2C1810;
-            
             --color-text-primary: #2C1810;
             --color-text-secondary: #4A3428;
             --color-text-muted: #6B5A4E;
             --color-text-inverse: #F5F0E8;
-            
             --color-accent-primary: #C17F59;
             --color-accent-secondary: #8B4513;
-            
             --color-semantic-success: #4A7C59;
             --color-semantic-warning: #B8860B;
             --color-semantic-danger: #c0392b;
-            
             --color-border: rgba(44, 24, 16, 0.12);
             --color-shadow: rgba(44, 24, 16, 0.08);
-            
             --font-display: 'Noto Serif JP', 'Playfair Display', Georgia, serif;
             --font-body: 'Noto Sans JP', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            
-            --space-1: 0.25rem;
-            --space-2: 0.5rem;
-            --space-3: 0.75rem;
-            --space-4: 1rem;
-            --space-6: 1.5rem;
-            --space-8: 2rem;
-            --space-10: 2.5rem;
-            --space-12: 3rem;
-            --space-16: 4rem;
-            --space-20: 5rem;
-            --space-24: 6rem;
-            
             --container-max: 1100px;
             --container-padding: clamp(1.5rem, 5vw, 4rem);
-            
             --radius-sm: 0.25rem;
             --radius-md: 0.5rem;
             --radius-lg: 1rem;
             --radius-xl: 1.5rem;
-            --radius-full: 9999px;
-            
             --shadow-md: 0 4px 12px var(--color-shadow);
             --shadow-lg: 0 8px 24px var(--color-shadow);
             --shadow-xl: 0 20px 40px var(--color-shadow);
-            
-            --transition-fast: 150ms ease;
             --transition-normal: 300ms ease;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: var(--font-body);
             background: var(--color-bg-primary);
             color: var(--color-text-primary);
-            line-height: 1.9;
+            line-height: 1.8;
             font-size: 16px;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* Progress Bar */
         .progress-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 1000;
             background: transparent;
-            z-index: 1000;
         }
-
         .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--color-accent-primary), var(--color-semantic-success));
-            width: 0%;
-            transition: width 50ms ease-out;
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary));
+            transition: width 100ms ease;
         }
 
         /* Navigation */
         .nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(245, 240, 232, 0.95);
-            backdrop-filter: blur(10px);
-            padding: var(--space-4) var(--container-padding);
-            z-index: 900;
-            transform: translateY(-100%);
-            transition: transform var(--transition-normal);
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 999;
+            background: rgba(245, 240, 232, 0.95); backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--color-border);
+            transform: translateY(-100%); transition: transform 0.3s ease;
+            padding: 0.75rem 0;
         }
-
-        .nav.visible {
-            transform: translateY(0);
+        .nav.visible { transform: translateY(0); }
+        .nav-inner {
+            max-width: var(--container-max); margin: 0 auto;
+            padding: 0 var(--container-padding);
+            display: flex; align-items: center; justify-content: space-between;
         }
-
-        .nav-content {
-            max-width: var(--container-max);
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-logo {
-            font-family: var(--font-display);
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--color-text-primary);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: var(--space-6);
-            list-style: none;
-        }
-
+        .nav-logo { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; }
+        .nav-links { display: flex; gap: 1.5rem; }
         .nav-links a {
-            color: var(--color-text-muted);
-            text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: color var(--transition-fast);
+            text-decoration: none; color: var(--color-text-muted);
+            font-size: 0.85rem; font-weight: 500;
+            transition: color var(--transition-normal);
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--color-accent-secondary); }
+        .nav-pdf {
+            background: var(--color-bg-inverse); color: var(--color-text-inverse);
+            border: none; padding: 0.4rem 1rem; border-radius: 99px;
+            font-size: 0.8rem; cursor: pointer; font-family: var(--font-body);
         }
 
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--color-text-primary);
+        /* Container */
+        .container {
+            max-width: var(--container-max); margin: 0 auto;
+            padding: 0 var(--container-padding);
         }
 
-        .nav-btn {
-            background: var(--color-bg-inverse);
-            color: var(--color-text-inverse);
-            padding: var(--space-2) var(--space-4);
-            border-radius: var(--radius-full);
-            font-size: 0.875rem;
-            font-weight: 500;
-            text-decoration: none;
-            cursor: pointer;
-            border: none;
-            transition: opacity var(--transition-fast);
-        }
-
-        .nav-btn:hover {
-            opacity: 0.85;
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-        }
-
-        /* Hero Section */
+        /* Hero */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: var(--space-24) var(--container-padding);
+            min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            background: var(--color-bg-inverse); color: var(--color-text-inverse);
+            padding: 4rem var(--container-padding);
             position: relative;
-            text-align: center;
-            background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
         }
-
-        .hero-content {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
         .hero-badge {
-            display: inline-block;
-            padding: var(--space-2) var(--space-6);
-            border: 2px solid var(--color-accent-primary);
-            border-radius: var(--radius-full);
-            font-size: 0.875rem;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-bottom: var(--space-8);
-            color: var(--color-accent-secondary);
+            display: inline-block; border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.3rem 1.2rem; border-radius: 99px;
+            font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+            margin-bottom: 2rem; font-weight: 500;
         }
-
         .hero h1 {
             font-family: var(--font-display);
-            font-size: clamp(4rem, 12vw, 8rem);
-            font-weight: 700;
-            line-height: 1;
-            margin-bottom: var(--space-6);
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-accent-secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: clamp(3rem, 8vw, 7rem); font-weight: 700;
+            line-height: 1.1; margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #F5F0E8 0%, #C17F59 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
-        .hero-tagline {
-            font-family: var(--font-display);
-            font-size: clamp(1.25rem, 3vw, 1.75rem);
-            color: var(--color-text-secondary);
-            margin-bottom: var(--space-8);
-            font-weight: 400;
-        }
-
         .hero-subtitle {
-            font-size: clamp(1rem, 2vw, 1.125rem);
-            color: var(--color-text-muted);
-            max-width: 55ch;
-            margin: 0 auto var(--space-12);
-            line-height: 2;
+            font-size: clamp(0.95rem, 2vw, 1.15rem);
+            line-height: 2; opacity: 0.85; max-width: 600px;
         }
-
         .scroll-indicator {
-            position: absolute;
-            bottom: var(--space-8);
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-2);
-            color: var(--color-text-muted);
-            font-size: 0.75rem;
+            position: absolute; bottom: 2rem;
+            font-size: 0.8rem; opacity: 0.5;
             animation: bounce 2s infinite;
         }
-
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
         }
 
         /* Sections */
-        section {
-            padding: var(--space-24) var(--container-padding);
-        }
-
-        .container {
-            max-width: var(--container-max);
-            margin: 0 auto;
-        }
+        section { padding: clamp(4rem, 8vw, 8rem) 0; }
+        .bg-primary { background: var(--color-bg-primary); }
+        .bg-secondary { background: var(--color-bg-secondary); }
+        .bg-inverse { background: var(--color-bg-inverse); color: var(--color-text-inverse); }
 
         .section-number {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--color-accent-primary);
-            margin-bottom: var(--space-4);
+            display: block; font-size: 0.75rem; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--color-accent-primary);
+            margin-bottom: 1rem; font-weight: 600;
         }
+        .bg-inverse .section-number { color: var(--color-accent-primary); }
 
-        section h2 {
+        h2 {
             font-family: var(--font-display);
-            font-size: clamp(2.25rem, 5vw, 3.5rem);
-            font-weight: 700;
-            margin-bottom: var(--space-6);
-            line-height: 1.2;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            line-height: 1.3; margin-bottom: 1.5rem; font-weight: 700;
+        }
+        h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+            margin: 2.5rem 0 1rem; font-weight: 600;
+        }
+        h4 {
+            font-size: 1rem; font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
         }
 
         .section-lead {
-            font-size: 1.25rem;
-            color: var(--color-text-secondary);
-            max-width: 60ch;
-            margin-bottom: var(--space-12);
-            line-height: 2;
-        }
-
-        h3 {
-            font-family: var(--font-display);
-            font-size: clamp(1.5rem, 3vw, 2rem);
-            font-weight: 600;
-            margin: var(--space-16) 0 var(--space-6);
-            color: var(--color-text-primary);
-        }
-
-        h4 {
-            font-size: 0.8125rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            margin-bottom: var(--space-4);
-        }
-
-        /* Background Variations */
-        .bg-primary { background: var(--color-bg-primary); }
-        .bg-secondary { background: var(--color-bg-secondary); }
-        .bg-inverse { 
-            background: var(--color-bg-inverse); 
-            color: var(--color-text-inverse);
-        }
-        .bg-inverse h2,
-        .bg-inverse h3,
-        .bg-inverse .section-number {
-            color: var(--color-text-inverse);
-        }
-        .bg-inverse .section-number {
-            color: var(--color-accent-primary);
-        }
-        .bg-inverse p {
-            color: rgba(245, 240, 232, 0.85);
-        }
-
-        /* Big Message Box */
-        .big-message {
-            background: white;
-            border-radius: var(--radius-xl);
-            padding: var(--space-12);
-            text-align: center;
-            box-shadow: var(--shadow-xl);
-            margin: var(--space-12) 0;
-        }
-
-        .big-message h3 {
-            margin-top: 0;
-            color: var(--color-text-primary);
-        }
-
-        .big-message .big-number {
-            font-family: var(--font-display);
-            font-size: clamp(3rem, 8vw, 5rem);
-            font-weight: 700;
-            color: var(--color-semantic-success);
-            line-height: 1;
-            margin: var(--space-4) 0;
-        }
-
-        .big-message .big-number.warning {
-            color: var(--color-semantic-danger);
-        }
-
-        .big-message p {
-            font-size: 1.125rem;
-            color: var(--color-text-secondary);
-            max-width: 45ch;
-            margin: var(--space-4) auto 0;
+            font-size: 1.05rem; color: var(--color-text-secondary);
+            max-width: 700px; margin-bottom: 2.5rem; line-height: 2;
         }
 
         /* Benefit Cards */
         .benefit-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: var(--space-6);
-            margin: var(--space-10) 0;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem; margin: 2rem 0;
         }
-
         .benefit-card {
-            background: white;
-            border-radius: var(--radius-lg);
-            padding: var(--space-8);
-            box-shadow: var(--shadow-md);
-            transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+            background: white; border-radius: var(--radius-lg);
+            padding: 2rem 1.5rem; box-shadow: var(--shadow-md);
+            transition: transform var(--transition-normal);
         }
+        .benefit-card:hover { transform: translateY(-4px); }
+        .benefit-icon { font-size: 2rem; margin-bottom: 1rem; }
+        .benefit-card h4 { margin-top: 0; font-size: 1rem; }
+        .benefit-card p { font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.7; }
 
-        .benefit-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .benefit-icon {
-            width: 56px;
-            height: 56px;
-            background: var(--color-bg-secondary);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: var(--space-4);
-        }
-
-        .benefit-card h4 {
+        /* Emphasis Text */
+        .emphasis-text {
             font-family: var(--font-display);
-            font-size: 1.25rem;
-            text-transform: none;
-            letter-spacing: normal;
-            color: var(--color-text-primary);
-            margin-bottom: var(--space-2);
-            font-weight: 600;
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            text-align: center; padding: 3rem 0; line-height: 2;
         }
 
-        .benefit-card p {
-            color: var(--color-text-muted);
-            font-size: 0.9375rem;
+        /* Story Cards (Section 02) */
+        .story-card {
+            background: white; border-radius: var(--radius-lg);
+            padding: 2rem; margin: 1.5rem 0; box-shadow: var(--shadow-md);
+        }
+        .story-card h4 { margin-top: 0; color: var(--color-accent-secondary); }
+
+        /* Price List */
+        .price-list {
+            margin: 1.5rem 0;
+        }
+        .price-list h4 {
+            font-size: 0.85rem; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--color-text-muted);
+            border-bottom: 2px solid var(--color-accent-primary);
+            padding-bottom: 0.5rem; margin-bottom: 1rem;
+        }
+        .price-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .price-item .service { font-size: 0.95rem; }
+        .price-item .price { font-weight: 600; color: var(--color-accent-secondary); font-size: 0.95rem; }
+
+        .total-box {
+            background: var(--color-bg-inverse); color: var(--color-text-inverse);
+            border-radius: var(--radius-lg); padding: 2rem;
+            text-align: center; margin: 2rem 0;
+        }
+        .total-box .total-amount {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
+        }
+        .total-box p { opacity: 0.8; margin-top: 0.5rem; font-size: 0.95rem; }
+
+        /* Big Number Display */
+        .big-number-display {
+            background: white; border-radius: var(--radius-lg);
+            padding: 3rem 2rem; text-align: center;
+            box-shadow: var(--shadow-lg); margin: 2rem 0;
+        }
+        .big-number {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700;
+            color: var(--color-semantic-success);
+        }
+        .big-number-label {
+            font-size: 1rem; color: var(--color-text-muted); margin-top: 0.5rem;
             line-height: 1.8;
         }
 
-        /* Stat Cards */
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: var(--space-6);
-            margin: var(--space-10) 0;
+        /* Comparison Cards */
+        .comparison-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem; margin: 2rem 0;
         }
-
-        .stat-card {
-            background: white;
-            padding: var(--space-6) var(--space-8);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            text-align: center;
+        @media (max-width: 768px) {
+            .comparison-grid { grid-template-columns: 1fr; }
         }
-
-        .stat-card.featured {
-            background: var(--color-bg-inverse);
-            color: var(--color-text-inverse);
+        .comparison-card {
+            background: white; border-radius: var(--radius-lg);
+            padding: 2rem; text-align: center; box-shadow: var(--shadow-md);
+            position: relative;
         }
-
-        .stat-card.featured .stat-label {
-            color: rgba(245, 240, 232, 0.7);
+        .comparison-card.recommended {
+            border: 2px solid var(--color-semantic-success);
+            transform: scale(1.02);
         }
-
-        .stat-card .stat-number {
+        .comparison-card.recommended::before {
+            content: '最もお得！';
+            position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+            background: var(--color-semantic-success); color: white;
+            padding: 0.2rem 1rem; border-radius: 99px; font-size: 0.75rem; font-weight: 600;
+        }
+        .comparison-card h4 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .comparison-card .card-price {
             font-family: var(--font-display);
-            font-size: clamp(2rem, 4vw, 2.75rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: var(--space-2);
+            font-size: 2rem; font-weight: 700; margin: 0.5rem 0;
         }
-
-        .stat-card.featured .stat-number {
-            color: var(--color-accent-primary);
-        }
-
-        .stat-card .stat-label {
-            font-size: 0.875rem;
-            color: var(--color-text-muted);
-        }
-
-        .stat-card .stat-sublabel {
-            font-size: 0.75rem;
-            color: var(--color-semantic-success);
-            font-weight: 600;
-            margin-top: var(--space-2);
-        }
+        .comparison-card .card-note { font-size: 0.85rem; color: var(--color-text-muted); }
 
         /* Tables */
         .table-wrapper {
-            background: white;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-            margin: var(--space-10) 0;
+            background: white; border-radius: var(--radius-lg);
+            overflow: hidden; box-shadow: var(--shadow-md); margin: 2rem 0;
+            overflow-x: auto;
         }
-
-        .table-title {
-            background: var(--color-bg-secondary);
-            padding: var(--space-4) var(--space-6);
-            font-family: var(--font-display);
-            font-size: 1.125rem;
-            font-weight: 600;
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background: var(--color-bg-inverse);
-            color: var(--color-text-inverse);
-        }
-
-        th {
-            padding: var(--space-4) var(--space-6);
-            text-align: left;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        thead { background: var(--color-bg-inverse); color: var(--color-text-inverse); }
+        th { padding: 1rem; text-align: left; font-weight: 600; font-size: 0.85rem; white-space: nowrap; }
         td {
-            padding: var(--space-4) var(--space-6);
-            border-bottom: 1px solid var(--color-border);
-            font-size: 0.9375rem;
+            padding: 0.85rem 1rem; border-bottom: 1px solid var(--color-border);
+            vertical-align: middle;
         }
+        tr:last-child td { border-bottom: none; }
+        .text-success { color: var(--color-semantic-success); font-weight: 600; }
+        .text-danger { color: var(--color-semantic-danger); font-weight: 600; }
+        .text-bold { font-weight: 700; }
 
-        tr:last-child td {
-            border-bottom: none;
+        /* Royalty Legend */
+        .legend {
+            display: flex; gap: 2rem; margin: 1rem 0 0.5rem;
+            font-size: 0.85rem; flex-wrap: wrap;
         }
-
-        tbody tr:hover {
-            background: var(--color-bg-secondary);
+        .legend-item { display: flex; align-items: center; gap: 0.5rem; }
+        .legend-dot {
+            width: 12px; height: 12px; border-radius: 50%;
         }
+        .legend-dot.eligible { background: var(--color-semantic-success); }
+        .legend-dot.exempt { background: var(--color-text-muted); }
 
-        .table-highlight {
-            background: rgba(74, 124, 89, 0.08) !important;
+        /* Stat Cards */
+        .stat-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem; margin: 2rem 0;
         }
-
-        .text-success { color: var(--color-semantic-success); font-weight: 700; }
-        .text-danger { color: var(--color-semantic-danger); }
-        .text-muted { color: var(--color-text-muted); }
-        .text-right { text-align: right; }
-        .text-center { text-align: center; }
-
-        /* Highlight Box */
-        .highlight-box {
-            background: white;
-            border-left: 5px solid var(--color-accent-primary);
-            padding: var(--space-6) var(--space-8);
-            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
-            margin: var(--space-10) 0;
-            box-shadow: var(--shadow-md);
-        }
-
-        .highlight-box.success {
-            border-left-color: var(--color-semantic-success);
-            background: linear-gradient(135deg, rgba(74, 124, 89, 0.08) 0%, white 100%);
-        }
-
-        .highlight-box.warning {
-            border-left-color: var(--color-semantic-danger);
-            background: linear-gradient(135deg, rgba(192, 57, 43, 0.08) 0%, white 100%);
-        }
-
-        .highlight-box h4 {
-            color: var(--color-text-primary);
-            margin-bottom: var(--space-3);
-        }
-
-        .highlight-box.success h4 {
-            color: var(--color-semantic-success);
-        }
-
-        .highlight-box.warning h4 {
-            color: var(--color-semantic-danger);
-        }
-
-        .highlight-box p {
-            font-size: 1.0625rem;
-            line-height: 1.9;
-        }
-
-        /* Two column layout */
-        .two-col {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-8);
-            margin: var(--space-10) 0;
-        }
-
         @media (max-width: 768px) {
-            .two-col {
-                grid-template-columns: 1fr;
-            }
+            .stat-grid { grid-template-columns: 1fr; }
         }
-
-        .col-box {
-            background: white;
-            padding: var(--space-8);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
+        .stat-card {
+            background: white; border-radius: var(--radius-lg);
+            padding: 2rem; text-align: center; box-shadow: var(--shadow-md);
         }
-
-        .col-box h4 {
+        .stat-number {
             font-family: var(--font-display);
-            font-size: 1.25rem;
-            text-transform: none;
-            letter-spacing: normal;
-            color: var(--color-text-primary);
-            margin-bottom: var(--space-4);
+            font-size: 2.5rem; font-weight: 700;
         }
+        .stat-label { font-size: 0.9rem; color: var(--color-text-muted); margin-top: 0.5rem; }
 
-        .col-box ul {
-            list-style: none;
+        /* Royalty Calculation Display */
+        .royalty-calc {
+            display: flex; align-items: center; justify-content: center;
+            gap: 1.5rem; flex-wrap: wrap; margin: 2rem 0;
         }
-
-        .col-box li {
-            padding: var(--space-2) 0;
-            padding-left: var(--space-6);
-            position: relative;
-            color: var(--color-text-secondary);
+        .royalty-calc-item {
+            background: white; border-radius: var(--radius-lg);
+            padding: 1.5rem 2rem; text-align: center; box-shadow: var(--shadow-md);
         }
-
-        .col-box li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--color-semantic-success);
-            font-weight: 700;
+        .royalty-calc-item .calc-label {
+            font-size: 0.8rem; color: var(--color-text-muted);
+            margin-bottom: 0.5rem; display: block;
         }
-
-        .col-box.negative li::before {
-            content: '✗';
-            color: var(--color-semantic-danger);
-        }
-
-        /* Consulting Price List */
-        .price-list {
-            background: white;
-            border-radius: var(--radius-lg);
-            padding: var(--space-8);
-            box-shadow: var(--shadow-lg);
-            margin: var(--space-8) 0;
-        }
-
-        .price-list h4 {
+        .royalty-calc-item .calc-value {
             font-family: var(--font-display);
-            font-size: 1.125rem;
-            text-transform: none;
-            letter-spacing: normal;
-            color: var(--color-text-primary);
-            margin-bottom: var(--space-6);
-            padding-bottom: var(--space-4);
-            border-bottom: 2px solid var(--color-border);
+            font-size: 1.5rem; font-weight: 700;
+        }
+        .royalty-calc-operator {
+            font-size: 1.5rem; font-weight: 700; color: var(--color-accent-primary);
         }
 
-        .price-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: var(--space-4) 0;
-            border-bottom: 1px solid var(--color-border);
+        /* Exempt Grid */
+        .exempt-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 1rem; margin: 2rem 0;
         }
-
-        .price-item:last-child {
-            border-bottom: none;
-        }
-
-        .price-item .service {
-            font-size: 1rem;
-            color: var(--color-text-primary);
-        }
-
-        .price-item .price {
-            font-family: var(--font-display);
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--color-accent-secondary);
-        }
-
-        .price-total {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: var(--space-6) 0 0;
-            margin-top: var(--space-4);
-            border-top: 3px solid var(--color-bg-inverse);
-        }
-
-        .price-total .service {
-            font-size: 1.125rem;
-            font-weight: 700;
-        }
-
-        .price-total .price {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--color-semantic-danger);
-        }
-
-        /* Process Steps */
-        .process-steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: var(--space-4);
-            margin: var(--space-12) 0;
-            flex-wrap: wrap;
-        }
-
-        .process-step {
-            flex: 1;
-            min-width: 200px;
-            text-align: center;
-            position: relative;
-        }
-
-        .process-step:not(:last-child)::after {
-            content: '→';
-            position: absolute;
-            right: -20px;
-            top: 30px;
-            font-size: 1.5rem;
-            color: var(--color-accent-primary);
-        }
-
         @media (max-width: 768px) {
-            .process-step:not(:last-child)::after {
-                display: none;
-            }
+            .exempt-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        .exempt-card {
+            background: white; border-radius: var(--radius-lg);
+            padding: 1.5rem; text-align: center; box-shadow: var(--shadow-md);
+        }
+        .exempt-card .exempt-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .exempt-card p { font-size: 0.85rem; color: var(--color-text-muted); }
+
+        /* Steps */
+        .steps-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem; margin: 2rem 0;
+        }
+        @media (max-width: 768px) {
+            .steps-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        .step-card {
+            text-align: center; padding: 1.5rem;
+        }
+        .step-number {
+            width: 48px; height: 48px; border-radius: 50%;
+            background: var(--color-accent-primary); color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1.2rem; margin: 0 auto 1rem;
+        }
+        .bg-inverse .step-card h4 { color: var(--color-text-inverse); }
+        .bg-inverse .step-card p { color: rgba(245,240,232,0.7); }
+
+        /* Advantage box */
+        .advantage-box {
+            background: rgba(74, 124, 89, 0.1);
+            border-left: 4px solid var(--color-semantic-success);
+            border-radius: var(--radius-md);
+            padding: 1.5rem 2rem; margin: 2rem 0;
+        }
+        .advantage-box p {
+            font-size: 1rem; color: var(--color-text-primary);
+            margin: 0.25rem 0;
         }
 
-        .process-number {
-            width: 60px;
-            height: 60px;
-            background: var(--color-bg-inverse);
-            color: var(--color-text-inverse);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 0 auto var(--space-4);
+        /* Growth comparison */
+        .growth-comparison {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 1.5rem; margin: 2rem 0;
         }
-
-        .process-step h4 {
-            font-family: var(--font-display);
-            font-size: 1.125rem;
-            text-transform: none;
-            letter-spacing: normal;
-            color: var(--color-text-primary);
-            margin-bottom: var(--space-2);
+        @media (max-width: 768px) {
+            .growth-comparison { grid-template-columns: 1fr; }
         }
-
-        .process-step p {
-            font-size: 0.875rem;
-            color: var(--color-text-muted);
+        .growth-card {
+            border-radius: var(--radius-lg); padding: 2rem; text-align: center;
         }
-
-        /* Fade In Animation */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+        .growth-card.franchise-card {
+            background: rgba(192, 57, 43, 0.08); border: 1px solid rgba(192, 57, 43, 0.2);
         }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Print Styles */
-        @media print {
-            .nav, .progress-container, .scroll-indicator {
-                display: none !important;
-            }
-            
-            section {
-                page-break-before: always;
-            }
-            
-            .hero {
-                min-height: auto;
-                page-break-before: avoid;
-            }
-
-            .fade-in {
-                opacity: 1;
-                transform: none;
-            }
+        .growth-card.norenchise-card {
+            background: rgba(74, 124, 89, 0.08); border: 1px solid rgba(74, 124, 89, 0.2);
         }
 
         /* Footer */
         footer {
-            background: var(--color-bg-inverse);
-            color: var(--color-text-inverse);
-            padding: var(--space-8) var(--container-padding);
-            text-align: center;
+            text-align: center; padding: 2rem;
+            font-size: 0.8rem; color: var(--color-text-muted);
+            border-top: 1px solid var(--color-border);
         }
 
-        footer p {
-            opacity: 0.6;
-            font-size: 0.875rem;
-        }
+        /* Fade animation */
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-        /* Special emphasis */
-        .emphasis-text {
-            font-family: var(--font-display);
-            font-size: clamp(1.25rem, 2.5vw, 1.5rem);
-            line-height: 1.8;
-            text-align: center;
-            max-width: 40ch;
-            margin: var(--space-12) auto;
-            color: var(--color-text-secondary);
-        }
-
-        .emphasis-text strong {
-            color: var(--color-semantic-success);
+        /* Print */
+        @media print {
+            .nav, .progress-container, .scroll-indicator, .nav-pdf { display: none !important; }
+            .hero { min-height: auto; padding: 3rem 2rem; }
+            section { page-break-before: always; padding: 2rem 0; }
+            .fade-in { opacity: 1 !important; transform: none !important; }
+            body { font-size: 12px; }
         }
     </style>
 </head>
 <body>
     <!-- Progress Bar -->
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
+    <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
 
     <!-- Navigation -->
-    <nav class="nav" id="nav">
-        <div class="nav-content">
-            <div class="nav-logo">Norenchise</div>
-            <ul class="nav-links">
-                <li><a href="#concept">コンセプト</a></li>
-                <li><a href="#reality">サポート</a></li>
-                <li><a href="#solution">解決策</a></li>
-                <li><a href="#comparison">比較</a></li>
-                <li><a href="#benefits">メリット</a></li>
-                <li><a href="#numbers">収支</a></li>
-            </ul>
-            <button class="nav-btn" onclick="window.print()">PDF出力</button>
+    <nav class="nav" id="mainNav">
+        <div class="nav-inner">
+            <span class="nav-logo">Norenchise</span>
+            <div class="nav-links">
+                <a href="#concept">コンセプト</a>
+                <a href="#reality">サポート</a>
+                <a href="#solution">解決策</a>
+                <a href="#comparison">比較</a>
+                <a href="#benefits">メリット</a>
+                <a href="#numbers">収支</a>
+            </div>
+            <button class="nav-pdf" onclick="window.print()">PDF出力</button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="hero">
-        <div class="hero-content">
-            <span class="hero-badge">Tokyo Coffee × パートナーシップ</span>
-            <h1>Norenchise</h1>
-            <p class="hero-tagline">暖簾分け × フランチャイズ = 新時代のパートナーシップ</p>
-            <p class="hero-subtitle">信頼と実績に基づく日本の伝統「暖簾分け」の精神と、<br>現代のビジネスシステムを融合させた、<br>新しいカフェ経営の形をご提案します。</p>
-        </div>
-        
-        <div class="scroll-indicator">
-            <span>スクロールして詳細を見る</span>
-            <span>↓</span>
-        </div>
+        <span class="hero-badge">Tokyo Coffee × パートナーシップ</span>
+        <h1>Norenchise</h1>
+        <p class="hero-subtitle">
+            暖簾分け × フランチャイズ = 新時代のパートナーシップ<br><br>
+            信頼と実績に基づく日本の伝統「暖簾分け」の精神と、<br>
+            現代のビジネスシステムを融合させた、<br>
+            新しいカフェ経営の形をご提案します。
+        </p>
+        <div class="scroll-indicator">スクロールして詳細を見る<br>↓</div>
     </section>
 
-    <!-- Section 1: Concept -->
+    <!-- Section 01: Concept -->
     <section id="concept" class="bg-primary">
         <div class="container">
             <span class="section-number">01 — コンセプト</span>
@@ -872,18 +492,16 @@
         </div>
     </section>
 
-    <!-- Section 2: Support & Pricing Philosophy -->
+    <!-- Section 02: Support & Pricing Reality -->
     <section id="reality" class="bg-secondary">
         <div class="container">
             <span class="section-number">02 — サポートと料金について</span>
             <h2>「のれんちゃいず」<br>ベストなシステムを模索して</h2>
             <p class="section-lead">前回お話ししてから、最高なパートナーシップの在り方を考えてきました。前回の話にあがった「ブランディング」「サポート範囲」「売り上げ予想」などをもっと綿密に計算した結果、もしかしたら予想外となる様な結論に至りました。</p>
 
-            <div class="highlight-box fade-in" style="border-left-color: var(--color-semantic-success); background: rgba(74, 124, 89, 0.08);">
-                <p style="font-size: 1.125rem; line-height: 1.9;">それは、固定費、コンサル費、出張料、セットアップでの費用が発生してしまうやり方ではなく、<strong style="color: var(--color-semantic-success);">売り上げ連動型のれんチャイズフィーの方が遥かに良い</strong>という結論。</p>
-            </div>
+            <p style="font-size: 1.05rem; line-height: 2; margin-bottom: 2rem;">それは、固定費、コンサル費、出張料、セットアップでの費用が発生してしまうやり方ではなく、<strong>売り上げ連動型のれんチャイズフィーの方が遥かに良い</strong>という結論。</p>
 
-            <div class="benefit-grid fade-in" style="margin-top: var(--space-12);">
+            <div class="benefit-grid fade-in">
                 <div class="benefit-card">
                     <div class="benefit-icon">📊</div>
                     <h4>数字的にも良い</h4>
@@ -903,136 +521,108 @@
 
             <h3>具体例でお話しすると</h3>
 
-            <div class="two-col fade-in">
-                <div class="col-box">
-                    <h4>友人のカフェ（2024年）</h4>
-                    <p>昨年、友人がカフェを開業する際に卸売契約でサポートしました。成功してほしいという思いから、セットアップ、豆の選定、バリスタ研修、レイアウトのアドバイス、焙煎プロファイルの調整など、できる限りの支援をしました。</p>
-                    <p style="margin-top: var(--space-4);">友人価格として<strong>1回¥20,000</strong>で対応しましたが、月に複数回の訪問と作業が必要でした。友人であっても、私たちの時間・移動・専門知識には対価が必要です。</p>
-                </div>
-                <div class="col-box">
-                    <h4>Fuji Mountain Guides様</h4>
-                    <p>長年お付き合いのあるお客様ですが、設備トラブルで相談いただいた際、<strong>1日¥50,000＋交通費</strong>をいただきました。</p>
-                    <p style="margin-top: var(--space-4);">大切なお客様ですが、サポートは無料ではできません。</p>
-                </div>
+            <div class="story-card fade-in">
+                <h4>友人のカフェ（2024年）</h4>
+                <p>昨年、友人がカフェを開業する際に卸売契約でサポートしました。成功してほしいという思いから、セットアップ、豆の選定、バリスタ研修、レイアウトのアドバイス、焙煎プロファイルの調整など、できる限りの支援をしました。</p>
+                <p style="margin-top: 0.75rem;">友人価格として<strong>1回¥20,000</strong>で対応しましたが、月に複数回の訪問と作業が必要でした。友人であっても、私たちの時間・移動・専門知識には対価が必要です。</p>
             </div>
 
-            <p style="font-size: 1.125rem; color: var(--color-text-secondary); margin: var(--space-12) 0; max-width: 65ch;">これらは単発のサポートに過ぎません。本格的なコンサルティング — クリエイティブ・ディレクション、研修プログラム、メニュー開発、ブランディング — となると、さらに大きな投資が必要になります。</p>
+            <div class="story-card fade-in">
+                <h4>Fuji Mountain Guides様</h4>
+                <p>長年お付き合いのあるお客様ですが、設備トラブルで相談いただいた際、<strong>1日¥50,000＋交通費</strong>をいただきました。</p>
+                <p style="margin-top: 0.75rem;">大切なお客様ですが、サポートは無料ではできません。</p>
+            </div>
+
+            <p style="font-size: 1rem; line-height: 2; margin: 2rem 0;">これらは単発のサポートに過ぎません。本格的なコンサルティング — クリエイティブ・ディレクション、研修プログラム、メニュー開発、ブランディング — となると、さらに大きな投資が必要になります。</p>
 
             <h3>従来のやり方だと（参考例）</h3>
-            <p style="color: var(--color-text-muted); margin-bottom: var(--space-6);">もし私たちがゼロからカフェ立ち上げを全面サポートするとしたら、費用感の一例としてはこのようなイメージです（状況により大きく異なります）：</p>
-            
+            <p style="margin-bottom: 1rem;">もし私たちがゼロからカフェ立ち上げを全面サポートするとしたら、費用感の一例としてはこのようなイメージです（状況により大きく異なります）：</p>
+
             <div class="price-list fade-in">
                 <h4>開業前サポート</h4>
-                <div class="price-item">
-                    <span class="service">初期セットアップコンサルティング</span>
-                    <span class="price">¥400,000</span>
-                </div>
-                <div class="price-item">
-                    <span class="service">バリスタ研修プログラム（5日間）</span>
-                    <span class="price">¥125,000</span>
-                </div>
-                <div class="price-item">
-                    <span class="service">メニュー開発・レシピ提供</span>
-                    <span class="price">¥100,000</span>
-                </div>
-                <div class="price-item">
-                    <span class="service">店舗オペレーションマニュアル作成</span>
-                    <span class="price">¥150,000</span>
-                </div>
+                <div class="price-item"><span class="service">初期セットアップコンサルティング</span><span class="price">¥400,000</span></div>
+                <div class="price-item"><span class="service">バリスタ研修プログラム（5日間）</span><span class="price">¥125,000</span></div>
+                <div class="price-item"><span class="service">メニュー開発・レシピ提供</span><span class="price">¥100,000</span></div>
+                <div class="price-item"><span class="service">店舗オペレーションマニュアル作成</span><span class="price">¥150,000</span></div>
             </div>
 
             <div class="price-list fade-in">
                 <h4>継続サポート（年間）</h4>
-                <div class="price-item">
-                    <span class="service">コンサル・出張費用（月1回）</span>
-                    <span class="price">¥360,000/年</span>
-                </div>
-                <div class="price-item">
-                    <span class="service">メニュー更新・季節商品開発</span>
-                    <span class="price">¥120,000/年</span>
-                </div>
-                <div class="price-item">
-                    <span class="service">マーケティング素材更新</span>
-                    <span class="price">¥80,000/年</span>
-                </div>
+                <div class="price-item"><span class="service">コンサル・出張費用（月1回）</span><span class="price">¥360,000/年</span></div>
+                <div class="price-item"><span class="service">メニュー更新・季節商品開発</span><span class="price">¥120,000/年</span></div>
+                <div class="price-item"><span class="service">マーケティング素材更新</span><span class="price">¥80,000/年</span></div>
             </div>
 
-            <div class="big-message fade-in">
-                <div class="big-number warning">¥1,335,000+</div>
+            <div class="total-box fade-in">
+                <div class="total-amount">¥1,335,000+</div>
                 <p>初年度だけでこれくらいのコストがかかる計算になります。<br>（あくまで参考例です）</p>
             </div>
 
             <h3>でも、そういうやり方はしたくない</h3>
+            <p style="line-height: 2; margin-bottom: 1.5rem;">単発のコンサルティングでは「サービス提供者」と「クライアント」の関係で終わる。仕事が終われば、それぞれの道。</p>
 
-            <p style="font-size: 1.125rem; color: var(--color-text-secondary); margin-bottom: var(--space-8); max-width: 65ch;">単発のコンサルティングでは「サービス提供者」と「クライアント」の関係で終わる。仕事が終われば、それぞれの道。</p>
-
-            <div class="highlight-box fade-in" style="border-left-color: var(--color-semantic-success); background: rgba(74, 124, 89, 0.08);">
+            <div class="story-card fade-in" style="border-left: 4px solid var(--color-semantic-success);">
                 <h4 style="color: var(--color-semantic-success);">Norenchiseは違います</h4>
-                <p style="font-size: 1.125rem; line-height: 1.9;">ロイヤリティモデルでは、<strong>あなたの成功が私たちの成功に直結する</strong>。売上が伸びれば、私たちも潤う。だから本気でサポートする理由がある。</p>
-                <p style="font-size: 1.125rem; line-height: 1.9; margin-top: var(--space-4);">フランチャイズのように「本部」と「加盟店」という上下関係ではなく、<strong>運命共同体</strong>。同じ方向を向いて一緒に歩むパートナーシップ。</p>
-                <p style="font-size: 1.125rem; line-height: 1.9; margin-top: var(--space-4);">困ったときに気軽に相談できる。成功を一緒に喜べる。そんな<strong>家族的な関係</strong>を目指しています。</p>
+                <p>ロイヤリティモデルでは、<strong>あなたの成功が私たちの成功に直結する</strong>。売上が伸びれば、私たちも潤う。だから本気でサポートする理由がある。</p>
+                <p style="margin-top: 0.75rem;">フランチャイズのように「本部」と「加盟店」という上下関係ではなく、<strong>運命共同体</strong>。同じ方向を向いて一緒に歩むパートナーシップ。</p>
+                <p style="margin-top: 0.75rem;">困ったときに気軽に相談できる。成功を一緒に喜べる。そんな<strong>家族的な関係</strong>を目指しています。</p>
             </div>
 
-            <p class="emphasis-text fade-in" style="margin-top: var(--space-16);">
-                では、具体的な数字で<br>比較してみましょう。
-            </p>
+            <p class="emphasis-text fade-in">では、具体的な数字で<br>比較してみましょう。</p>
         </div>
     </section>
 
-    <!-- Section 3: The Solution -->
+    <!-- Section 03: Solution -->
     <section id="solution" class="bg-primary">
         <div class="container">
             <span class="section-number">03 — Norenchiseという解決策</span>
             <h2>「適当」を追求した結果、<br>たどり着いた答え</h2>
             <p class="section-lead">当初、私たちはロイヤリティなしのモデルを目指しました。しかし、あらゆる計算とシミュレーションを重ねた結果、<strong>少額のロイヤリティこそが、パートナー様にとって最も有利なモデル</strong>であることがわかりました。</p>
 
-            <div class="big-message fade-in">
-                <h3>発見：ロイヤリティは「負担」ではなく「投資」</h3>
-                <div class="big-number">¥666,647</div>
-                <p>2.5%のロイヤリティを支払うことで、<br><strong>卸売契約より年間約67万円お得</strong>になります。</p>
+            <h3>発見：ロイヤリティは「負担」ではなく「投資」</h3>
+
+            <div class="big-number-display fade-in">
+                <div class="big-number">¥960,968</div>
+                <div class="big-number-label">2.5%のロイヤリティを支払うことで、<br><strong>卸売契約より年間約96万円お得</strong>になります。</div>
             </div>
 
             <h3>なぜロイヤリティがあなたを助けるのか</h3>
-            
-            <div class="two-col fade-in">
-                <div class="col-box negative">
+
+            <div class="growth-comparison fade-in">
+                <div class="growth-card franchise-card">
                     <h4>卸売契約の場合（ロイヤリティなし）</h4>
-                    <ul>
-                        <li>初期セットアップ費用：¥400,000</li>
-                        <li>コンサル・出張費用：別途請求</li>
-                        <li>研修費用：¥25,000/日</li>
-                        <li>ブランド開発：自己負担¥300,000+</li>
-                        <li>メニュー開発：試行錯誤で損失</li>
-                        <li>マーケティング素材：自己制作</li>
+                    <ul style="text-align: left; list-style: none; padding: 1rem 0;">
+                        <li style="padding: 0.3rem 0;">• 初期セットアップ費用：¥400,000</li>
+                        <li style="padding: 0.3rem 0;">• コンサル・出張費用：別途請求</li>
+                        <li style="padding: 0.3rem 0;">• 研修費用：¥25,000/日</li>
+                        <li style="padding: 0.3rem 0;">• ブランド開発：自己負担¥300,000+</li>
+                        <li style="padding: 0.3rem 0;">• メニュー開発：試行錯誤で損失</li>
+                        <li style="padding: 0.3rem 0;">• マーケティング素材：自己制作</li>
                     </ul>
-                    <p style="margin-top: var(--space-4); font-weight: 600; color: var(--color-semantic-danger);">
-                        → 年間総コスト：約¥432万円
-                    </p>
+                    <p style="font-weight: 700; font-size: 1.1rem; color: var(--color-semantic-danger);">→ 年間総コスト：約¥133.5万円</p>
                 </div>
-                <div class="col-box" style="border: 2px solid var(--color-semantic-success);">
+                <div class="growth-card norenchise-card">
                     <h4>Norenchiseの場合（2.5%ロイヤリティ）</h4>
-                    <ul>
-                        <li>初期セットアップ：<strong>無料（含む）</strong></li>
-                        <li>コンサル・出張費用：<strong>無制限・無料</strong></li>
-                        <li>研修プログラム：<strong>無料（含む）</strong></li>
-                        <li>Tokyo Coffeeブランド：<strong>使用可</strong></li>
-                        <li>メニュー・レシピ：<strong>提供</strong></li>
-                        <li>マーケティング素材：<strong>提供</strong></li>
+                    <ul style="text-align: left; list-style: none; padding: 1rem 0;">
+                        <li style="padding: 0.3rem 0;">• 初期セットアップ：<strong>無料（含む）</strong></li>
+                        <li style="padding: 0.3rem 0;">• コンサル・出張費用：<strong>無制限・無料</strong></li>
+                        <li style="padding: 0.3rem 0;">• 研修プログラム：<strong>無料（含む）</strong></li>
+                        <li style="padding: 0.3rem 0;">• Tokyo Coffeeブランド：<strong>使用可</strong></li>
+                        <li style="padding: 0.3rem 0;">• メニュー・レシピ：<strong>提供</strong></li>
+                        <li style="padding: 0.3rem 0;">• マーケティング素材：<strong>提供</strong></li>
                     </ul>
-                    <p style="margin-top: var(--space-4); font-weight: 600; color: var(--color-semantic-success);">
-                        → 年間総コスト：約¥366万円
-                    </p>
+                    <p style="font-weight: 700; font-size: 1.1rem; color: var(--color-semantic-success);">→ 年間総コスト：約¥37.4万円</p>
                 </div>
             </div>
 
-            <div class="highlight-box success fade-in">
-                <h4>ロイヤリティの本当の意味</h4>
-                <p>2.5%のロイヤリティ（年間約¥52万円）で、<strong>¥100万円以上の価値</strong>（研修、サポート、ブランド、素材）を受け取れます。これは「支払い」ではなく、<strong>最高の投資</strong>です。</p>
+            <div class="story-card fade-in" style="border-left: 4px solid var(--color-semantic-success);">
+                <h4 style="color: var(--color-semantic-success);">ロイヤリティの本当の意味</h4>
+                <p>2.5%のロイヤリティ（年間約¥37.4万円）で、<strong>¥133.5万円以上の価値</strong>（研修、サポート、ブランド、素材）を受け取れます。投資対効果は<strong>3.6倍</strong>。これは「支払い」ではなく、<strong>最高の投資</strong>です。</p>
             </div>
         </div>
     </section>
 
-    <!-- Section 4: Comparison -->
+    <!-- Section 04: Model Comparison -->
     <section id="comparison" class="bg-secondary">
         <div class="container">
             <span class="section-number">04 — モデル比較</span>
@@ -1040,122 +630,120 @@
             <p class="section-lead">卸売契約、一般的なフランチャイズ、そしてNorenchise。あなたにとって最適な選択を、数字で比較してください。</p>
 
             <h3>初年度コスト比較</h3>
-            <div class="stat-grid fade-in">
-                <div class="stat-card">
-                    <div class="stat-label" style="margin-bottom: var(--space-2);">卸売契約</div>
-                    <div class="stat-number" style="color: var(--color-text-muted);">¥432万</div>
-                    <div class="stat-label">コンサル費用含む</div>
+
+            <div class="comparison-grid fade-in">
+                <div class="comparison-card">
+                    <h4>卸売契約</h4>
+                    <div class="card-price">¥133.5万</div>
+                    <div class="card-note">コンサル費用含む</div>
                 </div>
-                <div class="stat-card featured">
-                    <div class="stat-label" style="margin-bottom: var(--space-2);">Norenchise</div>
-                    <div class="stat-number">¥366万</div>
-                    <div class="stat-label">すべて込み</div>
-                    <div class="stat-sublabel">最もお得！</div>
+                <div class="comparison-card recommended">
+                    <h4>Norenchise</h4>
+                    <div class="card-price" style="color: var(--color-semantic-success);">¥37.4万</div>
+                    <div class="card-note">ロイヤリティのみ・すべて込み</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-label" style="margin-bottom: var(--space-2);">一般フランチャイズ</div>
-                    <div class="stat-number" style="color: var(--color-semantic-danger);">¥732万</div>
-                    <div class="stat-label">加盟金+ロイヤリティ7%</div>
+                <div class="comparison-card">
+                    <h4>一般フランチャイズ</h4>
+                    <div class="card-price">¥366万</div>
+                    <div class="card-note">加盟金+ロイヤリティ7%</div>
                 </div>
             </div>
 
             <h3>詳細比較表</h3>
+
             <div class="table-wrapper fade-in">
                 <table>
                     <thead>
                         <tr>
                             <th>項目</th>
-                            <th class="text-center">卸売契約</th>
-                            <th class="text-center" style="background: var(--color-semantic-success);">Norenchise</th>
-                            <th class="text-center">一般フランチャイズ</th>
+                            <th>卸売契約</th>
+                            <th>Norenchise</th>
+                            <th>一般フランチャイズ</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><strong>加盟金・初期費用</strong></td>
-                            <td class="text-center">¥0</td>
-                            <td class="text-center text-success">¥0</td>
-                            <td class="text-center text-danger">¥230万</td>
+                            <td>¥0</td>
+                            <td class="text-success">¥0</td>
+                            <td>¥230万</td>
                         </tr>
                         <tr>
                             <td><strong>ロイヤリティ</strong></td>
-                            <td class="text-center">0%</td>
-                            <td class="text-center text-success">2.5%</td>
-                            <td class="text-center text-danger">7%（全売上）</td>
+                            <td>0%</td>
+                            <td class="text-success">2.5%</td>
+                            <td>7%（全売上）</td>
                         </tr>
                         <tr>
                             <td><strong>ブランド使用</strong></td>
-                            <td class="text-center text-danger">✗ なし</td>
-                            <td class="text-center text-success">✓ Tokyo Coffee</td>
-                            <td class="text-center">✓ あり</td>
+                            <td class="text-danger">✗ なし</td>
+                            <td class="text-success">✓ Tokyo Coffee</td>
+                            <td>✓ あり</td>
                         </tr>
                         <tr>
                             <td><strong>研修プログラム</strong></td>
-                            <td class="text-center text-danger">✗ 別途有料</td>
-                            <td class="text-center text-success">✓ 無料で含む</td>
-                            <td class="text-center">✓ 含む</td>
+                            <td class="text-danger">✗ 別途有料</td>
+                            <td class="text-success">✓ 無料で含む</td>
+                            <td>✓ 含む</td>
                         </tr>
                         <tr>
                             <td><strong>継続サポート</strong></td>
-                            <td class="text-center text-danger">✗ 有料</td>
-                            <td class="text-center text-success">✓ 無制限・無料</td>
-                            <td class="text-center">✓ 含む</td>
+                            <td class="text-danger">✗ 有料</td>
+                            <td class="text-success">✓ 無制限・無料</td>
+                            <td>✓ 含む</td>
                         </tr>
                         <tr>
                             <td><strong>メニュー・レシピ</strong></td>
-                            <td class="text-center text-danger">✗ 自己開発</td>
-                            <td class="text-center text-success">✓ 提供</td>
-                            <td class="text-center">✓ 提供（必須）</td>
+                            <td class="text-danger">✗ 自己開発</td>
+                            <td class="text-success">✓ 提供</td>
+                            <td>✓ 提供（必須）</td>
                         </tr>
                         <tr>
                             <td><strong>運営の自由度</strong></td>
-                            <td class="text-center">完全自由</td>
-                            <td class="text-center text-success">高い</td>
-                            <td class="text-center text-danger">制限あり</td>
+                            <td>完全自由</td>
+                            <td class="text-success">高い</td>
+                            <td class="text-danger">制限あり</td>
                         </tr>
-                        <tr class="table-highlight">
+                        <tr style="background: rgba(74, 124, 89, 0.05);">
                             <td><strong>年間総コスト</strong></td>
-                            <td class="text-center">¥432万</td>
-                            <td class="text-center text-success"><strong>¥366万</strong></td>
-                            <td class="text-center text-danger">¥732万</td>
+                            <td class="text-bold">¥133.5万</td>
+                            <td class="text-success text-bold">¥37.4万</td>
+                            <td class="text-bold">¥366万</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="highlight-box success fade-in">
-                <h4>Norenchiseの優位性</h4>
-                <p><strong>卸売契約より¥66万円お得</strong>（サポート費用を含めると）<br>
-                <strong>フランチャイズより¥367万円お得</strong>（初年度）</p>
+            <div class="advantage-box fade-in">
+                <p><strong>卸売契約より約96万円お得</strong>（サポート費用を含めると）</p>
+                <p><strong>フランチャイズより約329万円お得</strong>（初年度）</p>
             </div>
         </div>
     </section>
 
-    <!-- Section 5: Benefits -->
-    <section id="benefits" class="bg-inverse">
+    <!-- Section 05: Benefits -->
+    <section id="benefits" class="bg-primary">
         <div class="container">
             <span class="section-number">05 — メリット</span>
             <h2>Norenchiseで<br>あなたが得るもの</h2>
-            
-            <div class="stat-grid fade-in" style="margin-top: var(--space-12);">
-                <div class="stat-card" style="background: rgba(255,255,255,0.1);">
-                    <div class="stat-number" style="color: var(--color-accent-primary); font-size: 3rem;">¥0</div>
-                    <div class="stat-label" style="color: var(--color-text-inverse);">加盟金</div>
-                    <p style="font-size: 0.875rem; margin-top: var(--space-2); opacity: 0.7;">初期投資の壁なし</p>
+
+            <div class="stat-grid fade-in">
+                <div class="stat-card">
+                    <div class="stat-number">¥0</div>
+                    <div class="stat-label">加盟金<br>初期投資の壁なし</div>
                 </div>
-                <div class="stat-card" style="background: rgba(255,255,255,0.1);">
-                    <div class="stat-number" style="color: var(--color-accent-primary); font-size: 3rem;">2.5%</div>
-                    <div class="stat-label" style="color: var(--color-text-inverse);">ロイヤリティ</div>
-                    <p style="font-size: 0.875rem; margin-top: var(--space-2); opacity: 0.7;">業界最低水準</p>
+                <div class="stat-card">
+                    <div class="stat-number">2.5%</div>
+                    <div class="stat-label">ロイヤリティ<br>業界最低水準</div>
                 </div>
-                <div class="stat-card" style="background: rgba(255,255,255,0.1);">
-                    <div class="stat-number" style="color: var(--color-accent-primary); font-size: 3rem;">∞</div>
-                    <div class="stat-label" style="color: var(--color-text-inverse);">サポート回数</div>
-                    <p style="font-size: 0.875rem; margin-top: var(--space-2); opacity: 0.7;">何度でも無料で相談</p>
+                <div class="stat-card">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">サポート回数<br>何度でも無料で相談</div>
                 </div>
             </div>
 
-            <h3 style="margin-top: var(--space-16);">含まれるサービス</h3>
+            <h3>含まれるサービス</h3>
+
             <div class="benefit-grid fade-in">
                 <div class="benefit-card">
                     <div class="benefit-icon">🎓</div>
@@ -1189,193 +777,118 @@
                 </div>
             </div>
 
-            <h3 style="margin-top: var(--space-16);">ロイヤリティ対象外</h3>
-            <p style="color: rgba(245, 240, 232, 0.85); font-size: 1.125rem; margin-bottom: var(--space-8);">以下の収益にはロイヤリティがかかりません。100%あなたのものです。</p>
-            <div class="stat-grid fade-in">
-                <div class="stat-card" style="background: rgba(255,255,255,0.1);">
-                    <div class="stat-number" style="color: var(--color-semantic-success); font-size: 2rem;">🧘</div>
-                    <div class="stat-label" style="color: var(--color-text-inverse);">ヨガ教室</div>
+            <h3>ロイヤリティ対象外</h3>
+            <p style="margin-bottom: 1rem;">以下の収益にはロイヤリティがかかりません。100%あなたのものです。</p>
+
+            <div class="exempt-grid fade-in">
+                <div class="exempt-card">
+                    <div class="exempt-icon">🧘</div>
+                    <p>ヨガ教室</p>
                 </div>
-                <div class="stat-card" style="background: rgba(255,255,255,0.1);">
-                    <div class="stat-number" style="color: var(--color-semantic-success); font-size: 2rem;">🎨</div>
-                    <div class="stat-label" style="color: var(--color-text-inverse);">ワークショップ</div>
+                <div class="exempt-card">
+                    <div class="exempt-icon">🎨</div>
+                    <p>ワークショップ</p>
                 </div>
-                <div class="stat-card" style="background: rgba(255,255,255,0.1);">
-                    <div class="stat-number" style="color: var(--color-semantic-success); font-size: 2rem;">🍯</div>
-                    <div class="stat-label" style="color: var(--color-text-inverse);">はちみつ販売</div>
+                <div class="exempt-card">
+                    <div class="exempt-icon">🍯</div>
+                    <p>はちみつ販売</p>
                 </div>
-                <div class="stat-card" style="background: rgba(255,255,255,0.1);">
-                    <div class="stat-number" style="color: var(--color-semantic-success); font-size: 2rem;">🏠</div>
-                    <div class="stat-label" style="color: var(--color-text-inverse);">スペースレンタル</div>
+                <div class="exempt-card">
+                    <div class="exempt-icon">🏠</div>
+                    <p>スペースレンタル</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Section 6: Numbers -->
-    <section id="numbers" class="bg-primary">
+    <!-- Section 06: Numbers -->
+    <section id="numbers" class="bg-secondary">
         <div class="container">
             <span class="section-number">06 — 収支シミュレーション</span>
             <h2>具体的な数字で見る</h2>
             <p class="section-lead">Q4（安定期）の想定：1日80名来客、月商約230万円をベースに試算しています。</p>
 
             <h3>売上構成（月間）</h3>
+
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot eligible"></div>ロイヤリティ対象</div>
+                <div class="legend-item"><div class="legend-dot exempt"></div>対象外</div>
+            </div>
+
             <div class="table-wrapper fade-in">
-                <div class="table-title">ロイヤリティ対象・対象外の内訳</div>
                 <table>
                     <thead>
-                        <tr>
-                            <th>売上項目</th>
-                            <th class="text-right">月間売上</th>
-                            <th class="text-center">ロイヤリティ</th>
-                        </tr>
+                        <tr><th>売上項目</th><th>月間売上</th><th>ロイヤリティ</th></tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>カフェIN（店内飲食）</td>
-                            <td class="text-right">¥1,056,000</td>
-                            <td class="text-center text-success">対象</td>
-                        </tr>
-                        <tr>
-                            <td>カフェOUT（テイクアウト）</td>
-                            <td class="text-right">¥528,000</td>
-                            <td class="text-center text-success">対象</td>
-                        </tr>
-                        <tr>
-                            <td>コーヒー関連物販</td>
-                            <td class="text-right">¥150,640</td>
-                            <td class="text-center text-success">対象</td>
-                        </tr>
-                        <tr style="background: rgba(74, 124, 89, 0.05);">
-                            <td>物販（はちみつ等）</td>
-                            <td class="text-right">¥198,000</td>
-                            <td class="text-center"><strong>対象外</strong></td>
-                        </tr>
-                        <tr style="background: rgba(74, 124, 89, 0.05);">
-                            <td>ヨガ・イベント・レンタル</td>
-                            <td class="text-right">¥370,000</td>
-                            <td class="text-center"><strong>対象外</strong></td>
-                        </tr>
-                        <tr class="table-highlight">
-                            <td><strong>合計</strong></td>
-                            <td class="text-right"><strong>¥2,302,640</strong></td>
-                            <td></td>
-                        </tr>
+                        <tr><td>カフェIN（店内飲食）</td><td>¥1,056,000</td><td class="text-success">対象</td></tr>
+                        <tr><td>カフェOUT（テイクアウト）</td><td>¥528,000</td><td class="text-success">対象</td></tr>
+                        <tr><td>コーヒー関連物販</td><td>¥150,640</td><td class="text-success">対象</td></tr>
+                        <tr><td>物販（はちみつ等）</td><td>¥198,000</td><td><strong>対象外</strong></td></tr>
+                        <tr><td>ヨガ・イベント・レンタル</td><td>¥370,000</td><td><strong>対象外</strong></td></tr>
+                        <tr style="background: rgba(74, 124, 89, 0.05);"><td><strong>合計</strong></td><td><strong>¥2,302,640</strong></td><td></td></tr>
                     </tbody>
                 </table>
             </div>
 
             <h3>月間ロイヤリティ計算</h3>
-            <div class="stat-grid fade-in">
-                <div class="stat-card">
-                    <div class="stat-label">ロイヤリティ対象売上</div>
-                    <div class="stat-number" style="font-size: 2rem;">¥1,734,640</div>
+
+            <div class="royalty-calc fade-in">
+                <div class="royalty-calc-item">
+                    <span class="calc-label">ロイヤリティ対象売上</span>
+                    <span class="calc-value">¥1,734,640</span>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-label">ロイヤリティ率</div>
-                    <div class="stat-number" style="font-size: 2rem;">× 2.5%</div>
+                <span class="royalty-calc-operator">×</span>
+                <div class="royalty-calc-item">
+                    <span class="calc-label">ロイヤリティ率</span>
+                    <span class="calc-value">2.5%</span>
                 </div>
-                <div class="stat-card featured">
-                    <div class="stat-label">月間ロイヤリティ</div>
-                    <div class="stat-number" style="font-size: 2rem;">¥43,366</div>
-                    <div class="stat-sublabel">1日あたり約¥1,970</div>
+                <span class="royalty-calc-operator">=</span>
+                <div class="royalty-calc-item" style="border: 2px solid var(--color-semantic-success);">
+                    <span class="calc-label">月間ロイヤリティ</span>
+                    <span class="calc-value" style="color: var(--color-semantic-success);">¥43,366</span>
                 </div>
             </div>
 
-            <h3>商品仕入れ価格</h3>
-            <div class="table-wrapper fade-in">
-                <div class="table-title">パートナー様向け卸価格</div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>商品</th>
-                            <th class="text-right">仕入価格</th>
-                            <th class="text-right">販売価格</th>
-                            <th class="text-right">あなたの利益</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>コーヒー豆（1kg）</td>
-                            <td class="text-right">¥4,920</td>
-                            <td class="text-right">—</td>
-                            <td class="text-right">—</td>
-                        </tr>
-                        <tr>
-                            <td>小売用豆（200g）</td>
-                            <td class="text-right">¥1,074</td>
-                            <td class="text-right">¥1,290</td>
-                            <td class="text-right text-success">¥216</td>
-                        </tr>
-                        <tr>
-                            <td>ケーキ</td>
-                            <td class="text-right">¥500</td>
-                            <td class="text-right">¥700</td>
-                            <td class="text-right text-success">¥200</td>
-                        </tr>
-                        <tr>
-                            <td>クッキー</td>
-                            <td class="text-right">¥150</td>
-                            <td class="text-right">¥250</td>
-                            <td class="text-right text-success">¥100</td>
-                        </tr>
-                        <tr>
-                            <td>テイクアウトカップ</td>
-                            <td class="text-right">¥20</td>
-                            <td class="text-right">—</td>
-                            <td class="text-right">—</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <p style="text-align: center; color: var(--color-text-muted); font-size: 0.95rem;">1日あたり約¥1,970</p>
 
             <h3>年間コスト比較（最終まとめ）</h3>
+
             <div class="table-wrapper fade-in">
                 <table>
                     <thead>
-                        <tr>
-                            <th>項目</th>
-                            <th class="text-right">卸売契約</th>
-                            <th class="text-right" style="background: var(--color-semantic-success);">Norenchise</th>
-                            <th class="text-right">フランチャイズ</th>
-                        </tr>
+                        <tr><th>項目</th><th>卸売契約</th><th>Norenchise</th><th>フランチャイズ</th></tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>加盟金・初期費用</td>
-                            <td class="text-right">¥0</td>
-                            <td class="text-right text-success">¥0</td>
-                            <td class="text-right">¥2,300,000</td>
+                            <td>¥0</td>
+                            <td class="text-success">¥0</td>
+                            <td>¥2,300,000</td>
                         </tr>
                         <tr>
                             <td>年間ロイヤリティ</td>
-                            <td class="text-right">¥0</td>
-                            <td class="text-right">¥520,392</td>
-                            <td class="text-right">¥1,362,000</td>
+                            <td>¥0</td>
+                            <td class="text-success">¥374,032</td>
+                            <td>¥1,362,919</td>
                         </tr>
                         <tr>
-                            <td>コンサル・出張費用</td>
-                            <td class="text-right">¥520,000+</td>
-                            <td class="text-right text-success">¥0（含む）</td>
-                            <td class="text-right">¥0（含む）</td>
+                            <td>コンサル・研修・ブランド費</td>
+                            <td>¥1,335,000+</td>
+                            <td class="text-success">¥0（含む）</td>
+                            <td>¥0（含む）</td>
                         </tr>
-                        <tr>
-                            <td>ブランド開発費</td>
-                            <td class="text-right">¥550,000+</td>
-                            <td class="text-right text-success">¥0（含む）</td>
-                            <td class="text-right">¥0（含む）</td>
-                        </tr>
-                        <tr class="table-highlight">
+                        <tr style="background: rgba(74, 124, 89, 0.05);">
                             <td><strong>年間総コスト</strong></td>
-                            <td class="text-right"><strong>¥4,323,740</strong></td>
-                            <td class="text-right text-success"><strong>¥3,657,093</strong></td>
-                            <td class="text-right"><strong>¥7,324,000</strong></td>
+                            <td class="text-bold">¥1,335,000</td>
+                            <td class="text-success text-bold">¥374,032</td>
+                            <td class="text-bold">¥3,662,919</td>
                         </tr>
                         <tr>
                             <td><em>Norenchiseとの差額</em></td>
-                            <td class="text-right text-danger"><em>+¥666,647</em></td>
-                            <td class="text-right">—</td>
-                            <td class="text-right text-danger"><em>+¥3,666,907</em></td>
+                            <td><em>+¥960,968</em></td>
+                            <td>—</td>
+                            <td><em>+¥3,288,887</em></td>
                         </tr>
                     </tbody>
                 </table>
@@ -1383,62 +896,65 @@
         </div>
     </section>
 
-    <!-- Section 7: Growth -->
-    <section id="growth" class="bg-secondary">
+    <!-- Section 07: Growth -->
+    <section class="bg-primary">
         <div class="container">
             <span class="section-number">07 — 成長シナリオ</span>
             <h2>あなたが成長すれば、<br>さらにお得に</h2>
             <p class="section-lead">イベントやヨガ教室など、ロイヤリティ対象外の事業を拡大しても、追加のロイヤリティは一切かかりません。</p>
 
-            <div class="big-message fade-in">
-                <h3>例：イベント収益が月¥50万に成長した場合</h3>
-                <div style="display: flex; justify-content: center; gap: var(--space-12); flex-wrap: wrap; margin: var(--space-6) 0;">
-                    <div>
-                        <p style="font-size: 0.875rem; color: var(--color-text-muted);">フランチャイズの場合</p>
-                        <p style="font-size: 2rem; font-weight: 700; color: var(--color-semantic-danger);">-¥35,000/月</p>
-                        <p style="font-size: 0.875rem;">追加ロイヤリティ</p>
-                    </div>
-                    <div>
-                        <p style="font-size: 0.875rem; color: var(--color-text-muted);">Norenchiseの場合</p>
-                        <p style="font-size: 2rem; font-weight: 700; color: var(--color-semantic-success);">¥0</p>
-                        <p style="font-size: 0.875rem;">追加コストなし</p>
-                    </div>
+            <h3>例：イベント収益が月¥50万に成長した場合</h3>
+
+            <div class="growth-comparison fade-in">
+                <div class="growth-card franchise-card">
+                    <h4>フランチャイズの場合</h4>
+                    <div style="font-size: 2rem; font-weight: 700; color: var(--color-semantic-danger); margin: 1rem 0;">-¥35,000/月</div>
+                    <p>追加ロイヤリティ</p>
                 </div>
-                <p>あなたの努力で伸ばした<strong>対象外事業の収益は、100%あなたのもの</strong>です。</p>
+                <div class="growth-card norenchise-card">
+                    <h4>Norenchiseの場合</h4>
+                    <div style="font-size: 2rem; font-weight: 700; color: var(--color-semantic-success); margin: 1rem 0;">¥0</div>
+                    <p>追加コストなし</p>
+                </div>
             </div>
+
+            <p class="emphasis-text fade-in">あなたの努力で伸ばした<strong>対象外事業の収益は、100%あなたのもの</strong>です。</p>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section bg-inverse" style="text-align: center; padding: var(--space-20) var(--container-padding);">
-        <div class="container">
+    <!-- CTA / Closing -->
+    <section class="bg-inverse">
+        <div class="container" style="text-align: center;">
             <h2>新しい時代の<br>パートナーシップへ</h2>
-            <p style="font-size: 1.125rem; margin-bottom: var(--space-8); opacity: 0.9;">Norenchiseは、あなたの成功を本気で願うパートナーシップです。<br>まずはお気軽にご相談ください。</p>
-            
-            <div class="process-steps fade-in" style="margin: var(--space-12) 0;">
-                <div class="process-step">
-                    <div class="process-number" style="background: var(--color-accent-primary);">1</div>
-                    <h4 style="color: var(--color-text-inverse);">ご相談</h4>
-                    <p style="color: rgba(245,240,232,0.7);">まずはお話をお聞かせください</p>
+            <p style="opacity: 0.8; max-width: 600px; margin: 1.5rem auto; line-height: 2;">
+                Norenchiseは、あなたの成功を本気で願うパートナーシップです。<br>
+                まずはお気軽にご相談ください。
+            </p>
+
+            <div class="steps-grid fade-in" style="margin-top: 3rem;">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4>ご相談</h4>
+                    <p style="font-size: 0.85rem; opacity: 0.7;">まずはお話をお聞かせください</p>
                 </div>
-                <div class="process-step">
-                    <div class="process-number" style="background: var(--color-accent-primary);">2</div>
-                    <h4 style="color: var(--color-text-inverse);">プラン策定</h4>
-                    <p style="color: rgba(245,240,232,0.7);">最適なプランをご提案</p>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4>プラン策定</h4>
+                    <p style="font-size: 0.85rem; opacity: 0.7;">最適なプランをご提案</p>
                 </div>
-                <div class="process-step">
-                    <div class="process-number" style="background: var(--color-accent-primary);">3</div>
-                    <h4 style="color: var(--color-text-inverse);">研修開始</h4>
-                    <p style="color: rgba(245,240,232,0.7);">開業に向けた準備</p>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4>研修開始</h4>
+                    <p style="font-size: 0.85rem; opacity: 0.7;">開業に向けた準備</p>
                 </div>
-                <div class="process-step">
-                    <div class="process-number" style="background: var(--color-accent-primary);">4</div>
-                    <h4 style="color: var(--color-text-inverse);">開業</h4>
-                    <p style="color: rgba(245,240,232,0.7);">共に歩むスタート</p>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h4>開業</h4>
+                    <p style="font-size: 0.85rem; opacity: 0.7;">共に歩むスタート</p>
                 </div>
             </div>
 
-            <p class="emphasis-text" style="color: var(--color-text-inverse);">
+            <p class="emphasis-text fade-in" style="color: var(--color-text-inverse);">
                 暖簾分けの<strong>信頼</strong>と<br>
                 フランチャイズの<strong>システム</strong>。<br>
                 両方の良さを、あなたに。
@@ -1446,38 +962,25 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>Tokyo Coffee — Norenchise Partnership Program — 2026</p>
-    </footer>
+    <footer>Tokyo Coffee — Norenchise Partnership Program — 2026</footer>
 
     <script>
-        // Progress Bar
+        // Progress bar
         window.addEventListener('scroll', () => {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById('progressBar').style.width = scrolled + '%';
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById('progressBar').style.width = (scrollTop / scrollHeight * 100) + '%';
         });
 
         // Nav visibility
-        const nav = document.getElementById('nav');
+        const nav = document.getElementById('mainNav');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 500) {
-                nav.classList.add('visible');
-            } else {
-                nav.classList.remove('visible');
-            }
+            nav.classList.toggle('visible', window.scrollY > 500);
         });
 
         // Active section highlighting
         const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('.nav-links a');
-
-        const observerOptions = {
-            rootMargin: '-20% 0px -80% 0px'
-        };
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1489,29 +992,22 @@
                     });
                 }
             });
-        }, observerOptions);
-
+        }, { threshold: 0.3 });
         sections.forEach(section => observer.observe(section));
 
         // Fade in on scroll
-        const fadeElements = document.querySelectorAll('.fade-in');
         const fadeObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('visible');
             });
         }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
 
-        fadeElements.forEach(el => fadeObserver.observe(el));
-
-        // Smooth scroll for anchor links
+        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
             });
         });
     </script>
