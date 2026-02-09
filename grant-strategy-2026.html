@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rogue Trade K.K. — Grant Strategy 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --color-bg-primary: #F5F0E8;
+    --color-bg-secondary: #EBE4D8;
+    --color-bg-tertiary: #D9CFC0;
+    --color-bg-inverse: #2C1810;
+    --color-text-primary: #2C1810;
+    --color-text-secondary: #4A3428;
+    --color-text-muted: #6B5A4E;
+    --color-text-inverse: #F5F0E8;
+    --color-accent-primary: #C17F59;
+    --color-accent-secondary: #8B4513;
+    --color-semantic-success: #4A7C59;
+    --color-semantic-warning: #B8860B;
+    --color-semantic-danger: #8B2500;
+    --color-border: rgba(44, 24, 16, 0.12);
+    --color-shadow: rgba(44, 24, 16, 0.08);
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem;
+    --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem;
+    --space-16: 4rem; --space-20: 5rem; --space-24: 6rem;
+    --container-max: 1400px;
+    --container-padding: clamp(1.5rem, 5vw, 4rem);
+    --radius-sm: 0.25rem; --radius-md: 0.5rem; --radius-lg: 1rem;
+    --shadow-md: 0 4px 12px var(--color-shadow);
+    --shadow-lg: 0 8px 24px var(--color-shadow);
+    --transition-normal: 300ms ease;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--color-bg-primary); color: var(--color-text-primary); line-height: 1.7; }
+.progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 1000; background: transparent; }
+.progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--color-accent-secondary), var(--color-accent-primary)); transition: width 100ms; }
+.sticky-nav { position: fixed; top: 0; left: 0; width: 100%; background: rgba(245,240,232,0.92); backdrop-filter: blur(20px); z-index: 999; transform: translateY(-100%); transition: transform var(--transition-normal); border-bottom: 1px solid var(--color-border); }
+.sticky-nav.visible { transform: translateY(0); }
+.sticky-nav .nav-inner { max-width: var(--container-max); margin: 0 auto; padding: 0.75rem var(--container-padding); display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.sticky-nav .nav-title { font-family: var(--font-display); font-size: 1rem; font-weight: 600; white-space: nowrap; }
+.sticky-nav .nav-links { display: flex; gap: 0.25rem; flex-wrap: wrap; justify-content: center; }
+.sticky-nav .nav-links a { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); text-decoration: none; padding: 0.35rem 0.65rem; border-radius: 99px; transition: all var(--transition-normal); font-weight: 500; }
+.sticky-nav .nav-links a.active, .sticky-nav .nav-links a:hover { background: var(--color-accent-primary); color: white; }
+.btn-pdf { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.4rem 1rem; border: 1px solid var(--color-accent-primary); color: var(--color-accent-primary); background: none; border-radius: 99px; cursor: pointer; font-weight: 600; font-family: var(--font-body); transition: all var(--transition-normal); white-space: nowrap; }
+.btn-pdf:hover { background: var(--color-accent-primary); color: white; }
+.container { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--container-padding); }
+/* Hero */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: var(--space-24) var(--container-padding); position: relative; }
+.hero-badge { display: inline-block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600; border: 1px solid var(--color-accent-primary); color: var(--color-accent-primary); padding: 0.4rem 1.2rem; border-radius: 99px; margin-bottom: var(--space-8); }
+.hero h1 { font-family: var(--font-display); font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 700; line-height: 1.1; margin-bottom: var(--space-6); max-width: 900px; }
+.hero .subtitle { font-size: clamp(1.1rem, 2vw, 1.4rem); color: var(--color-text-secondary); max-width: 700px; line-height: 1.6; margin-bottom: var(--space-8); }
+.hero-stats { display: flex; gap: var(--space-10); flex-wrap: wrap; margin-top: var(--space-8); }
+.hero-stat .stat-number { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: var(--color-accent-secondary); }
+.hero-stat .stat-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-text-muted); margin-top: 0.25rem; }
+.scroll-indicator { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: var(--color-text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; animation: bounce 2s infinite; }
+@keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+/* Sections */
+section { padding: var(--space-20) 0; }
+.section-number { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--color-accent-primary); font-weight: 600; margin-bottom: var(--space-4); }
+section h2 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: var(--space-4); line-height: 1.2; }
+section > .container > p { font-size: 1.05rem; color: var(--color-text-secondary); max-width: 750px; margin-bottom: var(--space-10); }
+h3 { font-family: var(--font-display); font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 600; margin-top: var(--space-12); margin-bottom: var(--space-4); }
+h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; color: var(--color-accent-secondary); margin-bottom: var(--space-3); }
+.bg-secondary { background: var(--color-bg-secondary); }
+.bg-inverse { background: var(--color-bg-inverse); color: var(--color-text-inverse); }
+.bg-inverse .section-number { color: var(--color-accent-primary); }
+.bg-inverse h2, .bg-inverse h3 { color: var(--color-text-inverse); }
+.bg-inverse p, .bg-inverse li { color: rgba(245,240,232,0.85); }
+/* Tables */
+.table-wrapper { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); margin: var(--space-6) 0; }
+.table-wrapper table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.table-wrapper th { background: var(--color-bg-inverse); color: var(--color-text-inverse); text-align: left; padding: 0.85rem 1rem; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+.table-wrapper td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+.table-wrapper tr:last-child td { border-bottom: none; }
+.table-wrapper tr:hover td { background: rgba(193,127,89,0.04); }
+/* Stat cards */
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-6); margin: var(--space-8) 0; }
+.stat-card { background: white; border-radius: var(--radius-lg); padding: var(--space-8) var(--space-6); box-shadow: var(--shadow-md); text-align: center; }
+.stat-card .stat-number { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; color: var(--color-accent-secondary); }
+.stat-card .stat-label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin-top: 0.4rem; }
+/* Highlight boxes */
+.highlight-box { background: white; border-left: 4px solid var(--color-accent-primary); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-6); margin: var(--space-6) 0; box-shadow: var(--shadow-md); }
+.highlight-box.critical { border-left-color: var(--color-semantic-danger); }
+.highlight-box.success { border-left-color: var(--color-semantic-success); }
+.highlight-box.warning { border-left-color: var(--color-semantic-warning); }
+.highlight-box h4 { margin-bottom: var(--space-2); }
+/* Action list */
+.action-list { list-style: none; margin: var(--space-6) 0; }
+.action-list li { padding: var(--space-4) 0; border-bottom: 1px solid var(--color-border); padding-left: 1.5rem; position: relative; line-height: 1.6; }
+.action-list li::before { content: ''; position: absolute; left: 0; top: 1.35rem; width: 8px; height: 8px; border: 2px solid var(--color-accent-primary); border-radius: 50%; }
+.action-list li:last-child { border-bottom: none; }
+/* Badges */
+.badge { display: inline-block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.2rem 0.6rem; border-radius: 99px; }
+.badge-yes { background: #E8F5E9; color: #2E7D32; }
+.badge-no { background: #FFEBEE; color: #C62828; }
+.badge-maybe { background: #FFF8E1; color: #F57F17; }
+.badge-ask { background: #E3F2FD; color: #1565C0; }
+.badge-free { background: #E0F2F1; color: #00695C; }
+/* Two column */
+.two-column { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-10); margin: var(--space-8) 0; }
+@media (max-width: 768px) { .two-column { grid-template-columns: 1fr; } .sticky-nav .nav-links { display: none; } }
+/* Timeline */
+.timeline { margin: var(--space-8) 0; position: relative; padding-left: 2rem; }
+.timeline::before { content: ''; position: absolute; left: 0.5rem; top: 0; bottom: 0; width: 2px; background: var(--color-accent-primary); }
+.timeline-item { position: relative; margin-bottom: var(--space-6); padding-bottom: var(--space-6); border-bottom: 1px solid var(--color-border); }
+.timeline-item::before { content: ''; position: absolute; left: -1.75rem; top: 0.35rem; width: 12px; height: 12px; background: var(--color-accent-primary); border-radius: 50%; border: 3px solid var(--color-bg-primary); }
+.timeline-item .timeline-date { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; color: var(--color-accent-primary); }
+.timeline-item .timeline-title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; margin: 0.25rem 0; }
+.timeline-item .timeline-desc { font-size: 0.9rem; color: var(--color-text-secondary); }
+/* Grant card */
+.grant-card { background: white; border-radius: var(--radius-lg); padding: var(--space-6); margin: var(--space-4) 0; box-shadow: var(--shadow-md); border-left: 4px solid var(--color-accent-primary); }
+.grant-card h4 { font-size: 0.85rem; text-transform: none; letter-spacing: 0; font-weight: 700; color: var(--color-text-primary); margin-bottom: var(--space-2); }
+.grant-card .grant-meta { display: flex; gap: var(--space-4); flex-wrap: wrap; font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: var(--space-3); }
+.grant-card .grant-meta span { display: flex; align-items: center; gap: 0.3rem; }
+.grant-card p { font-size: 0.88rem; color: var(--color-text-secondary); margin-bottom: var(--space-2); }
+.grant-card .grant-catch { font-size: 0.82rem; color: var(--color-semantic-warning); font-weight: 500; }
+/* Comparison bar */
+.comparison-bar { display: flex; align-items: center; gap: var(--space-4); margin: var(--space-3) 0; }
+.comparison-bar .bar-label { font-size: 0.78rem; width: 120px; flex-shrink: 0; color: var(--color-text-secondary); }
+.comparison-bar .bar-track { flex: 1; height: 24px; background: var(--color-bg-secondary); border-radius: 12px; overflow: hidden; position: relative; }
+.comparison-bar .bar-fill { height: 100%; border-radius: 12px; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.5rem; font-size: 0.7rem; font-weight: 700; color: white; min-width: 50px; }
+.bar-fill.manual { background: var(--color-bg-inverse); }
+.bar-fill.claude { background: var(--color-semantic-success); }
+/* Fade in */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+/* Print */
+@media print { .sticky-nav, .progress-container, .scroll-indicator, .btn-pdf { display: none !important; } .hero { min-height: auto; page-break-after: always; } section { page-break-inside: avoid; } .fade-in { opacity: 1 !important; transform: none !important; } }
+</style>
+</head>
+<body>
+<div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+
+<nav class="sticky-nav" id="stickyNav">
+<div class="nav-inner">
+<span class="nav-title">Rogue Trade Grant Playbook</span>
+<div class="nav-links">
+<a href="#overview">Overview</a>
+<a href="#nobrainer">No-Brainers</a>
+<a href="#kitchen">Kitchen</a>
+<a href="#caferes">CAFERES</a>
+<a href="#digital">Digital</a>
+<a href="#training">Training</a>
+<a href="#time-savings">AI Savings</a>
+<a href="#timeline">Timeline</a>
+</div>
+<button class="btn-pdf" onclick="window.print()">Export PDF</button>
+</div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+<span class="hero-badge">Grant Strategy Playbook — v6 / February 2026</span>
+<h1>¥22–27M in Grants,<br>70 Hours of Work</h1>
+<p class="subtitle">A comprehensive subsidy strategy for Rogue Trade K.K. — covering six project categories, time-saving AI workflows, and a month-by-month execution calendar. Updated with confirmed 小規模事業者 status and FY2025 赤字 eligibility.</p>
+<div class="hero-stats">
+<div class="hero-stat"><div class="stat-number">¥22-27M</div><div class="stat-label">Total Grant Recovery</div></div>
+<div class="hero-stat"><div class="stat-number">~35h</div><div class="stat-label">Your Time (with Claude)</div></div>
+<div class="hero-stat"><div class="stat-number">6</div><div class="stat-label">Project Categories</div></div>
+<div class="hero-stat"><div class="stat-number">¥138M</div><div class="stat-label">Annual Revenue</div></div>
+</div>
+<div class="scroll-indicator">Scroll to explore ↓</div>
+</header>
+
+<!-- SECTION 1: OVERVIEW -->
+<section id="overview">
+<div class="container fade-in">
+<span class="section-number">01 — Strategic Overview</span>
+<h2>Two Unlocks That Change Everything</h2>
+<p>Two recent confirmations fundamentally reshape which grants Rogue Trade can access and at what rates.</p>
+
+<div class="two-column">
+<div>
+<div class="highlight-box success">
+<h4>UNLOCK 1: 小規模事業者 CONFIRMED</h4>
+<p>All 13 アルバイト work less than 3/4 of 正社員 hours → 常勤 = 13人 → manufacturing threshold ≤20 met. This unlocks 2/3 rate (instead of 1/2) on most national grants, and 4/5 on Tokyo's 躍進的. On a ¥30M equipment purchase, that's an extra ¥5M in cash.</p>
+</div>
+</div>
+<div>
+<div class="highlight-box success">
+<h4>UNLOCK 2: FY2025 赤字 (OPERATING LOSS)</h4>
+<p>The 2025 operating loss directly qualifies Rogue Trade for Tokyo's 経営基盤強化事業 and 展示会出展助成プラス via 「損失計上」— no need for the米国関税 workaround. Also upgrades 持続化補助金 rate to 3/4 for 赤字事業者.</p>
+</div>
+</div>
+</div>
+
+<div class="stat-grid">
+<div class="stat-card"><div class="stat-number">¥6M</div><div class="stat-label">Already in Pipeline</div></div>
+<div class="stat-card"><div class="stat-number">¥5.6M</div><div class="stat-label">No-Brainer (社労士)</div></div>
+<div class="stat-card"><div class="stat-number">¥1.3-2.5M</div><div class="stat-label">Kitchen Project</div></div>
+<div class="stat-card"><div class="stat-number">¥0.6-1.3M</div><div class="stat-label">CAFERES Show</div></div>
+<div class="stat-card"><div class="stat-number">¥3-5.3M</div><div class="stat-label">Digital / SaaS</div></div>
+<div class="stat-card"><div class="stat-number">¥0.4M</div><div class="stat-label">Training (JK-1)</div></div>
+</div>
+</div>
+</section>
+
+<!-- SECTION 2: NO-BRAINER GRANTS -->
+<section id="nobrainer" class="bg-secondary">
+<div class="container fade-in">
+<span class="section-number">02 — No-Brainer Grants</span>
+<h2>Eight Grants Your 社労士 Should File</h2>
+<p>These require minimal effort from you — one meeting with your 社労士 and providing supporting documents. They handle the rest. Total estimated time: 3-5 hours of your time.</p>
+
+<div class="table-wrapper">
+<table>
+<thead><tr><th>Grant</th><th>Amount</th><th>Verdict</th><th>What You Do</th><th>Catch / Notes</th></tr></thead>
+<tbody>
+<tr>
+<td><strong>KU-2 賃金規定等改定</strong><br><small>キャリアアップ助成金</small></td>
+<td><strong style="color:#2E7D32">≈¥110万</strong></td>
+<td><span class="badge badge-yes">YES</span></td>
+<td>Formalize wage table in 就業規則, raise パート wages 3%+</td>
+<td>You're already raising wages (+11.15%). This just pays you for documenting what you're already doing.</td>
+</tr>
+<tr>
+<td><strong>KU-3 賞与・退職金導入</strong><br><small>キャリアアップ助成金</small></td>
+<td><strong style="color:#F57F17">≈¥57万</strong></td>
+<td><span class="badge badge-maybe">DISCUSS</span></td>
+<td>Add bonus/retirement system to 就業規則 for パート</td>
+<td>⚠️ Creates permanent obligation for 13 アルバイト. ¥57万 one-time vs ongoing cost. Ask 社労士 what minimum commitment looks like before deciding.</td>
+</tr>
+<tr>
+<td><strong>KU-4 賃金規定共通化</strong><br><small>キャリアアップ助成金</small></td>
+<td><strong style="color:#F57F17">≈¥60万</strong></td>
+<td><span class="badge badge-maybe">MAYBE</span></td>
+<td>Unify wage scales so same work = same pay regardless of employment type</td>
+<td>Only works if 正社員 and パート roles overlap. If their jobs are clearly different (roasting vs packing), hard to justify. Ask 社労士.</td>
+</tr>
+<tr>
+<td><strong>RS-5 不妊治療・女性健康</strong><br><small>両立支援等助成金</small></td>
+<td><strong style="color:#2E7D32">≈¥30万</strong></td>
+<td><span class="badge badge-yes">ADD CLAUSE</span></td>
+<td>Add 不妊治療休暇 clause to 就業規則</td>
+<td>Low effort to set up. Claim ¥30万 if someone naturally uses it. Don't count on it — add the clause while 社労士 is already revising 就業規則 for other grants.</td>
+</tr>
+<tr>
+<td><strong>N-29 外国人労働者環境整備</strong><br><small>厚労省</small></td>
+<td><strong>≈¥80万</strong></td>
+<td><span class="badge badge-ask">CHECK</span></td>
+<td>Translate manuals, multilingual signage, foreign worker consultation system</td>
+<td>❓ Do you have foreign employees on payroll? If yes, perfect fit — translate manuals into English/Malay. If all 30 are Japanese nationals, N/A.</td>
+</tr>
+<tr>
+<td><strong>T-34 正規雇用転換安定化</strong><br><small>東京都</small></td>
+<td><strong style="color:#2E7D32">≈¥60万</strong></td>
+<td><span class="badge badge-yes">ABSOLUTELY</span></td>
+<td>Nothing extra — stacks on top of KU-1 you're already doing</td>
+<td>Free money. Tokyo's extra payment for the パート→正社員 conversions. If your 社労士 isn't already filing this alongside KU-1, ask them why.</td>
+</tr>
+<tr>
+<td><strong>T-35 働き方改革宣言</strong><br><small>東京都</small></td>
+<td><strong style="color:#2E7D32">≈¥11万</strong></td>
+<td><span class="badge badge-yes">DO TODAY</span></td>
+<td>Post a public work-style reform declaration on your website</td>
+<td>30 minutes of work. Write a declaration, post it publicly, submit proof. No ongoing obligation. Essentially no downside.</td>
+</tr>
+<tr>
+<td><strong>T-23 事業内スキルアップ</strong><br><small>東京都</small></td>
+<td><strong style="color:#2E7D32">≈¥150万/yr</strong></td>
+<td><span class="badge badge-yes">YES</span></td>
+<td>Run structured in-house training programs, register plan with Tokyo, track hours</td>
+<td>Pairs with JK-1 (national). Covers HACCP, barista, food safety, digital skills, export, language. Must register plan BEFORE training starts. Requires lesson plans + attendance records.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="highlight-box">
+<h4>ALREADY IN PIPELINE (≈¥6M)</h4>
+<p>KU-1 正社員化 (≈¥4M, 5 conversions) • RS-2 育休中業務代替 (≈¥1.25M) • RS-3 パパ育業 (≈¥300K) • RS-4 柔軟な働き方 (≈¥250K) • T-29 パパママ育業応援 (≈¥200K) • N-4a 省力化一般型 (≈¥20-30M application in progress)</p>
+</div>
+</div>
+</section>
+
+<!-- SECTION 3: KITCHEN -->
+<section id="kitchen">
+<div class="container fade-in">
+<span class="section-number">03 — Kitchen Project</span>
+<h2>Central Kitchen — ¥3M Build</h2>
+<p>A compact kitchen buildout: floors, walls, demolition, windows, soundproofing, 業務用エアコン, and a few kitchen items. Modest budget, but multiple grants still apply.</p>
+
+<h3>Primary: 経営基盤強化事業 一般コース（第6回）</h3>
+<div class="grant-card">
+<h4>Tokyo Metropolitan — 事業環境変化に対応した経営基盤強化事業</h4>
+<div class="grant-meta"><span>💰 Rate: 2/3</span><span>📊 Max: ¥8M</span><span>🎯 Eligible: ≈¥200万</span><span>💵 Back: ≈¥133万</span></div>
+<p>Equipment (厨房機器 + エアコン) goes under 機械装置費 / 設備等導入費. Interior work capped at ¥100万 under その他経費. Qualifies directly via FY2025 赤字 — 損失計上 requirement met, no tariff argument needed.</p>
+<p class="grant-catch">⚠️ Deadline: March 2-13, 2026. Cannot use 賃金引上げ計画 in Round 6.</p>
+</div>
+
+<h3>Backup: 業務改善助成金 R8</h3>
+<div class="grant-card">
+<h4>National (厚労省) — 業務改善助成金</h4>
+<div class="grant-meta"><span>💰 Rate: 75%</span><span>📊 Max: ¥6M</span><span>🎯 Equipment portion</span><span>💵 Back: ≈¥75-112万</span></div>
+<p>If 経営基盤強化 is rejected, or for remaining equipment costs. Requires raising minimum wage ¥30+. Simple application, high approval rate.</p>
+<p class="grant-catch">⚠️ Opens September 2026 — can't use immediately.</p>
+</div>
+
+<h3>Tax: 先端設備等導入計画</h3>
+<div class="grant-card">
+<h4>東久留米市 — Fixed asset tax reduction</h4>
+<div class="grant-meta"><span>💰 Tax cut: 1/2 to 1/4</span><span>📊 Duration: 3 years</span><span>🎯 エアコン + 厨房機器</span><span>💵 Guaranteed</span></div>
+<p>Not a grant — it's a tax certification. File with 東久留米市 BEFORE purchasing any equipment. Reduces fixed asset tax on qualifying equipment for 3 years. No competition, just approval.</p>
+</div>
+
+<div class="highlight-box success">
+<h4>KITCHEN SPLIT STRATEGY</h4>
+<p>Start non-equipment construction NOW (demolition, windows, flooring, soundproofing) — nothing stops you. Hold equipment contracts (エアコン, 厨房機器) until 交付決定 comes through in summer. You cannot sign contracts or place orders on subsidized items before the decision.</p>
+</div>
+
+<div class="stat-grid">
+<div class="stat-card"><div class="stat-number">¥1.3-2.5M</div><div class="stat-label">Total Recovery on ¥3M</div></div>
+<div class="stat-card"><div class="stat-number">44-82%</div><div class="stat-label">Coverage Rate</div></div>
+<div class="stat-card"><div class="stat-number">~10h</div><div class="stat-label">Your Time (w/ Claude)</div></div>
+</div>
+</div>
+</section>
+
+<!-- SECTION 4: CAFERES -->
+<section id="caferes" class="bg-secondary">
+<div class="container fade-in">
+<span class="section-number">04 — CAFERES Japan 2026</span>
+<h2>Trade Show — Aug 4-6, ビッグサイト</h2>
+<p>Japan's largest café, bakery, and restaurant trade show. 360 exhibitors, 45,000 B2B visitors. Perfect for building a wholesale channel and brand awareness.</p>
+
+<h3>Primary: 展示会出展助成プラス</h3>
+<div class="grant-card">
+<h4>Tokyo Metropolitan — 展示会出展助成プラス</h4>
+<div class="grant-meta"><span>💰 Rate: 2/3</span><span>📊 Max: ¥150万</span><span>🎯 Booth + materials</span><span>💵 Back: ≈¥45-93万</span></div>
+<p>Covers: 出展小間料, 資材費, 輸送費, 販売促進費 (パンフレット, 動画制作, 広告, サイト制作). Qualifies via FY2025 損失計上. 10 rounds through Jan 2026 — apply Apr-May for Aug show.</p>
+<p class="grant-catch">⚠️ Prerequisite: Must receive グロースサポート 経営分析 at 商工会議所 first. Register early.</p>
+</div>
+
+<h3>Stack: 人材開発支援助成金（リスキリング）JK-1</h3>
+<div class="grant-card">
+<h4>National (厚労省) — 人材開発リスキリング</h4>
+<div class="grant-meta"><span>💰 Rate: 75% + ¥1,000/h</span><span>🎯 Pre-show training</span><span>💵 Back: ≈¥15-40万</span></div>
+<p>Train staff on: 展示会営業 skills, B2B sales techniques, barista/cupping demonstration, English business presentation. All before the show so your team performs at their best on the floor.</p>
+</div>
+
+<h3>Free Leverage</h3>
+<ul class="action-list">
+<li><strong>JETRO登録:</strong> Free buyer matching, export support, market intelligence for MY/SG expansion</li>
+<li><strong>GFP登録 (MAFF):</strong> Unlocks future HACCP facility grants (¥500M), export priority status, government recognition</li>
+</ul>
+
+<div class="stat-grid">
+<div class="stat-card"><div class="stat-number">¥0.6-1.3M</div><div class="stat-label">Total Recovery</div></div>
+<div class="stat-card"><div class="stat-number">~60%</div><div class="stat-label">Cost Reduction</div></div>
+<div class="stat-card"><div class="stat-number">~12h</div><div class="stat-label">Your Time (w/ Claude)</div></div>
+</div>
+</div>
+</section>
+
+<!-- SECTION 5: DIGITAL -->
+<section id="digital">
+<div class="container fade-in">
+<span class="section-number">05 — Digital / SaaS</span>
+<h2>Digital Transformation — Scope TBD</h2>
+<p>Digital/SaaS project is still being scoped. Two paths depending on project size.</p>
+
+<h3>Near-term: デジタル化・AI導入補助金 2026</h3>
+<div class="grant-card">
+<h4>National — デジタル化・AI導入補助金</h4>
+<div class="grant-meta"><span>💰 Rate: 2/3 (小規模)</span><span>📊 Max: ¥4.5M</span><span>🗓 Opens: Mar 30, 2026</span></div>
+<p>Covers SaaS, CRM, AI tools, EC platform, automation software. Good for a focused digital tools investment.</p>
+</div>
+
+<h3>Bigger scope: 経営基盤強化事業 FY2026</h3>
+<div class="grant-card">
+<h4>Tokyo Metropolitan — If renewed for FY2026</h4>
+<div class="grant-meta"><span>💰 Rate: 2/3</span><span>📊 Max: ¥8M</span><span>🗓 Likely May 2026</span></div>
+<p>Broader coverage — equipment, systems, 委託外注, marketing. Better for larger-scope digital transformation.</p>
+<p class="grant-catch">⚠️ BLOCKED if you win kitchen on 経営基盤強化 this year. This is why kitchen uses the Mar 2-13 round and digital waits.</p>
+</div>
+
+<h3>Alternative: 新事業進出補助金 (if ≥¥15M project)</h3>
+<div class="grant-card">
+<h4>National — For major new business lines</h4>
+<div class="grant-meta"><span>💰 Rate: 1/2</span><span>📊 Min: ¥750万 subsidy</span><span>⏱ 80-100h prep</span></div>
+<p>Only if digital/SaaS becomes a major new business line with ¥15M+ investment. Very heavy application (Zoom面接 + 認定支援機関). Consider only for serious pivots.</p>
+</div>
+
+<div class="stat-grid">
+<div class="stat-card"><div class="stat-number">¥3-5.3M</div><div class="stat-label">Potential Recovery</div></div>
+<div class="stat-card"><div class="stat-number">TBD</div><div class="stat-label">Depends on Scope</div></div>
+<div class="stat-card"><div class="stat-number">~8h</div><div class="stat-label">Your Time (w/ Claude)</div></div>
+</div>
+</div>
+</section>
+
+<!-- SECTION 6: TRAINING -->
+<section id="training" class="bg-secondary">
+<div class="container fade-in">
+<span class="section-number">06 — Training</span>
+<h2>人材開発 — One Plan, Multiple Uses</h2>
+<p>A single JK-1 training plan can cover training across all your projects: CAFERES prep, digital skills, export readiness, food safety.</p>
+
+<div class="highlight-box warning">
+<h4>JK-1 vs JK-2: MUST PICK ONE</h4>
+<p><strong>JK-1 リスキリング</strong> — 75% + ¥1,000/h. Time-limited (FY2026 deadline). Higher per-hour rate.<br>
+<strong>JK-2 人材育成支援</strong> — 75% (小規模) or 45-60% + ¥760/h. Permanent program. Lower rate.<br>
+<strong>Recommendation: JK-1</strong> — higher rate while it's available. Pair with T-23 (Tokyo layer) for maximum coverage.</p>
+</div>
+
+<h3>Training areas to cover</h3>
+<ul class="action-list">
+<li><strong>CAFERES prep:</strong> 展示会営業, B2B selling, cupping/barista demonstration, English pitch</li>
+<li><strong>Digital skills:</strong> CRM management, EC operations, data analytics, AI tools</li>
+<li><strong>Export readiness:</strong> Trade documentation, international negotiation, Halal/organic certification knowledge</li>
+<li><strong>Food safety:</strong> HACCP principles, food hygiene management, temperature control protocols</li>
+<li><strong>Management:</strong> Team leadership, project management for re-deployed staff</li>
+</ul>
+</div>
+</section>
+
+<!-- SECTION 7: AI TIME SAVINGS -->
+<section id="time-savings" class="bg-inverse">
+<div class="container fade-in">
+<span class="section-number">07 — AI-Assisted Applications</span>
+<h2>Claude Cuts Application Time by ~65%</h2>
+<p>Traditional application prep involves research, plan writing, financial projections, and document formatting. Claude handles the heavy lifting — you focus on decisions and in-person steps.</p>
+
+<div class="table-wrapper" style="margin-top:2rem">
+<table>
+<thead><tr><th>Category</th><th>Manual</th><th>With Claude</th><th>Savings</th><th>What Claude Does</th></tr></thead>
+<tbody>
+<tr><td><strong>Kitchen</strong></td><td>23-35h</td><td><strong style="color:#4A7C59">~10h</strong></td><td>60-70%</td><td>Drafts 事業計画書, financial projections, 米国関税/赤字 narrative. You: review, Jグランツ entry, 面接</td></tr>
+<tr><td><strong>CAFERES</strong></td><td>20-29h</td><td><strong style="color:#4A7C59">~12h</strong></td><td>40-60%</td><td>Drafts exhibition plan, training curriculum, budget breakdown. You: 商工会議所 visit, form submission</td></tr>
+<tr><td><strong>Digital</strong></td><td>15-20h</td><td><strong style="color:#4A7C59">~8h</strong></td><td>50-60%</td><td>Drafts DX plan, ROI calculations, system architecture narrative. You: scope decisions, submission</td></tr>
+<tr><td><strong>Training (JK-1)</strong></td><td>8-12h</td><td><strong style="color:#4A7C59">~4h</strong></td><td>50-65%</td><td>Creates training plan, curriculum outlines, hour projections. You: submit to 労働局</td></tr>
+<tr><td><strong>No-Brainers</strong></td><td>3-5h</td><td><strong style="color:#4A7C59">~2h</strong></td><td>30-40%</td><td>Prepares checklist + instructions for 社労士. You: one meeting</td></tr>
+<tr><td style="font-weight:700">TOTAL</td><td style="font-weight:700">70-100h</td><td style="font-weight:700; color:#4A7C59">~35h</td><td style="font-weight:700">~65%</td><td></td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 style="color:var(--color-text-inverse)">Where Claude saves the most time</h3>
+<div style="max-width:700px; margin-top:1.5rem">
+<div class="comparison-bar"><span class="bar-label" style="color:rgba(245,240,232,0.7)">Research</span><div class="bar-track"><div class="bar-fill claude" style="width:10%">10%</div></div></div>
+<div class="comparison-bar"><span class="bar-label" style="color:rgba(245,240,232,0.7)">Plan drafting</span><div class="bar-track"><div class="bar-fill claude" style="width:30%">30%</div></div></div>
+<div class="comparison-bar"><span class="bar-label" style="color:rgba(245,240,232,0.7)">Financial calcs</span><div class="bar-track"><div class="bar-fill claude" style="width:20%">20%</div></div></div>
+<div class="comparison-bar"><span class="bar-label" style="color:rgba(245,240,232,0.7)">Doc formatting</span><div class="bar-track"><div class="bar-fill claude" style="width:20%">20%</div></div></div>
+<div class="comparison-bar"><span class="bar-label" style="color:rgba(245,240,232,0.7)">Form entry</span><div class="bar-track"><div class="bar-fill manual" style="width:100%">100%</div></div></div>
+<div class="comparison-bar"><span class="bar-label" style="color:rgba(245,240,232,0.7)">In-person</span><div class="bar-track"><div class="bar-fill manual" style="width:100%">100%</div></div></div>
+</div>
+<p style="font-size:0.8rem; margin-top:1rem; color:rgba(245,240,232,0.5)">Green = Claude handles. Dark = You must do in person. Research shown at 10% because this playbook already completed it.</p>
+</div>
+</section>
+
+<!-- SECTION 8: TIMELINE -->
+<section id="timeline">
+<div class="container fade-in">
+<span class="section-number">08 — Execution Calendar</span>
+<h2>Month-by-Month Playbook</h2>
+<p>Every deadline, every action, in order.</p>
+
+<div class="timeline">
+<div class="timeline-item">
+<div class="timeline-date">February 2026 — NOW</div>
+<div class="timeline-title">Foundation Week</div>
+<div class="timeline-desc">Get GビズID Prime (if not from 省力化). 社労士 meeting with no-brainer list. File 先端設備等導入計画 with 東久留米市. Register GFP + JETRO (free, 2h). Register for グロースサポート at 商工会議所. Start prepping 経営基盤強化 application. Start non-equipment kitchen construction.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-date">March 2–13</div>
+<div class="timeline-title">★ 経営基盤強化 Submit (Kitchen)</div>
+<div class="timeline-desc">Submit kitchen project application via Jグランツ. FY2025 赤字 qualifies directly.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-date">March 30</div>
+<div class="timeline-title">デジタル化AI導入 Opens</div>
+<div class="timeline-desc">Assess digital project scope. Apply if ready, otherwise wait for 経営基盤強化 FY2026.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-date">April – May</div>
+<div class="timeline-title">CAFERES Applications</div>
+<div class="timeline-desc">Apply 展示会出展助成プラス (needs グロースサポート completed). File JK-1 training plan for pre-show staff training. 社労士 files no-brainer grants on rolling basis.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-date">May – July</div>
+<div class="timeline-title">Training + Show Prep</div>
+<div class="timeline-desc">Staff training under JK-1 (展示会営業, barista demos, B2B skills). Kitchen 経営基盤強化 result expected. If approved → order equipment.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-date">August 4–6</div>
+<div class="timeline-title">★ CAFERES JAPAN 2026 @ ビッグサイト</div>
+<div class="timeline-desc">360 exhibitors, 45,000 visitors. Build wholesale channel, showcase Rogue Trade brand.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-date">September</div>
+<div class="timeline-title">業務改善 R8 Opens</div>
+<div class="timeline-desc">If kitchen 経営基盤強化 was rejected, apply here. 75% rate on equipment. Check N-42 有機JAS cert reimbursement.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-date">Ongoing</div>
+<div class="timeline-title">社労士 Rolling Filings</div>
+<div class="timeline-desc">KU-2, KU-3 (if decided), RS-5, T-34, T-35, T-23 — filed on rolling basis throughout the year.</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CLOSING -->
+<section class="bg-inverse" style="padding: var(--space-16) 0;">
+<div class="container" style="text-align:center">
+<span class="section-number">Rogue Trade K.K. — 株式会社ローグトレード</span>
+<h2 style="color: var(--color-text-inverse); font-size: clamp(2rem,4vw,3.5rem);">¥22–27M Recovery Target</h2>
+<p style="font-size:1.2rem; max-width:600px; margin: var(--space-6) auto; color:rgba(245,240,232,0.8);">~35 hours of your time. Six project categories. One coherent strategy. Updated February 2026.</p>
+</div>
+</section>
+
+<script>
+// Progress bar
+window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    document.getElementById('progressBar').style.width = (window.scrollY / h * 100) + '%';
+});
+// Sticky nav
+const nav = document.getElementById('stickyNav');
+window.addEventListener('scroll', () => {
+    nav.classList.toggle('visible', window.scrollY > 500);
+});
+// Active section
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            navLinks.forEach(l => l.classList.remove('active'));
+            const a = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+            if (a) a.classList.add('active');
+        }
+    });
+}, { threshold: 0.3 });
+sections.forEach(s => observer.observe(s));
+// Fade in
+const fades = document.querySelectorAll('.fade-in');
+const fadeObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); fadeObs.unobserve(e.target); }});
+}, { threshold: 0.1 });
+fades.forEach(f => fadeObs.observe(f));
+</script>
+</body>
+</html>
