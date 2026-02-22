@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokyo Coffee CRM — 操作マニュアル</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F5F0E8;
+  --bg-2: #EBE4D8;
+  --bg-inv: #322E21;
+  --surface: #FEFCF8;
+  --text: #2C1810;
+  --text-2: #4A3428;
+  --text-m: #6B5A4E;
+  --accent: #E26D5C;
+  --accent-2: #c95d4e;
+  --green: #4A7C59;
+  --blue: #4a7a9a;
+  --border: rgba(44,24,16,0.12);
+  --font: 'Inter', 'Noto Sans JP', sans-serif;
+  --font-d: 'Playfair Display', serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+.container{max-width:800px;margin:0 auto;padding:0 clamp(1.2rem,5vw,3rem)}
+
+/* HERO */
+.hero{min-height:60vh;display:flex;flex-direction:column;justify-content:center;padding:4rem 0 3rem;border-bottom:1px solid var(--border)}
+.hero .badge{display:inline-block;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:99px;padding:4px 14px;margin-bottom:1.5rem}
+.hero h1{font-family:var(--font-d);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:700;line-height:1.15;letter-spacing:-0.5px;margin-bottom:0.75rem}
+.hero .sub{font-size:1.05rem;color:var(--text-m);max-width:560px;margin-bottom:2rem}
+.hero .meta{font-size:12px;color:var(--text-m);letter-spacing:0.5px}
+
+/* SECTIONS */
+section{padding:3rem 0;border-bottom:1px solid var(--border)}
+.section-num{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem;display:block}
+section h2{font-family:var(--font-d);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:600;margin-bottom:0.5rem;line-height:1.25}
+section .intro{font-size:0.95rem;color:var(--text-m);margin-bottom:2rem;max-width:600px}
+h3{font-family:var(--font-d);font-size:1.25rem;font-weight:600;margin:2rem 0 0.75rem;color:var(--text-2)}
+h3:first-of-type{margin-top:0}
+
+p{margin-bottom:1rem;font-size:0.92rem}
+strong{font-weight:600}
+
+/* STEP LIST */
+.steps{counter-reset:step;list-style:none;margin:1.5rem 0}
+.steps li{counter-increment:step;position:relative;padding:1rem 0 1rem 56px;border-bottom:1px solid var(--border)}
+.steps li:last-child{border-bottom:none}
+.steps li::before{content:counter(step);position:absolute;left:0;top:1rem;width:36px;height:36px;border-radius:50%;background:var(--accent);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:var(--font)}
+.steps li .step-title{font-weight:600;font-size:0.95rem;margin-bottom:2px}
+.steps li .step-desc{font-size:0.85rem;color:var(--text-m)}
+
+/* FLOW DIAGRAM */
+.flow{display:flex;flex-direction:column;gap:0;margin:1.5rem 0}
+.flow-step{display:flex;align-items:flex-start;gap:16px;position:relative}
+.flow-line{width:36px;display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.flow-dot{width:14px;height:14px;border-radius:50%;border:3px solid var(--accent);background:var(--bg);flex-shrink:0;z-index:1}
+.flow-dot.filled{background:var(--accent)}
+.flow-connector{width:2px;background:var(--accent);opacity:0.3;flex:1;min-height:24px}
+.flow-content{flex:1;padding-bottom:20px}
+.flow-content .flow-title{font-weight:600;font-size:0.92rem;margin-bottom:2px}
+.flow-content .flow-detail{font-size:0.82rem;color:var(--text-m);line-height:1.6}
+
+/* HIGHLIGHT BOX */
+.highlight{background:var(--surface);border-left:3px solid var(--accent);padding:1rem 1.25rem;border-radius:0 8px 8px 0;margin:1.5rem 0}
+.highlight.green{border-left-color:var(--green)}
+.highlight.blue{border-left-color:var(--blue)}
+.highlight h4{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.highlight.green h4{color:var(--green)}
+.highlight.blue h4{color:var(--blue)}
+.highlight p{font-size:0.85rem;margin-bottom:0.5rem}
+.highlight p:last-child{margin-bottom:0}
+
+/* TABLE */
+.table-wrap{background:var(--surface);border-radius:8px;overflow:hidden;margin:1.5rem 0;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:0.82rem}
+thead{background:var(--bg-inv);color:var(--bg)}
+th{padding:10px 14px;text-align:left;font-weight:600;font-size:11px;letter-spacing:0.5px;text-transform:uppercase}
+td{padding:10px 14px;border-top:1px solid var(--border)}
+tr:nth-child(even){background:rgba(0,0,0,0.02)}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.s-new{background:#9a8a30}
+.s-prog{background:#4a7a9a}
+.s-won{background:#4a8a4a}
+.s-lost{background:rgba(50,46,33,0.3)}
+
+/* INVERSE SECTION */
+.inverse{background:var(--bg-inv);color:var(--bg);margin:0 calc(-1 * clamp(1.2rem,5vw,3rem));padding:3rem clamp(1.2rem,5vw,3rem)}
+.inverse .section-num{color:var(--accent)}
+.inverse h2{color:#F5F0E8}
+.inverse .intro{color:rgba(245,240,232,0.6)}
+.inverse h3{color:rgba(245,240,232,0.85)}
+.inverse p{color:rgba(245,240,232,0.7)}
+.inverse .highlight{background:rgba(255,255,255,0.06);border-left-color:var(--accent)}
+.inverse .highlight h4{color:var(--accent)}
+.inverse .highlight p{color:rgba(245,240,232,0.7)}
+
+/* ICON LIST */
+.icon-list{list-style:none;margin:1rem 0}
+.icon-list li{padding:6px 0;font-size:0.88rem;display:flex;align-items:flex-start;gap:10px}
+.icon-list li::before{content:attr(data-icon);font-size:1.1rem;flex-shrink:0;margin-top:-1px}
+
+/* FOOTER */
+.footer{padding:2.5rem 0;text-align:center;font-size:12px;color:var(--text-m)}
+
+/* PRINT */
+@media print{
+  body{background:#fff;font-size:10pt}
+  .hero{min-height:auto;padding:2rem 0}
+  section{page-break-inside:avoid}
+  .inverse{background:#333;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+@media(max-width:600px){
+  .hero h1{font-size:2rem}
+  section h2{font-size:1.5rem}
+  .steps li{padding-left:48px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hero">
+  <span class="badge">CRM MANUAL</span>
+  <h1>Tokyo Coffee<br>営業CRM 操作マニュアル</h1>
+  <p class="sub">ルート作成からサンプル発送、フォローアップまで。<br>日々の営業活動を効率化するための完全ガイド。</p>
+  <p class="meta">Version 3.1 — 最終更新: 2026年2月</p>
+</div>
+
+<!-- ===== SECTION 1: OVERVIEW ===== -->
+<section id="overview">
+  <span class="section-num">01 — 概要</span>
+  <h2>CRMの全体像</h2>
+  <p class="intro">このCRMは、Tokyo Coffeeのホールセール営業チーム専用ツールです。見込み先の発掘からサンプル発送、成約管理まで、すべてをひとつの画面で管理します。</p>
+
+  <div class="highlight blue">
+    <h4>🔗 クイックリンク</h4>
+    <p><strong>CRMアプリ:</strong> <a href="https://script.google.com/macros/s/AKfycby0mxyRaBwGq485V2Sg1WzKWEQ0Rp6ix1RX4j9tCpKbtizBrggLh2zkDz4NL3VwoHDQ/exec" target="_blank">アプリを開く</a></p>
+    <p><strong>Googleシート:</strong> <a href="https://docs.google.com/spreadsheets/d/1YZYLlR9AOrRKlODvL4d3s2NT1-7wMf-ZDGpQrsubX5E/" target="_blank">シートを開く</a></p>
+    <p>アプリ内のトップバーにも「📄 Sheet」リンクがあります。</p>
+  </div>
+
+  <h3>4つのタブ</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>タブ</th><th>用途</th><th>使うタイミング</th></tr></thead>
+      <tbody>
+        <tr><td><strong>🔍 Search</strong></td><td>ルート作成 / バッチ検索</td><td>新しいエリアの開拓、キャンペーン準備</td></tr>
+        <tr><td><strong>📍 Route</strong></td><td>今日の訪問ルート表示</td><td>外出前・訪問中</td></tr>
+        <tr><td><strong>👥 CRM</strong></td><td>リード管理 / ステータス更新</td><td>訪問後の情報入力、フォローアップ確認</td></tr>
+        <tr><td><strong>📥 Export</strong></td><td>CSV / ヤマトB2出力</td><td>サンプル発送準備、レポート作成</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>ステータスの意味</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ステータス</th><th>意味</th><th>次のアクション</th></tr></thead>
+      <tbody>
+        <tr><td><span class="status-dot s-new"></span><strong>新規</strong></td><td>AI検索で追加されたばかり</td><td>訪問 or 電話で初回コンタクト</td></tr>
+        <tr><td><span class="status-dot s-prog"></span><strong>検討中</strong></td><td>興味あり、商談進行中</td><td>サンプル送付 → フォローアップ日を設定</td></tr>
+        <tr><td><span class="status-dot s-won"></span><strong>成約</strong></td><td>取引開始</td><td>初回注文のフォロー</td></tr>
+        <tr><td><span class="status-dot s-lost"></span><strong>失注</strong></td><td>不成立 / 対象外</td><td>3ヶ月後に再チェック（任意）</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== SECTION 2: FIELD MODE ===== -->
+<section id="field">
+  <span class="section-num">02 — フィールドモード（外回り）</span>
+  <h2>エリアを歩いて営業する</h2>
+  <p class="intro">駅名やエリア名を入力すると、AIが周辺のカフェ・レストラン等を自動検索し、スコア順に最適なウォーキングルートを作成します。</p>
+
+  <h3>ルート作成の手順</h3>
+  <ol class="steps">
+    <li>
+      <div class="step-title">Searchタブでエリア名を入力</div>
+      <div class="step-desc">例：「高円寺」「吉祥寺」「代官山」<br>駅名を入れると、駅を起点としたルートが生成されます。</div>
+    </li>
+    <li>
+      <div class="step-title">ターゲット業種を選択</div>
+      <div class="step-desc">チップをタップしてON/OFF。複数選択可。<br>「Cafes & Bakeries」は必ずONにしてください。</div>
+    </li>
+    <li>
+      <div class="step-title">移動手段を選択</div>
+      <div class="step-desc">通常は「Walking」のまま。自転車の場合は「Bike」に変更。</div>
+    </li>
+    <li>
+      <div class="step-title">「Generate Route」をタップ</div>
+      <div class="step-desc">30秒〜1分ほどかかります。検索中はそのまま待ってください。<br>完了すると自動でRouteタブに切り替わります。</div>
+    </li>
+  </ol>
+
+  <h3>ルート画面の使い方</h3>
+  <ul class="icon-list">
+    <li data-icon="🗺️">地図上の番号付きマーカーが訪問順を示します</li>
+    <li data-icon="▲▼">各カードの矢印ボタンで訪問順を変更できます（シートにも反映）</li>
+    <li data-icon="✕">不要なリードは✕ボタンで今日のルートから除外</li>
+    <li data-icon="📍">ピンアイコンでGoogleマップのナビを起動</li>
+    <li data-icon="📞">カードを展開して電話・ウェブサイトにワンタップでアクセス</li>
+    <li data-icon="🔄">「Refresh」でシート上の最新データを再読み込み</li>
+    <li data-icon="🗺️">「Maps」で全ルートをGoogleマップで表示</li>
+  </ul>
+
+  <div class="highlight">
+    <h4>💡 ポイント</h4>
+    <p>ルートは駅から近い順に最適化されています。ただし、状況に応じて矢印で順番を調整してください。たとえば、開店時間が早い店を先に回るなど。</p>
+  </div>
+
+  <h3>訪問後の更新</h3>
+  <p>訪問が終わったら、そのカードの「✏️ Update」をタップして情報を更新してください。</p>
+  <ul class="icon-list">
+    <li data-icon="📋">ステータスを「新規」→「検討中」や「失注」に変更</li>
+    <li data-icon="👤">担当者名・電話番号・メールを記入</li>
+    <li data-icon="📅">フォローアップ日を設定（要F/Uバッジが表示されるようになります）</li>
+    <li data-icon="📝">Notesに訪問メモを残す（「興味あり、店長不在で名刺置き」等）</li>
+  </ul>
+</section>
+
+<!-- ===== SECTION 3: OFFICE MODE ===== -->
+<section id="office">
+  <span class="section-num">03 — オフィスモード（バッチキャンペーン）</span>
+  <h2>事前にまとめてリード獲得 → サンプル発送</h2>
+  <p class="intro">Office Modeを使えば、複数エリアを一括検索してリードをまとめて取得できます。外回りなしで、サンプル発送キャンペーンの準備が完了します。</p>
+
+  <div class="highlight green">
+    <h4>📊 フィールドモードとの違い</h4>
+    <p>フィールドモード：エリアあたり最大10件をルート化 + 15件をプール（計25件）。</p>
+    <p>オフィスモード：エリアあたり<strong>最大60件</strong>を取得（ページネーション対応）。件数上限なし、スコアの足切りラインを自分で設定可能。</p>
+  </div>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-line"><div class="flow-dot filled"></div><div class="flow-connector"></div></div>
+      <div class="flow-content">
+        <div class="flow-title">① バッチ検索</div>
+        <div class="flow-detail">
+          Searchタブで「Office Mode」にチェック。<br>
+          1行目にメインエリア、テキストエリアに追加エリアを1行ずつ入力（最低3エリア推奨）。<br>
+          バッチ名を入力（例：「大阪キャンペーン 2月」）。<br>
+          <strong>Minimum AI Score</strong>を設定（デフォルト40、低くすると候補が増える。高品質のみなら60〜80に）。<br>
+          「Generate Route」をタップ。ルート最適化はスキップされ、全リードがプールに追加されます。<br>
+          <em>※ バッチモードはエリアあたり最大60件を検索します（通常モードの3倍）。複数エリアを指定すれば、一度に100件以上のリードを取得可能です。</em>
+        </div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-line"><div class="flow-dot filled"></div><div class="flow-connector"></div></div>
+      <div class="flow-content">
+        <div class="flow-title">② シートでキュレーション</div>
+        <div class="flow-detail">
+          Google Sheetsを開き、「Batch」列で今回のバッチ名をフィルタ。<br>
+          AI_Scoreとレビューフラグ（⚠️）を確認。<br>
+          不要なリードは行を削除、またはStatusを「失注」に変更。<br>
+          発送するリードのStatusを「検討中」に変更。
+        </div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-line"><div class="flow-dot filled"></div><div class="flow-connector"></div></div>
+      <div class="flow-content">
+        <div class="flow-title">③ ヤマトB2 CSV出力</div>
+        <div class="flow-detail">
+          CRMのExportタブを開く。<br>
+          Batchフィルターで対象バッチを選択。Statusで「検討中」を選択。<br>
+          ⚠️ 警告メッセージを確認：電話番号なし・郵便番号なしのリード数が表示されます。<br>
+          「Export Yamato B2」をタップ → CSVがダウンロードされます（電話番号なしのリードは自動でスキップ）。<br>
+          送り主（Tokyo Coffee 東久留米市滝山4-1-40）は自動入力済み。
+        </div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-line"><div class="flow-dot filled"></div><div class="flow-connector"></div></div>
+      <div class="flow-content">
+        <div class="flow-title">④ ヤマトB2にアップロード</div>
+        <div class="flow-detail">
+          ヤマトビジネスメンバーズ（<strong>bmypage.kuronekoyamato.co.jp</strong>）にログイン。<br>
+          「送り状発行」→「B2クラウド」→「CSV取り込み」でファイルをアップロード。<br>
+          郵便番号・住所のエラーがあれば画面上で修正。送り状を印刷して荷物に貼付。
+        </div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-line"><div class="flow-dot filled"></div><div class="flow-connector"></div></div>
+      <div class="flow-content">
+        <div class="flow-title">⑤ サンプル発送を記録 → フォローアップ日を設定</div>
+        <div class="flow-detail">
+          Exportタブで対象バッチをフィルタした状態で、<strong>「✅ Mark as Sample Sent」</strong>ボタンをタップ。全リードに発送日が記録されます。<br>
+          CRMタブで各リードを開き、フォローアップ日を<strong>発送日＋5営業日</strong>に設定。<br>
+          Next Actionに「サンプル着後TEL」と記入。<br>
+          これでCRMタブに「要F/U」バッジが期日に表示されます。<br>
+          <em>※ 発送済みのリードにはCRM・ルート画面で「✉️ Sent」バッジが表示されます。</em>
+        </div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-line"><div class="flow-dot"></div></div>
+      <div class="flow-content">
+        <div class="flow-title">⑥ フォロー電話 → ステータス更新</div>
+        <div class="flow-detail">
+          「要F/U」バッジが出たらフォロー電話を実施。<br>
+          結果に応じてステータスを更新：<br>
+          • 注文につながりそう →「検討中」のまま、次のF/U日を設定<br>
+          • 成約 →「成約」に変更<br>
+          • 不要 / 連絡取れず →「失注」に変更
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight green">
+    <h4>✅ バッチ名のルール</h4>
+    <p>バッチ名はCRMタブのフィルターチップにも表示されます。後から見て分かるように、<strong>「エリア＋月」</strong>の形式がおすすめです。</p>
+    <p>例：「渋谷・原宿 3月」「大阪北部 2月」「横浜みなとみらい 4月」</p>
+  </div>
+</section>
+
+<!-- ===== SECTION 4: CRM TAB ===== -->
+<section id="crm">
+  <span class="section-num">04 — CRMタブ</span>
+  <h2>リードの管理とフォローアップ</h2>
+  <p class="intro">すべてのリードがパイプライン形式で表示されます。ステータス・エリア・バッチでフィルタリングして、効率的に管理しましょう。</p>
+
+  <h3>フィルター機能</h3>
+  <ul class="icon-list">
+    <li data-icon="🏷️">ステータスチップ（新規 / 検討中 / 成約 / 失注）をタップでフィルタ</li>
+    <li data-icon="📦">バッチ名チップ（📦マーク付き）で特定キャンペーンのリードだけ表示</li>
+    <li data-icon="📍">エリア名チップで地域別に絞り込み</li>
+    <li data-icon="🔍">テキスト検索で会社名・メモ等を横断検索</li>
+  </ul>
+
+  <h3>リード詳細画面</h3>
+  <p>カードをタップすると編集画面が開きます。編集できる項目：</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>項目</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Status</strong></td><td>新規 → 検討中 → 成約 / 失注</td></tr>
+        <tr><td><strong>Contact Person</strong></td><td>担当者名（店長名、バイヤー名など）</td></tr>
+        <tr><td><strong>Phone / Email</strong></td><td>連絡先。Googleから取得済みの場合は入力済み</td></tr>
+        <tr><td><strong>Next Action</strong></td><td>次にやること（「サンプル送付」「訪問予約」など）</td></tr>
+        <tr><td><strong>Follow-Up Date</strong></td><td>フォロー日。この日を過ぎると「要F/U」バッジが表示される</td></tr>
+        <tr><td><strong>Notes</strong></td><td>自由メモ。訪問時の印象、条件、注意点など</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight blue">
+    <h4>ℹ️ 読み取り専用の項目</h4>
+    <p>AI Score、AI Summary、住所、郵便番号、レビューフラグは自動生成されたデータです。CRM画面では表示のみ（編集不可）。修正が必要な場合はGoogle Sheetsで直接編集してください。</p>
+  </div>
+
+  <h3>⚠️ レビューフラグについて</h3>
+  <p>黄色い「⚠️焙煎の言及あり」バッジが付いているリードは、Googleレビューでコーヒー焙煎（自家焙煎）に関する言及が見つかったものです。自社で焙煎しているお店は、外部からのコーヒー豆の仕入れニーズが低い可能性があります。</p>
+  <p>ただし自動判定なので、訪問時に実際の状況を確認してからステータスを決めてください。</p>
+</section>
+
+<!-- ===== SECTION 5: EXPORT ===== -->
+<section id="export">
+  <span class="section-num">05 — エクスポート</span>
+  <h2>CSV / ヤマトB2出力</h2>
+  <p class="intro">フィルターを設定して、必要なリードだけを書き出します。</p>
+
+  <h3>フィルター項目</h3>
+  <ul class="icon-list">
+    <li data-icon="📊">Status — 特定ステータスのリードだけ抽出</li>
+    <li data-icon="📍">Area — 特定エリアだけ抽出</li>
+    <li data-icon="👤">Salesperson — 担当者（Sakura / Amagaya）で絞り込み</li>
+    <li data-icon="📦">Batch — 特定バッチ（キャンペーン）だけ抽出</li>
+  </ul>
+
+  <h3>2つの出力形式 + サンプル管理</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ボタン</th><th>用途</th><th>含まれる情報</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Export CSV</strong></td><td>Excel / スプレッドシートでの分析</td><td>全項目（ID、会社名、住所、スコア、ステータス等）</td></tr>
+        <tr><td><strong>Export Yamato B2</strong></td><td>ヤマト運輸の送り状作成</td><td>届け先情報 + 送り主情報（自動入力済み）。電話番号なしのリードは自動スキップ。</td></tr>
+        <tr><td><strong>✅ Mark as Sample Sent</strong></td><td>フィルタ中のリードに発送日を記録</td><td>発送済みバッジ（✉️）がCRM・ルート画面に表示される</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight">
+    <h4>⚠️ ヤマトB2の注意点</h4>
+    <p>Exportタブに⚠️警告が表示されます：電話番号なし（B2では自動スキップ）、郵便番号なし、発送済みリードの件数。</p>
+    <p><strong>電話番号なしのリードはB2 CSVに含まれません。</strong>手動で電話番号を入力してから再エクスポートしてください。</p>
+    <p>送り主は自動設定済み：<br>Tokyo Coffee ／ 〒203-0033 東京都東久留米市滝山4-1-40 ／ 042-420-1882</p>
+  </div>
+</section>
+
+<!-- ===== SECTION 6: SHEET EDITING ===== -->
+<section id="sheet">
+  <span class="section-num">06 — Googleシートとの連携</span>
+  <h2>シート上での直接編集</h2>
+  <p class="intro">CRMアプリとGoogleシートは双方向で連携しています。一部の操作はシート上で行うほうが便利です。</p>
+
+  <h3>シートで編集すべき場面</h3>
+  <ul class="icon-list">
+    <li data-icon="🗑️">不要なリードの一括削除（行ごと削除）</li>
+    <li data-icon="📊">データの一覧確認・並べ替え・フィルタ</li>
+    <li data-icon="✏️">AI Score・郵便番号・住所の修正</li>
+    <li data-icon="🔢">Route_Orderの手動変更（CRMでRefreshすると反映）</li>
+  </ul>
+
+  <div class="highlight">
+    <h4>💡 同期のタイミング</h4>
+    <p>CRMアプリは起動時にシートの全データを読み込みます。シートを直接編集した後は、CRMアプリで「Refresh」ボタンを押すか、アプリを再読み込みしてください。</p>
+  </div>
+
+  <div class="highlight green">
+    <h4>🔒 再検索時のデータ保護</h4>
+    <p>同じエリアを再検索しても、<strong>成約・失注のリードは一切上書きされません</strong>。新規・検討中のリードは、AI Score等のみ更新され、ステータス・担当者名・メモ・電話番号・メールは保護されます。</p>
+  </div>
+
+  <h3>主要な列の説明</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>列名</th><th>自動 / 手動</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td>Lead_ID</td><td>自動</td><td>一意の識別子。変更不可。</td></tr>
+        <tr><td>Company / 店名</td><td>自動</td><td>Google Places APIから取得</td></tr>
+        <tr><td>AI_Score</td><td>自動</td><td>0〜200のスコア。高いほど見込みが高い</td></tr>
+        <tr><td>Route_Order</td><td>自動/手動</td><td>ルートの訪問順。CRMの矢印ボタンまたはシートで編集可。</td></tr>
+        <tr><td>Status</td><td>手動</td><td>新規 / 検討中 / 成約 / 失注</td></tr>
+        <tr><td>Follow-Up Date</td><td>手動</td><td>フォローアップ日（YYYY-MM-DD）</td></tr>
+        <tr><td>Batch</td><td>自動</td><td>バッチ検索時のキャンペーン名</td></tr>
+        <tr><td>Review_Flag</td><td>自動</td><td>焙煎の言及等の注意フラグ</td></tr>
+        <tr><td>Postal Code / 郵便番号</td><td>自動</td><td>ヤマトB2に使用。空欄の場合は手動入力。</td></tr>
+        <tr><td>Sample_Sent</td><td>自動/手動</td><td>サンプル発送日（YYYY-MM-DD）。Exportタブの「✅ Mark as Sent」で自動入力。</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== SECTION 7: BEST PRACTICES ===== -->
+<div class="inverse">
+<section id="tips" style="border:none">
+  <span class="section-num">07 — 営業のベストプラクティス</span>
+  <h2>成果を出すためのヒント</h2>
+  <p class="intro">CRMツールを最大限に活用するためのアドバイスです。</p>
+
+  <h3>毎日のルーティン</h3>
+  <div class="highlight">
+    <h4>朝（出発前）</h4>
+    <p>CRMを開く → 「要F/U」バッジのあるリードを確認 → 今日のフォロー電話リストを把握。<br>外回りの場合はルートを生成して出発。</p>
+  </div>
+  <div class="highlight">
+    <h4>外回り中</h4>
+    <p>ルートの順番に訪問 → 訪問後すぐに「✏️ Update」で情報を更新。<br>記憶が新しいうちにNotesを入力するのがコツ。</p>
+  </div>
+  <div class="highlight">
+    <h4>帰社後 / 夕方</h4>
+    <p>未更新のリードがあれば更新。翌日のルートを準備（任意）。</p>
+  </div>
+
+  <h3>サンプル発送のコツ</h3>
+  <ul class="icon-list" style="color:rgba(245,240,232,0.8)">
+    <li data-icon="📦">まとめて送る — 1件ずつではなく、バッチで10〜30件をまとめて発送が効率的</li>
+    <li data-icon="📅">月曜着を避ける — 飲食店は週明けが忙しいため、水〜木着がベスト</li>
+    <li data-icon="📞">5営業日後に必ずフォロー電話 — 届いたか確認 + 感想を聞く</li>
+    <li data-icon="📝">フォロー電話の結果をNotesに記録 — 「試飲済み、味は好評、価格交渉希望」等</li>
+  </ul>
+</section>
+</div>
+
+<div class="footer">
+  <p>Tokyo Coffee CRM v3.1 ／ ご不明な点はNoahまでお問い合わせください。</p>
+</div>
+
+</div>
+</body>
+</html>
