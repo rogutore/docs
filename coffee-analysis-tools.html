@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Analysis Tools - Equipment Strategy | Tokyo Coffee</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-primary: #F5F0E8;
+            --color-bg-secondary: #EBE4D8;
+            --color-bg-tertiary: #D9CFC0;
+            --color-bg-inverse: #2C1810;
+            --color-text-primary: #2C1810;
+            --color-text-secondary: #4A3428;
+            --color-text-muted: #6B5A4E;
+            --color-text-inverse: #F5F0E8;
+            --color-accent-primary: #C17F59;
+            --color-accent-secondary: #8B4513;
+            --color-semantic-success: #4A7C59;
+            --color-semantic-warning: #B8860B;
+            --color-semantic-danger: #9B2D2D;
+            --color-border: rgba(44, 24, 16, 0.12);
+            --color-shadow: rgba(44, 24, 16, 0.08);
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem;
+            --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem;
+            --space-16: 4rem; --space-20: 5rem; --space-24: 6rem;
+            --container-max: 1400px;
+            --container-padding: clamp(1.5rem, 5vw, 4rem);
+            --radius-sm: 0.25rem; --radius-md: 0.5rem; --radius-lg: 1rem; --radius-full: 9999px;
+            --shadow-md: 0 4px 12px var(--color-shadow);
+            --shadow-lg: 0 8px 24px var(--color-shadow);
+            --shadow-xl: 0 20px 40px var(--color-shadow);
+            --transition-fast: 150ms ease;
+            --transition-normal: 300ms ease;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.7;
+            font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Progress Bar */
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 1000; background: transparent; }
+        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--color-accent-secondary), var(--color-accent-primary)); transition: width 100ms linear; }
+
+        /* Sticky Nav */
+        .sticky-nav {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 999;
+            background: rgba(245, 240, 232, 0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--color-border);
+            transform: translateY(-100%); transition: transform var(--transition-normal);
+            padding: var(--space-3) var(--container-padding);
+        }
+        .sticky-nav.visible { transform: translateY(0); }
+        .sticky-nav-inner { max-width: var(--container-max); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+        .nav-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; color: var(--color-text-primary); white-space: nowrap; }
+        .nav-links { display: flex; gap: var(--space-4); overflow-x: auto; scrollbar-width: none; }
+        .nav-links::-webkit-scrollbar { display: none; }
+        .nav-links a {
+            font-size: 0.78rem; font-weight: 500; color: var(--color-text-muted);
+            text-decoration: none; white-space: nowrap; padding: var(--space-1) 0;
+            border-bottom: 2px solid transparent; transition: all var(--transition-fast);
+            text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--color-accent-secondary); border-bottom-color: var(--color-accent-primary); }
+        .nav-btn {
+            font-size: 0.78rem; font-weight: 600; padding: var(--space-2) var(--space-4);
+            background: var(--color-bg-inverse); color: var(--color-text-inverse);
+            border: none; border-radius: var(--radius-full); cursor: pointer;
+            text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;
+            transition: opacity var(--transition-fast);
+        }
+        .nav-btn:hover { opacity: 0.85; }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+            padding: var(--space-24) var(--container-padding) var(--space-16);
+            max-width: var(--container-max); margin: 0 auto; position: relative;
+        }
+        .hero-badge {
+            display: inline-block; font-size: 0.72rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.15em;
+            border: 1.5px solid var(--color-accent-primary); color: var(--color-accent-secondary);
+            padding: var(--space-2) var(--space-4); border-radius: var(--radius-full);
+            margin-bottom: var(--space-8);
+        }
+        .hero h1 {
+            font-family: var(--font-display); font-weight: 700;
+            font-size: clamp(2.8rem, 5.5vw, 5.5rem); line-height: 1.08;
+            color: var(--color-text-primary); max-width: 900px; margin-bottom: var(--space-8);
+        }
+        .hero-subtitle {
+            font-size: clamp(1.05rem, 1.4vw, 1.3rem); color: var(--color-text-secondary);
+            max-width: 680px; line-height: 1.7; margin-bottom: var(--space-10);
+        }
+        .hero-meta { font-size: 0.82rem; color: var(--color-text-muted); display: flex; gap: var(--space-6); flex-wrap: wrap; }
+        .hero-meta span { display: flex; align-items: center; gap: var(--space-2); }
+        .scroll-indicator {
+            position: absolute; bottom: var(--space-8); left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
+            color: var(--color-text-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em;
+            animation: bobbing 2s ease-in-out infinite;
+        }
+        @keyframes bobbing { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+        /* Sections */
+        .section { padding: var(--space-20) var(--container-padding); }
+        .section-inner { max-width: var(--container-max); margin: 0 auto; }
+        .section-number {
+            font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.15em; color: var(--color-accent-primary); display: block;
+            margin-bottom: var(--space-4);
+        }
+        .section h2 {
+            font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 3.2rem);
+            font-weight: 700; line-height: 1.15; margin-bottom: var(--space-6); max-width: 800px;
+        }
+        .section > .section-inner > p:first-of-type,
+        .section-intro {
+            font-size: clamp(1rem, 1.2vw, 1.15rem); color: var(--color-text-secondary);
+            max-width: 720px; margin-bottom: var(--space-12); line-height: 1.8;
+        }
+        .section h3 {
+            font-family: var(--font-display); font-size: clamp(1.3rem, 1.6vw, 1.8rem);
+            font-weight: 600; margin-top: var(--space-12); margin-bottom: var(--space-6);
+            color: var(--color-text-primary);
+        }
+        .section h4 {
+            font-size: 0.82rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.08em; color: var(--color-text-secondary);
+            margin-top: var(--space-8); margin-bottom: var(--space-4);
+        }
+
+        /* Background variants */
+        .bg-primary { background: var(--color-bg-primary); }
+        .bg-secondary { background: var(--color-bg-secondary); }
+        .bg-inverse { background: var(--color-bg-inverse); color: var(--color-text-inverse); }
+        .bg-inverse h2, .bg-inverse h3 { color: var(--color-text-inverse); }
+        .bg-inverse .section-number { color: var(--color-accent-primary); }
+        .bg-inverse p, .bg-inverse li { color: rgba(245, 240, 232, 0.85); }
+
+        /* Action Lists */
+        .action-list { list-style: none; padding: 0; }
+        .action-list li {
+            padding: var(--space-4) 0; border-bottom: 1px solid var(--color-border);
+            padding-left: var(--space-6); position: relative; line-height: 1.7;
+        }
+        .action-list li::before {
+            content: ''; position: absolute; left: 0; top: 1.45rem;
+            width: 8px; height: 8px; border: 2px solid var(--color-accent-primary);
+            border-radius: 50%;
+        }
+        .action-list li strong { color: var(--color-text-primary); }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            background: white; border-left: 4px solid var(--color-accent-primary);
+            padding: var(--space-6) var(--space-8); border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: var(--space-8) 0; box-shadow: var(--shadow-md);
+        }
+        .highlight-box.critical { border-left-color: var(--color-semantic-danger); }
+        .highlight-box.success { border-left-color: var(--color-semantic-success); }
+        .highlight-box.warning { border-left-color: var(--color-semantic-warning); }
+        .highlight-box h4 { margin-top: 0; color: var(--color-text-secondary); }
+        .highlight-box p { margin-top: var(--space-2); color: var(--color-text-secondary); max-width: none; }
+
+        /* Stat Cards */
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-6); margin: var(--space-8) 0; }
+        .stat-card {
+            background: white; padding: var(--space-6) var(--space-8);
+            border-radius: var(--radius-md); box-shadow: var(--shadow-md); text-align: center;
+        }
+        .stat-number { font-family: var(--font-display); font-size: clamp(1.8rem, 2.5vw, 2.5rem); font-weight: 700; color: var(--color-accent-secondary); }
+        .stat-label { font-size: 0.82rem; color: var(--color-text-muted); margin-top: var(--space-2); line-height: 1.4; }
+
+        /* Tables */
+        .table-wrapper {
+            background: white; border-radius: var(--radius-md); box-shadow: var(--shadow-md);
+            overflow-x: auto; margin: var(--space-8) 0; -webkit-overflow-scrolling: touch;
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        thead th {
+            background: var(--color-bg-inverse); color: var(--color-text-inverse);
+            padding: var(--space-3) var(--space-4); text-align: left;
+            font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+        tbody td { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-border); vertical-align: top; }
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: rgba(193, 127, 89, 0.04); }
+
+        /* Tier Badges */
+        .tier-badge {
+            display: inline-block; font-size: 0.68rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.06em;
+            padding: 2px 10px; border-radius: var(--radius-full);
+        }
+        .tier-entry { background: #e8f5e9; color: #2e7d32; }
+        .tier-prosumer { background: #e3f2fd; color: #1565c0; }
+        .tier-pro { background: #fff3e0; color: #e65100; }
+        .tier-enterprise { background: #fce4ec; color: #c62828; }
+        .tier-recommended { background: #f3e5f5; color: #6a1b9a; }
+        .tier-free { background: #e8f5e9; color: #2e7d32; }
+
+        /* Phase Cards */
+        .phase-card {
+            background: white; border-radius: var(--radius-md); padding: var(--space-8);
+            box-shadow: var(--shadow-md); margin: var(--space-6) 0;
+            border-left: 4px solid var(--color-accent-primary);
+        }
+        .phase-card.phase-active { border-left-color: var(--color-semantic-success); }
+        .phase-header { display: flex; align-items: center; gap: var(--space-4); margin-bottom: var(--space-4); flex-wrap: wrap; }
+        .phase-number {
+            font-family: var(--font-display); font-size: 1.4rem; font-weight: 700;
+            color: var(--color-accent-secondary); min-width: 2.5rem;
+        }
+        .phase-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; }
+        .phase-cost {
+            font-size: 0.78rem; font-weight: 700; background: var(--color-bg-secondary);
+            padding: var(--space-1) var(--space-3); border-radius: var(--radius-full);
+        }
+        .phase-detail { color: var(--color-text-secondary); font-size: 0.92rem; }
+        .phase-gate {
+            margin-top: var(--space-4); padding-top: var(--space-4);
+            border-top: 1px solid var(--color-border); font-size: 0.85rem;
+        }
+        .phase-gate strong { color: var(--color-semantic-warning); }
+
+        /* Two Column */
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12); margin: var(--space-8) 0; }
+        @media (max-width: 768px) { .two-column { grid-template-columns: 1fr; } }
+
+        /* Accordion */
+        .accordion { margin: var(--space-4) 0; border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+        .accordion summary {
+            padding: var(--space-4) var(--space-6); cursor: pointer; font-weight: 600;
+            font-size: 0.92rem; background: white; list-style: none;
+            display: flex; align-items: center; gap: var(--space-3);
+        }
+        .accordion summary::-webkit-details-marker { display: none; }
+        .accordion summary::before { content: '+'; font-size: 1.2rem; color: var(--color-accent-primary); font-weight: 300; min-width: 1.2rem; }
+        .accordion[open] summary::before { content: '-'; }
+        .accordion-content { padding: var(--space-4) var(--space-6) var(--space-6); background: white; font-size: 0.92rem; }
+
+        /* Comparison Grid */
+        .compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-6); margin: var(--space-8) 0; }
+        .compare-card {
+            background: white; border-radius: var(--radius-md); padding: var(--space-6);
+            box-shadow: var(--shadow-md); position: relative;
+        }
+        .compare-card.recommended { border: 2px solid var(--color-accent-primary); }
+        .compare-card.recommended::after {
+            content: 'RECOMMENDED'; position: absolute; top: -10px; right: var(--space-4);
+            background: var(--color-accent-primary); color: white; font-size: 0.65rem;
+            font-weight: 700; letter-spacing: 0.08em; padding: 2px 12px; border-radius: var(--radius-full);
+        }
+        .compare-card h4 { margin-top: 0; }
+        .compare-card .price { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; color: var(--color-accent-secondary); margin: var(--space-3) 0; }
+        .compare-card ul { list-style: none; padding: 0; font-size: 0.88rem; }
+        .compare-card ul li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border); color: var(--color-text-secondary); }
+        .compare-card ul li:last-child { border-bottom: none; }
+
+        /* Verdict Tags */
+        .verdict { display: inline-block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 10px; border-radius: var(--radius-full); }
+        .verdict-buy { background: #e8f5e9; color: #2e7d32; }
+        .verdict-consider { background: #fff3e0; color: #e65100; }
+        .verdict-skip { background: #fce4ec; color: #c62828; }
+        .verdict-reference { background: #e3f2fd; color: #1565c0; }
+
+        /* Risk items */
+        .risk-item { margin: var(--space-6) 0; }
+        .risk-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-2); }
+        .risk-level {
+            font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+            padding: 2px 8px; border-radius: var(--radius-full);
+        }
+        .risk-fatal { background: #fce4ec; color: #c62828; }
+        .risk-serious { background: #fff3e0; color: #e65100; }
+        .risk-manageable { background: #e8f5e9; color: #2e7d32; }
+
+        /* Fade in animation */
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* Print */
+        @media print {
+            .sticky-nav, .progress-container, .scroll-indicator, .nav-btn { display: none !important; }
+            .section { break-inside: avoid; page-break-before: always; padding: 1rem; }
+            .hero { min-height: auto; padding: 2rem 1rem; break-before: avoid; page-break-before: avoid; }
+            .accordion[open] summary::before { content: '-'; }
+            details { open: true; }
+            .fade-in { opacity: 1 !important; transform: none !important; }
+            body { font-size: 10pt; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+            .compare-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+
+<!-- Sticky Nav -->
+<nav class="sticky-nav" id="stickyNav">
+    <div class="sticky-nav-inner">
+        <span class="nav-title">Coffee Analysis Tools</span>
+        <div class="nav-links">
+            <a href="#question">The Question</a>
+            <a href="#industry">Industry Standard</a>
+            <a href="#products">Product Landscape</a>
+            <a href="#procurement">Where to Buy</a>
+            <a href="#fit">Strategic Fit</a>
+            <a href="#risks">Risk Case</a>
+            <a href="#plan">The Plan</a>
+        </div>
+        <button class="nav-btn" onclick="window.print()">Export PDF</button>
+    </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="hero">
+    <span class="hero-badge">Equipment Strategy</span>
+    <h1>Should We Invest in Measurement Tools?</h1>
+    <p class="hero-subtitle">What world-class roasters actually use, where the DiFluid Omix Plus fits in that landscape, and whether Tokyo Coffee should buy into coffee analysis for the premium sub-brand launch.</p>
+    <div class="hero-meta">
+        <span>March 2026</span>
+        <span>Tokyo Coffee Premium Line</span>
+        <span>Confidence: 55% (post red-team)</span>
+    </div>
+    <div class="scroll-indicator">Scroll to explore<br>&#8595;</div>
+</header>
+
+<!-- Section 1: The Question -->
+<section class="section bg-primary" id="question">
+    <div class="section-inner">
+        <span class="section-number">01 &mdash; The Question</span>
+        <h2>What Are We Actually Deciding?</h2>
+        <p class="section-intro">The premium sub-brand strategy hinges on one gate: can we consistently produce 86+ scoring organic coffee? Measurement tools promise to help answer that. But the deeper question is whether investing in physical analysis &mdash; moisture, density, water activity, roast color &mdash; creates a real edge, or whether profiling software and a trained palate are enough.</p>
+
+        <div class="highlight-box critical">
+            <h4>The Decision Question</h4>
+            <p>What measurement and analysis tools (if any) should Tokyo Coffee purchase for the premium sub-brand, and in what sequence?</p>
+        </div>
+
+        <h3>What Triggered This</h3>
+        <p>The DiFluid Omix Plus appeared on Amazon JP at &yen;371,708 &mdash; an all-in-one device measuring water activity, moisture, density, Agtron roast color, particle size, and expansion rate. A full lab's worth of measurement in a single portable device. The question was immediate: is this what we need? Is there something better? Or is this a &yen;370K science project?</p>
+
+        <h3>What This Report Covers</h3>
+        <ul class="action-list">
+            <li><strong>What the professionals actually use:</strong> Confirmed QC stacks at Onyx, Tim Wendelboe, Counter Culture, and others &mdash; not marketing claims, but verified tool usage.</li>
+            <li><strong>The full product landscape:</strong> Every serious measurement tool from &yen;50K budget devices to &yen;2.7M lab-grade instruments, with specs, prices across US/JP/AU, and reliability assessments.</li>
+            <li><strong>How this fits the premium line:</strong> Specific alignment with our transparency positioning, content strategy, wholesale credibility, and the 86+ quality gate.</li>
+            <li><strong>The risk case:</strong> Why the red team cut confidence from 80% to 55%, and the three things that need to be true before we spend anything.</li>
+            <li><strong>A phased recommendation:</strong> Not "buy everything now" &mdash; a gated plan where each phase validates the next.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- Section 2: Industry Standard -->
+<section class="section bg-secondary" id="industry">
+    <div class="section-inner">
+        <span class="section-number">02 &mdash; Industry Standard</span>
+        <h2>What World-Class Roasters Actually Use</h2>
+        <p class="section-intro">Most elite roasters don't publicly disclose their full QC tool stack. But through confirmed sources &mdash; manufacturer case studies, trade press, forum posts from company reps, and podcast interviews &mdash; we mapped what the best in the world rely on daily.</p>
+
+        <h3>Confirmed Tool Usage at Named Roasters</h3>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Roaster</th>
+                        <th>Profiling</th>
+                        <th>Color Analyzer</th>
+                        <th>Moisture / Density</th>
+                        <th>Cupping Protocol</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Onyx Coffee Lab</strong><br><span style="font-size:0.78rem;color:var(--color-text-muted)">Fayetteville, AR</span></td>
+                        <td>Cropster</td>
+                        <td>Agtron M-Basic III<br><em>Calibrated every hour</em></td>
+                        <td>Yes &mdash; all incoming coffees</td>
+                        <td>Every coffee at 2, 5, and 10 days post-roast</td>
+                        <td>"Find My Roast" publishes exact profiles, Agtron, cup scores per batch</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tim Wendelboe</strong><br><span style="font-size:0.78rem;color:var(--color-text-muted)">Oslo, Norway</span></td>
+                        <td>Cropster</td>
+                        <td>ColorTrack laser system<br><em>Used "for many years"</em></td>
+                        <td>Moisture loss tracked</td>
+                        <td>"Statistical quality control" on every batch</td>
+                        <td>"Tasting is the biggest part of quality control"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Counter Culture</strong><br><span style="font-size:0.78rem;color:var(--color-text-muted)">Durham, NC</span></td>
+                        <td>Not disclosed</td>
+                        <td>Agtron reflectometer<br><em>Per-coffee roast-level target</em></td>
+                        <td>Not disclosed</td>
+                        <td>Dedicated QC facility at roastery</td>
+                        <td>Origin-level quality support; lab equipment grants to producers</td>
+                    </tr>
+                    <tr>
+                        <td><strong>April Coffee</strong><br><span style="font-size:0.78rem;color:var(--color-text-muted)">Copenhagen</span></td>
+                        <td>Cropster</td>
+                        <td>Not disclosed</td>
+                        <td>Not disclosed</td>
+                        <td>Yes &mdash; QC training sessions offered</td>
+                        <td>Loring 15kg. Only roasts Tuesdays; only pre-ordered volume</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Glitch Coffee</strong><br><span style="font-size:0.78rem;color:var(--color-text-muted)">Tokyo</span></td>
+                        <td>Data management system</td>
+                        <td>Not disclosed</td>
+                        <td>Not disclosed</td>
+                        <td>Per-lot recipe created in advance</td>
+                        <td>Shares daily data publicly. PROBAT "Share Roaster Project"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fuglen Coffee</strong><br><span style="font-size:0.78rem;color:var(--color-text-muted)">Oslo / Tokyo</span></td>
+                        <td>Not disclosed</td>
+                        <td>Not disclosed</td>
+                        <td>Not disclosed</td>
+                        <td>Monday production cupping &mdash; weekly QC review</td>
+                        <td>Vintage 1956 Probat. ROEST sample roaster</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Proud Mary</strong><br><span style="font-size:0.78rem;color:var(--color-text-muted)">Melbourne / Portland</span></td>
+                        <td>Not disclosed</td>
+                        <td>Not disclosed</td>
+                        <td>Not disclosed</td>
+                        <td>Expert tasting panel reviews every coffee</td>
+                        <td>Multi-day sample roasting. Vacuum-packed, frozen at peak. 9-day cellar aging</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="highlight-box">
+            <h4>The Pattern</h4>
+            <p>Two things are universal: roast profiling software and systematic cupping. Beyond that, color analysis (Agtron scale) is the most commonly adopted physical measurement. Moisture and density measurement of incoming green coffee is standard at mid-to-large operations. The key insight: <strong>tasting is still the ultimate QC tool.</strong> Measurement supports and informs sensory evaluation &mdash; it does not replace it.</p>
+        </div>
+
+        <h3>The Standard QC Stack by Tier</h3>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tier</th>
+                        <th>Tools</th>
+                        <th>Who Does This</th>
+                        <th>Annual Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="tier-badge tier-free">Essential</span></td>
+                        <td>Roast profiling software + cupping protocol + scale (weight loss) + refractometer</td>
+                        <td>Every serious specialty roaster</td>
+                        <td>&yen;0&ndash;90K/yr</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tier-badge tier-prosumer">Standard</span></td>
+                        <td>+ Color analyzer (Agtron) + green moisture/density meter</td>
+                        <td>Onyx, Tim Wendelboe, Counter Culture</td>
+                        <td>+ &yen;150&ndash;450K one-time</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tier-badge tier-pro">Advanced</span></td>
+                        <td>+ Water activity meter + particle size analyzer</td>
+                        <td>Large specialty operations, importers</td>
+                        <td>+ &yen;150&ndash;450K one-time</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tier-badge tier-enterprise">Enterprise</span></td>
+                        <td>Agtron reference + AquaLab + Sinar + inline monitors</td>
+                        <td>Major production, labs, certification</td>
+                        <td>+ &yen;1.5M+ one-time</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>The "Enough" Question</h3>
+        <p>Is digitizing roast profiles and cupping sufficient for a premium line? The short answer: <strong>yes, for producing excellent coffee. No, for proving you produce it consistently.</strong></p>
+
+        <p>Tim Wendelboe uses Cropster, ColorTrack, and moisture measurement &mdash; and still says tasting is the biggest part of QC. Onyx calibrates their Agtron every hour and cups at 2, 5, and 10 days. SEY appears to rely primarily on cupping and profile review. Many of the world's best roasters built their reputations with nothing but profiling and skilled palates.</p>
+
+        <p>The pattern: elite roasters start with sensory skills and profiling, then add measurement as they grow and need consistency across batches, staff, and locations.</p>
+
+        <h3>What Physical Measurement Actually Adds</h3>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Measurement</th>
+                        <th>What It Adds Beyond Profiling + Cupping</th>
+                        <th>ROI Rank</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Weight loss</strong></td>
+                        <td>Proxy for overall roast development. Free with any scale. Scott Rao's #1 recommendation.</td>
+                        <td><span class="tier-badge tier-free">Free &mdash; #1</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Roast color (Agtron)</strong></td>
+                        <td>Objective numeric roast level. Removes subjectivity. Catches drift before it reaches the cup. Eliminates "eyeball test" variability.</td>
+                        <td><span class="tier-badge tier-entry">Highest ROI &mdash; #2</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Green moisture + density</strong></td>
+                        <td>Predicts roasting behavior before you start. Charge temp adjustment. Incoming QC catches bad lots before wasted batches.</td>
+                        <td><span class="tier-badge tier-prosumer">High ROI &mdash; #3</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Water activity</strong></td>
+                        <td>Shelf stability prediction. Food safety. Predicts Maillard reaction rate. Catches green coffee degradation during storage.</td>
+                        <td><span class="tier-badge tier-pro">Moderate &mdash; #4</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Particle size</strong></td>
+                        <td>Grinder calibration verification. Extraction consistency.</td>
+                        <td><span class="tier-badge tier-pro">Niche &mdash; #5</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="highlight-box warning">
+            <h4>The Science Project Line</h4>
+            <p><strong>Useful data</strong> has a clear decision pathway: "If measurement X is outside range Y, take action Z." <strong>Science project</strong> means data collected with no decision pathway &mdash; measuring for interest, tracking 15 variables when 3 drive 95% of decisions. Define your decision rules before buying instruments.</p>
+        </div>
+
+        <h3>Has 2023&ndash;2025 Changed the Game?</h3>
+        <p>Yes, dramatically. DiFluid, Lighttells, and LeBrew have collapsed the cost of a full measurement stack from $15,000+ to under $3,500. This makes moisture, density, water activity, and color analysis accessible to small roasters for the first time. Over 50% of specialty roasters at the 2023 SCA Roasters Guild Retreat were still assessing roast level simply by looking. Those adopting color meters gain a measurable consistency advantage at a fraction of what it cost even three years ago.</p>
+
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="stat-number">80&ndash;90%</div>
+                <div class="stat-label">Price reduction for all-in-one analysis (2023 vs pre-2023)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$2,599</div>
+                <div class="stat-label">Full measurement stack (DiFluid Omix Plus) vs $15K+ in separate instruments</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">&gt;50%</div>
+                <div class="stat-label">Of specialty roasters still assess color by eye (SCA 2023)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">30 sec</div>
+                <div class="stat-label">Water activity reading (DiFluid Omix Plus) vs 5+ min (AquaLab)</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 3: Product Landscape -->
+<section class="section bg-primary" id="products">
+    <div class="section-inner">
+        <span class="section-number">03 &mdash; Product Landscape</span>
+        <h2>The Full Competitive Field</h2>
+        <p class="section-intro">Every serious coffee measurement tool mapped: from &yen;35K budget meters to &yen;2.7M lab-grade spectrophotometers. Organized by what they measure, with specs, prices (US/JP/AU where available), reliability reputation, and who actually uses them.</p>
+
+        <h3>All-in-One Devices</h3>
+        <p>The newest category &mdash; multi-measurement devices that replace entire toolkits. This is where the market shifted in 2023&ndash;2025.</p>
+
+        <div class="compare-grid">
+            <div class="compare-card recommended">
+                <h4>DIFLUID OMIX PLUS</h4>
+                <div class="price">$2,599</div>
+                <p style="font-size:0.82rem;color:var(--color-text-muted);margin-bottom:var(--space-4)">~&yen;390K direct | &yen;371K&ndash;389K Amazon JP | China/HK</p>
+                <ul>
+                    <li><strong>Measures:</strong> Water activity (&plusmn;0.005 Aw, chilled-mirror, 30 sec), moisture (&plusmn;0.1%), density (&plusmn;0.5 g/L), Agtron color, screen/mesh, expansion rate, ambient conditions</li>
+                    <li><strong>Method:</strong> Lab-grade chilled-mirror dew-point for Aw (same principle as AquaLab)</li>
+                    <li><strong>App:</strong> DiFluid CoffeeOS (iOS/Android) &mdash; data storage, analysis, firmware updates</li>
+                    <li><strong>Reliability:</strong> &lt;5 years track record. Some early units needed firmware recalibration. Software ecosystem is strong and updated frequently</li>
+                    <li><strong>Who uses it:</strong> Progressive specialty roasters, green buyers, quality labs wanting portable all-in-one</li>
+                    <li><span class="verdict verdict-buy">Best Value</span> Replaces $15K+ in separate instruments</li>
+                </ul>
+            </div>
+            <div class="compare-card">
+                <h4>SYNCFO UCA-02</h4>
+                <div class="price">$3,300&ndash;$3,874</div>
+                <p style="font-size:0.82rem;color:var(--color-text-muted);margin-bottom:var(--space-4)">NT$106K+ | Taiwan</p>
+                <ul>
+                    <li><strong>Measures:</strong> Moisture, density, color (Agtron-compatible), temperature &mdash; 4-in-1</li>
+                    <li><strong>Pro variant:</strong> Adds dry cherry and parchment analysis</li>
+                    <li><strong>Extras:</strong> Bluetooth label printer included, carry case</li>
+                    <li><strong>Missing:</strong> No water activity (separate Syncfo AQUA product, pricing unclear)</li>
+                    <li><strong>Reliability:</strong> Established Taiwan brand. SCA community presence growing</li>
+                    <li><span class="verdict verdict-consider">Consider</span> Solid alternative, but no Aw and higher price</li>
+                </ul>
+            </div>
+            <div class="compare-card">
+                <h4>LEBREW ROASTSEE FUSION</h4>
+                <div class="price">~$830</div>
+                <p style="font-size:0.82rem;color:var(--color-text-muted);margin-bottom:var(--space-4)">$1,295 AUD | China</p>
+                <ul>
+                    <li><strong>Measures:</strong> Agtron color (beans + ground), moisture, density &mdash; 3-in-1</li>
+                    <li><strong>Tech:</strong> VIS + NIR multispectral fusion</li>
+                    <li><strong>Missing:</strong> No water activity, no particle size</li>
+                    <li><strong>Reliability:</strong> Very new entrant. Limited user reviews. Specs look competitive</li>
+                    <li><span class="verdict verdict-consider">Budget All-in-One</span> Interesting price point but unproven</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>Color / Roast Degree Analyzers</h3>
+        <p>The single highest-ROI physical measurement. Every top-tier roaster we confirmed uses some form of color analysis. The market spans from $349 budget meters to the $17,750 Agtron reference standard.</p>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Origin</th>
+                        <th>US Price</th>
+                        <th>JP Price</th>
+                        <th>Method</th>
+                        <th>Key Detail</th>
+                        <th>Verdict</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>DiFluid Omni</strong></td>
+                        <td>China/HK</td>
+                        <td>$800</td>
+                        <td>~&yen;120K direct</td>
+                        <td>CMOS full-sample scan</td>
+                        <td>Color + particle/grind analysis in one device. Distribution histogram &mdash; uniformity data unique at this price</td>
+                        <td><span class="verdict verdict-buy">Best Color Value</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>CoffMeter A1</strong></td>
+                        <td>China (DiFluid sub-brand)</td>
+                        <td>$389</td>
+                        <td>&yen;69,451</td>
+                        <td>Single-point NIR</td>
+                        <td>Simpler than Omni (no distribution scan). 208g, 8hr battery</td>
+                        <td><span class="verdict verdict-consider">Budget Option</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>LeBrew RoastSee C1</strong></td>
+                        <td>China</td>
+                        <td>$349</td>
+                        <td>&mdash;</td>
+                        <td>VIS + NIR multispectral</td>
+                        <td>Cheapest color meter. Early reports say values match expensive devices closely</td>
+                        <td><span class="verdict verdict-consider">Cheapest Entry</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tonino</strong></td>
+                        <td>Germany</td>
+                        <td>~$615</td>
+                        <td>&mdash;</td>
+                        <td>Ground coffee only</td>
+                        <td>Made by Artisan software team. Wireless charging. Artisan integration. No whole-bean reading</td>
+                        <td><span class="verdict verdict-consider">Artisan Users</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lighttells CM-100+</strong></td>
+                        <td>Taiwan</td>
+                        <td>$999&ndash;$2,250</td>
+                        <td>&mdash; (import)</td>
+                        <td>Spectrophotometer</td>
+                        <td>Established mid-tier. Uniformity data. Price varies significantly by retailer</td>
+                        <td><span class="verdict verdict-consider">Proven Mid-Range</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lighttells CM-200</strong></td>
+                        <td>Taiwan</td>
+                        <td>$3,300</td>
+                        <td>&mdash; (import)</td>
+                        <td>Spectro + grind</td>
+                        <td>Color + particle size distribution in one device. Commercial-grade</td>
+                        <td><span class="verdict verdict-reference">Pro Tier</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>RoastRite RA-720BF</strong></td>
+                        <td>Taiwan</td>
+                        <td>$1,476&ndash;$1,511</td>
+                        <td>&mdash;</td>
+                        <td>Handheld spectro</td>
+                        <td>Been around for years. Solid, but less innovation than newer players</td>
+                        <td><span class="verdict verdict-consider">Legacy Option</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>ColorTrack Benchtop</strong></td>
+                        <td>USA</td>
+                        <td>$7,250</td>
+                        <td>&mdash; (import)</td>
+                        <td>Laser reflectometry</td>
+                        <td>200K readings per 20-sec scan. &plusmn;0.01 precision. Lifetime warranty. 3,000+ in service since 2008. Tim Wendelboe uses this</td>
+                        <td><span class="verdict verdict-reference">Pro Standard</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>ColorTrack Realtime</strong></td>
+                        <td>USA</td>
+                        <td>$1,500&ndash;$1,700 + $99/mo</td>
+                        <td>&mdash; (import)</td>
+                        <td>Inline laser</td>
+                        <td>In-drum real-time monitoring. Customers report &lt;1% waste vs industry 2&ndash;6%</td>
+                        <td><span class="verdict verdict-reference">Scale Trigger</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Agtron M-Basic II</strong></td>
+                        <td>USA</td>
+                        <td>$10,950</td>
+                        <td>&mdash; (import)</td>
+                        <td>Abridged spectrophotometer</td>
+                        <td>Industry reference standard. All other devices calibrate against Agtron. Hand-made in Reno, NV. Onyx uses this</td>
+                        <td><span class="verdict verdict-reference">Gold Standard</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Agtron E20-CP III</strong></td>
+                        <td>USA</td>
+                        <td>$17,750</td>
+                        <td>&mdash; (import)</td>
+                        <td>Full spectrophotometer</td>
+                        <td>Commercial + Gourmet scales. Research institutions, major roasting companies</td>
+                        <td><span class="verdict verdict-reference">Lab Grade</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Moisture &amp; Density Meters</h3>
+        <p>Critical for incoming green coffee QC. Knowing moisture and density before roasting allows profile adjustment and catches degraded lots before you waste a batch.</p>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Origin</th>
+                        <th>US Price</th>
+                        <th>JP Price</th>
+                        <th>Accuracy</th>
+                        <th>Key Detail</th>
+                        <th>Verdict</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>CoffMeter M1</strong></td>
+                        <td>China (DiFluid)</td>
+                        <td>$289&ndash;$329</td>
+                        <td>&yen;58,364</td>
+                        <td>&plusmn;0.2% moisture, &plusmn;1 g/L density</td>
+                        <td>Remarkably affordable. &lt;2 sec readings. 208g. Adequate for most use cases</td>
+                        <td><span class="verdict verdict-buy">Budget King</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>LeBrew AquaDense</strong></td>
+                        <td>China</td>
+                        <td>$329</td>
+                        <td>&mdash;</td>
+                        <td>&plusmn;0.5% moisture, &plusmn;1.2 g/L density</td>
+                        <td>Green beans, parchment, cherry. Slightly lower accuracy than CoffMeter M1</td>
+                        <td><span class="verdict verdict-consider">Alternative</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lighttells MD-500</strong></td>
+                        <td>Taiwan</td>
+                        <td>$2,500</td>
+                        <td>&mdash; (import)</td>
+                        <td>Not specified</td>
+                        <td>Established commercial option. Pairs with CM-100+ ecosystem</td>
+                        <td><span class="verdict verdict-reference">Pro Tier</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sinar BeanPro 6070</strong></td>
+                        <td>UK</td>
+                        <td>$3,295&ndash;$3,495</td>
+                        <td>&mdash; (import)</td>
+                        <td>&plusmn;0.3% moisture</td>
+                        <td>Industry standard for green coffee trading. Used by SCA, importers, exporters. 6-second readings</td>
+                        <td><span class="verdict verdict-reference">Gold Standard</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kett PM-450/650</strong></td>
+                        <td>Japan</td>
+                        <td>$500&ndash;$1,500 est.</td>
+                        <td>Direct (JP maker)</td>
+                        <td>Grain-calibrated</td>
+                        <td>Japanese manufacturer &mdash; advantage for voltage, warranty, support. Less common at roastery level</td>
+                        <td><span class="verdict verdict-consider">JP Advantage</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Water Activity Meters</h3>
+        <p>Predicts shelf stability, food safety compliance, and Maillard reaction rate. SCA standard: &lt;0.70 Aw for specialty grade. Water activity between 0.60&ndash;0.70 maximizes the Maillard reaction that produces complex flavor.</p>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Origin</th>
+                        <th>US Price</th>
+                        <th>Method</th>
+                        <th>Accuracy</th>
+                        <th>Speed</th>
+                        <th>Verdict</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>DiFluid Omix Plus</strong> (built-in)</td>
+                        <td>China/HK</td>
+                        <td>Included in $2,599</td>
+                        <td>Chilled-mirror dew-point</td>
+                        <td>&plusmn;0.005 Aw</td>
+                        <td>~30 sec</td>
+                        <td><span class="verdict verdict-buy">Best Bundled</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>CoffMeter W1</strong></td>
+                        <td>China (DiFluid)</td>
+                        <td>$519</td>
+                        <td>MEMS humidity sensor</td>
+                        <td>&plusmn;0.02 Aw</td>
+                        <td>~2 min</td>
+                        <td><span class="verdict verdict-consider">Budget Standalone</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>LeBrew AquaGauge</strong></td>
+                        <td>China</td>
+                        <td>$369</td>
+                        <td>MEMS humidity sensor</td>
+                        <td>&plusmn;0.05 Aw</td>
+                        <td>1&ndash;2 min</td>
+                        <td><span class="verdict verdict-skip">Low Accuracy</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lighttells AW-600</strong></td>
+                        <td>Taiwan</td>
+                        <td>$1,400&ndash;$2,500</td>
+                        <td>Not specified</td>
+                        <td>Not specified</td>
+                        <td>Not specified</td>
+                        <td><span class="verdict verdict-consider">Pro Tier</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>AquaLab 4TE</strong></td>
+                        <td>USA</td>
+                        <td>~$5,000&ndash;$7,000</td>
+                        <td>Chilled-mirror dew-point</td>
+                        <td>&plusmn;0.003 Aw</td>
+                        <td>&lt;5 min</td>
+                        <td><span class="verdict verdict-reference">Gold Standard</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Refractometers (TDS / Extraction)</h3>
+        <p>Not directly part of the roasting QC decision, but relevant for cafe operations and brewing content. Including for completeness.</p>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Origin</th>
+                        <th>Price</th>
+                        <th>Accuracy</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>DiFluid R2 Extract</strong></td>
+                        <td>China/HK</td>
+                        <td>$230</td>
+                        <td>&plusmn;0.03% TDS</td>
+                        <td>IP67 waterproof, Bluetooth. Near VST quality at 1/3 price</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Atago PAL-COFFEE</strong></td>
+                        <td>Japan</td>
+                        <td>$451</td>
+                        <td>0.01% resolution</td>
+                        <td>Japanese precision since 1940. Best JP support/warranty</td>
+                    </tr>
+                    <tr>
+                        <td><strong>VST LAB Coffee III</strong></td>
+                        <td>USA</td>
+                        <td>$709&ndash;$808</td>
+                        <td>&plusmn;0.03% TDS</td>
+                        <td>The original scientific coffee refractometer. Industry reference</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>The Options We Evaluated</h3>
+        <p>Five realistic paths for Tokyo Coffee, from skip entirely to full enterprise:</p>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Option</th>
+                        <th>Cost (USD)</th>
+                        <th>Cost (&yen;)</th>
+                        <th>What You Get</th>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                        <th>Verdict</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Skip entirely</strong></td>
+                        <td>$0</td>
+                        <td>&yen;0</td>
+                        <td>Profiling + cupping only</td>
+                        <td>No cost. No distraction</td>
+                        <td>Can't prove 86+. Misses transparency positioning</td>
+                        <td><span class="verdict verdict-skip">Rejected</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>CoffMeter bundle</strong><br>M1 + A1 + W1</td>
+                        <td>~$1,237</td>
+                        <td>~&yen;186K</td>
+                        <td>Moisture + color + water activity (3 devices)</td>
+                        <td>Cheap entry. Tests the concept</td>
+                        <td>Weaker Aw accuracy (&plusmn;0.02 vs &plusmn;0.005). No density. No grind. 3 devices. Weaker authority signal</td>
+                        <td><span class="verdict verdict-consider">Viable</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Omni only</strong></td>
+                        <td>$800</td>
+                        <td>~&yen;120K</td>
+                        <td>Color + grind analysis</td>
+                        <td>Cheapest path to Agtron. Highest-ROI single measurement. Strong test of discipline</td>
+                        <td>No moisture, density, or Aw</td>
+                        <td><span class="verdict verdict-buy">Phase 1 Pick</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Omix Plus + Omni</strong></td>
+                        <td>~$3,400</td>
+                        <td>~&yen;510K</td>
+                        <td>Full measurement suite (2 devices)</td>
+                        <td>Lab-grade Aw. Full stack. Strong authority signal. Best measurement-per-dollar</td>
+                        <td>Higher upfront. DiFluid reliability unproven long-term</td>
+                        <td><span class="verdict verdict-buy">Phase 2 Target</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Enterprise</strong><br>Agtron + Sinar + AquaLab</td>
+                        <td>$15K+</td>
+                        <td>&yen;2M+</td>
+                        <td>Gold standard everything</td>
+                        <td>Unquestioned accuracy. Reference instruments</td>
+                        <td>Massive overkill at current scale</td>
+                        <td><span class="verdict verdict-skip">Not Now</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Reliability Tiers</h3>
+
+        <div class="two-column">
+            <div>
+                <h4>Tier 1: Proven Track Record (5+ Years)</h4>
+                <ul class="action-list">
+                    <li><strong>Agtron:</strong> Decades of industry standard. Expensive but unquestioned. Hand-made in USA.</li>
+                    <li><strong>Sinar BeanPro:</strong> Industry standard for green moisture. Reliable hardware.</li>
+                    <li><strong>AquaLab/METER:</strong> Lab gold standard for water activity. Unmatched accuracy.</li>
+                    <li><strong>VST Refractometer:</strong> Original scientific coffee TDS meter.</li>
+                    <li><strong>Atago:</strong> Japanese precision instruments since 1940.</li>
+                    <li><strong>ColorTrack:</strong> 3,000+ machines since 2008. Lifetime warranty.</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Tier 3: Emerging (&lt;3 Years, Promising but Unproven)</h4>
+                <ul class="action-list">
+                    <li><strong>DiFluid/CoffMeter:</strong> Extremely aggressive pricing. Strong software. Founded ~2020. Hardware longevity unproven. Some early calibration drift concerns addressed via firmware.</li>
+                    <li><strong>LeBrew:</strong> Very new. Aggressive pricing. RoastSee C1 gets positive early feedback. Long-term reliability unknown.</li>
+                </ul>
+                <h4 style="margin-top:var(--space-8)">Tier 2: Established (3&ndash;5 Years)</h4>
+                <ul class="action-list">
+                    <li><strong>Lighttells:</strong> Taiwan engineering. Solid reputation, good support. Full product ecosystem.</li>
+                    <li><strong>Syncfo:</strong> Taiwan. Growing SCA presence.</li>
+                    <li><strong>RoastRite:</strong> Proven affordable. Limited recent innovation.</li>
+                    <li><strong>Tonino:</strong> German-made. Artisan community standard.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="highlight-box">
+            <h4>JAVAlytics &mdash; Discontinued</h4>
+            <p>JAVAlytics/Madison IR (USA) announced shutdown September 30, 2025. Was $3,200&ndash;$3,375 for a degree-of-roast meter. Out of stock everywhere. If you see one listed, it's dead inventory with no future support.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Section 4: Where to Buy -->
+<section class="section bg-secondary" id="procurement">
+    <div class="section-inner">
+        <span class="section-number">04 &mdash; Procurement</span>
+        <h2>Where to Buy</h2>
+        <p class="section-intro">For a Japan-based buyer, the procurement landscape has specific advantages and pitfalls. DiFluid ships direct globally; Agtron and Sinar require US/UK import; and Amazon JP pricing carries a 15&ndash;30% premium with variant confusion risk.</p>
+
+        <h3>The Amazon JP Variant Problem</h3>
+        <div class="highlight-box critical">
+            <h4>Warning: Verify Before Purchasing on Amazon JP</h4>
+            <p>The DiFluid Omix Plus has three listings on Amazon JP at wildly different prices: &yen;371,708 (Black/Full), &yen;144,320 (2-Black), and &yen;129,888 (White). The price gap suggests major feature differences, but exact specs per variant are not documented. The &yen;129,888 unit may lack the chilled-mirror Aw sensor &mdash; the primary differentiating feature. <strong>Action: Email DiFluid (support@digitizefluid.com) before any Amazon JP purchase to confirm exact model specs. Default to buying direct from DiFluid at $2,599.</strong></p>
+        </div>
+
+        <h3>Buy Direct vs Amazon JP</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Amazon JP</th>
+                        <th>Direct from Maker</th>
+                        <th>Recommendation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>DiFluid Omix Plus (Full)</td>
+                        <td>&yen;371,708&ndash;&yen;388,862</td>
+                        <td>$2,599 (~&yen;390K)</td>
+                        <td>Direct &mdash; clear specs, warranty honored</td>
+                    </tr>
+                    <tr>
+                        <td>DiFluid Omni</td>
+                        <td>Not listed</td>
+                        <td>$800 (~&yen;120K)</td>
+                        <td>Direct &mdash; only option</td>
+                    </tr>
+                    <tr>
+                        <td>CoffMeter M1 / A1</td>
+                        <td>&yen;58,364 / &yen;69,451</td>
+                        <td>$289&ndash;$389</td>
+                        <td>Either &mdash; Amazon JP convenient, slight premium</td>
+                    </tr>
+                    <tr>
+                        <td>Atago PAL-COFFEE</td>
+                        <td>Available</td>
+                        <td>Direct (JP manufacturer)</td>
+                        <td>Amazon JP or direct &mdash; best JP support</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Import Considerations for Japan</h3>
+        <ul class="action-list">
+            <li><strong>Voltage:</strong> Most devices are USB-C rechargeable &mdash; no voltage issue. AquaLab 4TE and Agtron may need 100V adapter.</li>
+            <li><strong>Customs:</strong> Measuring instruments typically 0% duty under HS codes for scientific instruments. 10% consumption tax applies.</li>
+            <li><strong>Warranty:</strong> DiFluid 1-year global warranty. Agtron US-based service. Lighttells Taiwan-based. Sinar UK-based. Atago full JP support.</li>
+            <li><strong>Language:</strong> DiFluid app in English/Chinese. Atago has Japanese support (major advantage). All others English only.</li>
+            <li><strong>Shipping:</strong> Most retailers charge $30&ndash;100 international. DiFluid sometimes free shipping.</li>
+        </ul>
+
+        <h3>Where Pros Actually Buy</h3>
+        <ul class="action-list">
+            <li><strong>Green importers/exporters:</strong> Sinar BeanPro (via SCA Shop or Sinar UK) + AquaLab 4TE (via METER Group)</li>
+            <li><strong>Production roasters:</strong> Agtron (via CoffeeTec) or ColorTrack (direct)</li>
+            <li><strong>Specialty/craft roasters:</strong> DiFluid (direct) or Lighttells (via specialty retailers like CoffeeTec, Coffee Equipment Pros)</li>
+            <li><strong>Cafes/baristas:</strong> DiFluid R2 Extract or Atago PAL-COFFEE + CoffMeter A1</li>
+        </ul>
+    </div>
+</section>
+
+<!-- Section 5: Strategic Fit -->
+<section class="section bg-primary" id="fit">
+    <div class="section-inner">
+        <span class="section-number">05 &mdash; Strategic Fit</span>
+        <h2>How This Fits the Premium Line</h2>
+        <p class="section-intro">Measurement tools align with the premium sub-brand across every strategic pillar: QC consistency, radical transparency, authority content, wholesale credibility, and competitive differentiation. The alignment score is 4.8/5. But alignment with strategy is not the same as readiness to deploy.</p>
+
+        <h3>The Transparency Model: Onyx Proved It Works</h3>
+        <p>Onyx Coffee Lab publishes Agtron scores, cup scores, greens cost, transportation cost, production cost, lot size, and transparency grades on every product page. Their "Find My Roast" feature lets customers see exact roast profiles, charge temps, and batch sizes for their specific bag. This generates trade press coverage, wholesale credibility, and consumer trust. The model is proven.</p>
+
+        <p>In Japan, Glitch shares daily data publicly but lacks organic focus and bilingual content. <strong>No Japanese roaster currently combines organic certification + published measurement data + cup scores + bilingual content.</strong> That is the white space measurement tools help us claim.</p>
+
+        <h3>Pillar-by-Pillar Alignment</h3>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sub-Brand Pillar</th>
+                        <th>How Measurement Tools Help</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>86+ consistency</strong></td>
+                        <td>Tracks every variable that affects cup score. Catches drift before it reaches the cup. Builds documented evidence for the quality gate</td>
+                        <td>5/5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Radical transparency</strong></td>
+                        <td>Measurement data IS the transparency. Publish Agtron, moisture, Aw on every product page. The Onyx model, adapted for Japan</td>
+                        <td>5/5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Authority content</strong></td>
+                        <td>"What the numbers mean" series (bilingual, underserved). Batch QC walkthroughs. Equipment reviews. Data storytelling. Repeatable content from daily workflow</td>
+                        <td>5/5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Anti-snob tone</strong></td>
+                        <td>"Here are the numbers, judge for yourself" &mdash; the most anti-pretentious positioning possible</td>
+                        <td>5/5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Japanese craft (monozukuri)</strong></td>
+                        <td>Precision measurement aligns perfectly with Japanese craft culture expectations</td>
+                        <td>5/5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wholesale credibility</strong></td>
+                        <td>Batch-specific data = professional signal. Differentiates from roasters with only subjective tasting notes</td>
+                        <td>5/5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Competitive differentiation</strong></td>
+                        <td>No Japan competitor does organic + data + bilingual. Measurement infrastructure is a barrier to fast copying</td>
+                        <td>5/5</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>The Content Machine</h3>
+        <p>Measurement data generates repeatable, authority-building content directly from daily workflow. The QC process and the content process overlap &mdash; they're the same activity.</p>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Content Type</th>
+                        <th>Platform</th>
+                        <th>Frequency</th>
+                        <th>Differentiation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Agtron + cup scores on product pages</td><td>Shopify</td><td>Every SKU</td><td>Radical transparency (Onyx model)</td></tr>
+                    <tr><td>"What the numbers mean" explainers</td><td>YouTube</td><td>Monthly</td><td>Bilingual JP/EN, anti-snob tone</td></tr>
+                    <tr><td>Batch QC walkthrough</td><td>YouTube</td><td>Bi-monthly</td><td>Real workflow, not staged</td></tr>
+                    <tr><td>"This lot's journey" data stories</td><td>Newsletter</td><td>Weekly</td><td>Origin data to cup score narrative</td></tr>
+                    <tr><td>Equipment reviews</td><td>YouTube</td><td>As needed</td><td>Bilingual reviews barely exist</td></tr>
+                    <tr><td>"30 organic vs 30 conventional"</td><td>YouTube + blog</td><td>One-off (killer piece)</td><td>The definitive comparison using real measurement data</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Proving the 86+ Gate</h3>
+        <p>The previous strategy research identified the single biggest risk: nobody has verified whether Tokyo Coffee can produce 86+ scoring organic coffee consistently. Measurement tools address this directly:</p>
+        <ul class="action-list">
+            <li><strong>Before launch:</strong> Build a documented track record of batch consistency using moisture, density, Aw on green and Agtron on roasted output</li>
+            <li><strong>During launch:</strong> Publish Agtron and cup scores on every product page</li>
+            <li><strong>Ongoing:</strong> Maintain cupping logs cross-referenced with roast data demonstrating consistency over time</li>
+            <li><strong>For wholesale:</strong> Provide batch-specific measurement data as proof of QC rigor</li>
+        </ul>
+        <p>This converts the existential risk ("can they even do it?") into a marketing asset ("look at our data proving we do it every batch").</p>
+    </div>
+</section>
+
+<!-- Section 6: Risk Case -->
+<section class="section bg-inverse" id="risks">
+    <div class="section-inner">
+        <span class="section-number">06 &mdash; Risk Case</span>
+        <h2>Why Confidence Dropped from 80% to 55%</h2>
+        <p class="section-intro">The synthesis recommended buying the full DiFluid stack immediately at 80% confidence. The red team cut that to 55%. Here's why &mdash; and it matters, because the three fatal risks all have the same root cause: unvalidated prerequisites.</p>
+
+        <h3>Three Fatal Risks</h3>
+
+        <div class="risk-item">
+            <div class="risk-header">
+                <span class="risk-level risk-fatal">Fatal #1</span>
+                <strong style="color:var(--color-text-inverse)">The tools answer the wrong question</strong>
+            </div>
+            <p>Measurement tools document whatever score the coffee actually earns. They don't produce 86+ coffee. If sourcing and roasting skill can't reach 86+, the Omix Plus will produce a very precise record of falling short. The path to 86+ is access to scoreable lots + roasting skill. Both are sourcing and skill challenges, not measurement challenges. <strong>Test this first.</strong></p>
+        </div>
+
+        <div class="risk-item">
+            <div class="risk-header">
+                <span class="risk-level risk-fatal">Fatal #2</span>
+                <strong style="color:var(--color-text-inverse)">Capital deployed at the wrong stage</strong>
+            </div>
+            <p>&yen;510K before first revenue. Before PMF. Before the website is built. Before organic certification costs are paid. The synthesis scores "strategic alignment" at 4.8/5 &mdash; but alignment with an unvalidated strategy is a circular argument. The question isn't whether the tools align; it's whether this is the right &yen;510K to spend right now.</p>
+        </div>
+
+        <div class="risk-item">
+            <div class="risk-header">
+                <span class="risk-level risk-fatal">Fatal #3</span>
+                <strong style="color:var(--color-text-inverse)">Organic + 86+ may be harder than assumed</strong>
+            </div>
+            <p>Organic certification restricts inputs that affect disease resistance and defect rates. The specialty organic market in Japan has fewer importers and fewer available high-scoring lots. At 86+, a single Category 1 defect disqualifies specialty grade. If available organic lots have a ceiling of 83&ndash;85, the entire positioning is threatened &mdash; and measurement tools will document this ceiling precisely without being able to raise it.</p>
+        </div>
+
+        <h3>Survivable Risks</h3>
+
+        <div class="table-wrapper" style="margin-top:var(--space-8)">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Risk</th>
+                        <th>Likelihood</th>
+                        <th>Why Survivable</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>DiFluid hardware fails</td><td>Medium</td><td>$2,599 replacement is painful but not business-ending. Workflow disruption is temporary</td></tr>
+                    <tr><td>Content machine never starts</td><td>High</td><td>Tools still serve QC function. Content can be added later</td></tr>
+                    <tr><td>15&ndash;20 min/day is actually 45&ndash;60 min</td><td>Medium</td><td>Team adjusts or reduces scope. Aw equilibration time is the main culprit</td></tr>
+                    <tr><td>Data without decision pathways</td><td>Medium</td><td>Correctable by defining rules post-hoc. Wastes some early data</td></tr>
+                    <tr><td>Competitor copies positioning in 6&ndash;12 months</td><td>Medium</td><td>First-mover content advantage still exists. Real moat is compounding content, not the tools</td></tr>
+                    <tr><td>Bilingual content finds no audience</td><td>Medium</td><td>Pivot content strategy. Tools still have QC value regardless</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>The Skeptical Investor View</h3>
+        <div class="highlight-box" style="background:rgba(245,240,232,0.08);border-left-color:var(--color-accent-primary)">
+            <p style="color:var(--color-text-inverse);font-style:italic">"You're spending &yen;510K on measurement infrastructure for a brand that has no revenue, no proven PMF, and no validated content distribution channel. You're solving a problem you don't know you have yet. The correct sequence is: prove people will pay for your coffee, prove you can make it consistently, then invest in infrastructure to scale that consistency. You're reversing steps 2 and 3."</p>
+        </div>
+
+        <h3>The Contrarian Case: Don't Buy</h3>
+        <ul class="action-list" style="border-color:rgba(245,240,232,0.15)">
+            <li><strong>The core QC problem is solvable for &yen;0.</strong> Weight loss logging (just a scale) + cupping protocol costs nothing and provides 80% of the decision value of a full measurement stack.</li>
+            <li><strong>The content thesis hasn't been tested.</strong> Before spending &yen;510K on content infrastructure, write one newsletter about your roasting numbers. Film one video. If it performs, buy the tools. If not, you've saved &yen;510K.</li>
+            <li><strong>Sourcing is more urgent than measurement.</strong> If you can't source JAS-certified lots that score 86+, measurement tools are irrelevant. First capital should go toward sourcing relationships.</li>
+            <li><strong>A &yen;120K Omni tests the thesis at 15% of the cost.</strong> Buy color only. Integrate for 90 days. Film the process. Publish Agtron scores. Measure whether any of this changes customer behavior. If yes, scale up. If no, you've validated failure cheaply.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- Section 7: The Plan -->
+<section class="section bg-primary" id="plan">
+    <div class="section-inner">
+        <span class="section-number">07 &mdash; The Plan</span>
+        <h2>Phased Recommendation</h2>
+        <p class="section-intro">Not "buy everything now." A gated plan where each phase validates the next. If any phase fails, you stop with losses capped at that phase's cost. The full investment is slightly more expensive phased (~&yen;560&ndash;660K vs &yen;510K upfront) but dramatically reduces risk.</p>
+
+        <div class="phase-card phase-active">
+            <div class="phase-header">
+                <span class="phase-number">0</span>
+                <span class="phase-title">Validate Prerequisites</span>
+                <span class="phase-cost">&yen;50&ndash;150K</span>
+                <span class="tier-badge tier-free">Start Now</span>
+            </div>
+            <div class="phase-detail">
+                <p>Commission independent Q-Grader cuppings of 5+ candidate organic lots. Start weight loss logging on every batch today (free). Standardize cupping protocol to SCA CVA 2024. Write decision rules: "If Agtron &gt;X, adjust Y. If moisture &lt;Z, reject lot." Test content thesis: publish one data-focused piece using existing data, measure engagement.</p>
+            </div>
+            <div class="phase-gate">
+                <strong>Gate:</strong> At least 2 of 5 organic lots confirmed 86+ by Q-Grader. Weight loss logged on 90%+ of batches for 8 weeks. Decision rules documented.
+            </div>
+        </div>
+
+        <div class="phase-card">
+            <div class="phase-header">
+                <span class="phase-number">1</span>
+                <span class="phase-title">Color Measurement</span>
+                <span class="phase-cost">~&yen;120K</span>
+                <span class="tier-badge tier-entry">After Phase 0</span>
+            </div>
+            <div class="phase-detail">
+                <p>Buy DiFluid Omni (~$800) &mdash; color + grind analysis. Measure Agtron on every batch for 90 days. Publish scores on product pages. Film 1&ndash;2 content pieces using the tool. Evaluate: did measurement change any roasting decisions? Did content get engagement?</p>
+            </div>
+            <div class="phase-gate">
+                <strong>Gate:</strong> Agtron measured on 90%+ of batches. At least 3 batches modified based on reading. Content engagement above baseline.
+            </div>
+        </div>
+
+        <div class="phase-card">
+            <div class="phase-header">
+                <span class="phase-number">2</span>
+                <span class="phase-title">Full Stack</span>
+                <span class="phase-cost">~&yen;390K additional</span>
+                <span class="tier-badge tier-prosumer">Phase 1 + Revenue</span>
+            </div>
+            <div class="phase-detail">
+                <p>Buy DiFluid Omix Plus (~$2,599) &mdash; moisture, density, Aw, expansion. Begin incoming green QC on every lot. Build transparency dashboard on Shopify. Launch "What the Numbers Mean" content series. Assess after 6 months: does Aw/moisture data change at least 1 sourcing or storage decision per quarter?</p>
+            </div>
+            <div class="phase-gate">
+                <strong>Gate:</strong> Aw/moisture changes decisions. Transparency content cited in trade press or wholesale inquiries. Sub-brand generating revenue.
+            </div>
+        </div>
+
+        <div class="phase-card">
+            <div class="phase-header">
+                <span class="phase-number">3</span>
+                <span class="phase-title">Scale Triggers</span>
+                <span class="phase-cost">Variable</span>
+                <span class="tier-badge tier-pro">Trigger-Based</span>
+            </div>
+            <div class="phase-detail">
+                <p>Not time-based &mdash; trigger-based. 2nd roaster or location &rarr; ColorTrack inline ($1,500 + $99/mo). Q-Grader certification pursuit &rarr; Agtron reference instrument. R&D / caffeine marketing &rarr; Lighttells CA-700 ($2,900). High volume (&gt;500kg/week) &rarr; Cropster subscription.</p>
+            </div>
+        </div>
+
+        <h3>What To Do Monday</h3>
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Source 5+ candidate organic lots and arrange Q-Grader cuppings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Start weight loss logging on every batch today (just a scale)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Write decision rules: "If X measurement, then Y action"</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Email DiFluid to clarify Amazon JP variants before any purchase</div>
+            </div>
+        </div>
+
+        <h3>Budget Summary</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Phase</th>
+                        <th>Cost</th>
+                        <th>Cumulative</th>
+                        <th>Trigger</th>
+                        <th>If It Fails</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Phase 0: Validate</td>
+                        <td>&yen;50&ndash;150K</td>
+                        <td>&yen;50&ndash;150K</td>
+                        <td>Start now</td>
+                        <td>Fix sourcing first. Tools irrelevant</td>
+                    </tr>
+                    <tr>
+                        <td>Phase 1: Color</td>
+                        <td>~&yen;120K</td>
+                        <td>&yen;170&ndash;270K</td>
+                        <td>Phase 0 passes</td>
+                        <td>Stop. &yen;120K lost, not &yen;510K</td>
+                    </tr>
+                    <tr>
+                        <td>Phase 2: Full Stack</td>
+                        <td>~&yen;390K</td>
+                        <td>&yen;560&ndash;660K</td>
+                        <td>Phase 1 passes + revenue</td>
+                        <td>Full stack deployed with validated evidence</td>
+                    </tr>
+                    <tr>
+                        <td>Phase 3: Scale</td>
+                        <td>Variable</td>
+                        <td>&mdash;</td>
+                        <td>Scale triggers</td>
+                        <td>&mdash;</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="highlight-box success">
+            <h4>The Bottom Line</h4>
+            <p>The strategic case for measurement tools is strong. The timing case for spending &yen;510K upfront is not. Validate the prerequisites &mdash; confirm 86+ organic lots exist, prove the discipline to log consistently, test content engagement &mdash; then scale investment as evidence confirms the thesis. If Phase 0 fails, you've saved &yen;510K and learned your real bottleneck is sourcing, not measurement. If all phases pass, you have a fully validated measurement infrastructure with evidence at every step.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Appendix -->
+<section class="section bg-secondary" id="appendix">
+    <div class="section-inner">
+        <span class="section-number">Appendix</span>
+        <h2>Reference Data</h2>
+
+        <details class="accordion">
+            <summary>Full Pricing Comparison Table (US / JP / EU / AUD)</summary>
+            <div class="accordion-content">
+                <div class="table-wrapper" style="box-shadow:none">
+                    <table style="font-size:0.82rem">
+                        <thead>
+                            <tr><th>Product</th><th>Category</th><th>US ($)</th><th>JP (&yen;)</th><th>EU / AUD</th><th>Buy From</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>DiFluid Omix Plus (Full)</td><td>All-in-one</td><td>$2,599</td><td>&yen;371K&ndash;389K</td><td>~EUR2,500</td><td>Direct + Amazon JP</td></tr>
+                            <tr><td>DiFluid Omni</td><td>Color + Grind</td><td>$800</td><td>~&yen;120K direct</td><td>EUR839</td><td>Direct</td></tr>
+                            <tr><td>Syncfo UCA-02 Std</td><td>All-in-one (4)</td><td>~$3,300</td><td>&mdash;</td><td>&mdash;</td><td>Direct (Taiwan)</td></tr>
+                            <tr><td>LeBrew Fusion</td><td>All-in-one (3)</td><td>~$830</td><td>&mdash;</td><td>AUD $1,295</td><td>Retailers</td></tr>
+                            <tr><td>CoffMeter A1</td><td>Color</td><td>$389</td><td>&yen;69,451</td><td>&mdash;</td><td>Direct + Amazon JP</td></tr>
+                            <tr><td>CoffMeter M1</td><td>Moisture/Density</td><td>$289&ndash;329</td><td>&yen;58,364</td><td>&mdash;</td><td>Direct + Amazon JP</td></tr>
+                            <tr><td>CoffMeter W1</td><td>Water Activity</td><td>$519</td><td>&mdash;</td><td>&mdash;</td><td>Direct</td></tr>
+                            <tr><td>LeBrew C1</td><td>Color</td><td>$349</td><td>&mdash;</td><td>&mdash;</td><td>Retailers</td></tr>
+                            <tr><td>Tonino</td><td>Color (ground)</td><td>~$615</td><td>&mdash;</td><td>EUR549</td><td>Direct (Germany)</td></tr>
+                            <tr><td>LeBrew AquaDense</td><td>Moisture/Density</td><td>$329</td><td>&mdash;</td><td>&mdash;</td><td>Retailers</td></tr>
+                            <tr><td>LeBrew AquaGauge</td><td>Water Activity</td><td>$369</td><td>&mdash;</td><td>&mdash;</td><td>Retailers</td></tr>
+                            <tr><td>Lighttells CM-100+</td><td>Color</td><td>$999&ndash;2,250</td><td>&mdash;</td><td>&mdash;</td><td>US/EU retailers</td></tr>
+                            <tr><td>Lighttells CM-200</td><td>Color + Grind</td><td>$3,300</td><td>&mdash;</td><td>&mdash;</td><td>US/EU retailers</td></tr>
+                            <tr><td>Lighttells MD-500</td><td>Moisture/Density</td><td>$2,500</td><td>&mdash;</td><td>EUR1,190</td><td>US/EU retailers</td></tr>
+                            <tr><td>Lighttells AW-600</td><td>Water Activity</td><td>$1,400&ndash;2,500</td><td>&mdash;</td><td>EUR1,190&ndash;2,190</td><td>US/EU retailers</td></tr>
+                            <tr><td>Lighttells CA-700</td><td>Caffeine/CGA</td><td>$2,900</td><td>&mdash;</td><td>&mdash;</td><td>US/EU retailers</td></tr>
+                            <tr><td>RoastRite RA-720BF</td><td>Color</td><td>$1,476&ndash;1,511</td><td>&mdash;</td><td>EUR1,250</td><td>Amazon / retailers</td></tr>
+                            <tr><td>ColorTrack Benchtop</td><td>Color (laser)</td><td>$7,250</td><td>&mdash;</td><td>&mdash;</td><td>Direct (USA)</td></tr>
+                            <tr><td>ColorTrack Realtime</td><td>Inline color</td><td>$1,500&ndash;1,700 + $99/mo</td><td>&mdash;</td><td>&mdash;</td><td>Direct (USA)</td></tr>
+                            <tr><td>Sinar BeanPro 6070</td><td>Moisture/Density</td><td>$3,295&ndash;3,495</td><td>&mdash;</td><td>EUR2,500</td><td>SCA Shop / Sinar UK</td></tr>
+                            <tr><td>AquaLab 4TE</td><td>Water Activity</td><td>~$5,000&ndash;7,000</td><td>&mdash;</td><td>&mdash;</td><td>Contact METER Group</td></tr>
+                            <tr><td>Agtron M-Basic II</td><td>Color</td><td>$10,950</td><td>&mdash;</td><td>&mdash;</td><td>CoffeeTec / US retailers</td></tr>
+                            <tr><td>Agtron E20-CP III</td><td>Color</td><td>$17,750</td><td>&mdash;</td><td>&mdash;</td><td>CoffeeTec / US retailers</td></tr>
+                            <tr><td>DiFluid R2 Extract</td><td>Refractometer</td><td>$230</td><td>&mdash;</td><td>&mdash;</td><td>Direct</td></tr>
+                            <tr><td>Atago PAL-COFFEE</td><td>Refractometer</td><td>$451</td><td>Available</td><td>&mdash;</td><td>Direct (JP maker)</td></tr>
+                            <tr><td>VST LAB III</td><td>Refractometer</td><td>$709&ndash;808</td><td>&mdash;</td><td>&mdash;</td><td>VST Store</td></tr>
+                            <tr><td>Kruve Sifter Max</td><td>Grind sieve</td><td>~$245</td><td>&mdash;</td><td>EUR220</td><td>Direct (Canada)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </details>
+
+        <details class="accordion">
+            <summary>SCA / Industry Standards Quick Reference</summary>
+            <div class="accordion-content">
+                <ul class="action-list">
+                    <li><strong>Green moisture:</strong> 10&ndash;12% (SCA standard). Above 12% is unacceptable; may lose cupping points within 3 months</li>
+                    <li><strong>Water activity:</strong> &lt;0.70 Aw for specialty grade (SCA). Below 0.60 indicates 6+ month shelf stability</li>
+                    <li><strong>Aw sweet spot:</strong> 0.60&ndash;0.70 maximizes Maillard reaction rate during roasting</li>
+                    <li><strong>Defects:</strong> Zero Category 1 defects, five or fewer Category 2 defects for specialty</li>
+                    <li><strong>Cup score:</strong> 80+ for specialty designation. Our target: 86+</li>
+                    <li><strong>Agtron scale:</strong> 25 (very dark) to 95 (very light). SCA adopted as standard classification</li>
+                    <li><strong>CVA 2024:</strong> SCA's new Coffee Value Assessment framework. Descriptive sensory + affective preference + extrinsic context + physical grading</li>
+                    <li><strong>Q Grader:</strong> CQI certification. 20 exams across 9 modules. Required for professional scoring</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="accordion">
+            <summary>Evidence Confidence Levels</summary>
+            <div class="accordion-content">
+                <p style="margin-bottom:var(--space-4)"><strong>High confidence (90%+):</strong> DiFluid/CoffMeter pricing (confirmed on manufacturer sites and Amazon). Agtron pricing (CoffeeTec, Coffee Equipment Pros). Sinar pricing (multiple retailers). VST/Atago pricing. Onyx uses Agtron M-Basic III (confirmed by company rep). SCA/CQI standards (primary SCA documents).</p>
+                <p style="margin-bottom:var(--space-4)"><strong>Medium confidence (70&ndash;85%):</strong> Lighttells AW-600 pricing (wide range across retailers). Syncfo pricing (TWD conversion). Tim Wendelboe tool stack (Cropster podcast + ColorTrack listing). Industry adoption trends. DiFluid performance claims (limited independent validation).</p>
+                <p><strong>Low confidence / gaps:</strong> AquaLab 4TE exact pricing (requires quote). Agtron M-Basic III price (CoffeeTec listing returned 404). Long-term reliability of DiFluid/LeBrew. Internal QC practices at SEY, Glitch, Trunk, Proud Mary, George Howell (not publicly disclosed). Whether organic-certified lots face additional 86+ challenges (testable, not researchable).</p>
+            </div>
+        </details>
+
+        <details class="accordion">
+            <summary>Key Sources</summary>
+            <div class="accordion-content">
+                <ul class="action-list">
+                    <li><strong>Onyx Coffee Lab:</strong> onyxcoffeelab.com &mdash; Find My Roast, wholesale transparency model, Agtron usage confirmed</li>
+                    <li><strong>Tim Wendelboe:</strong> Cropster Podcast ep. 33 &mdash; tools, philosophy, organic farming discussion</li>
+                    <li><strong>Counter Culture:</strong> Transparency report &mdash; Agtron usage, QC facility details</li>
+                    <li><strong>DiFluid:</strong> digitizefluid.com &mdash; full product specs and pricing</li>
+                    <li><strong>CoffMeter:</strong> coffmeter.com &mdash; budget product line specs</li>
+                    <li><strong>Lighttells:</strong> lighttells.com &mdash; full product ecosystem</li>
+                    <li><strong>SCA:</strong> sca.coffee/research/coffee-standards &mdash; moisture, Aw, cupping, CVA standards</li>
+                    <li><strong>CQI:</strong> coffeeinstitute.org &mdash; Q-Grader program requirements</li>
+                    <li><strong>Royal Coffee:</strong> Green coffee analytics series &mdash; moisture, Aw, density science</li>
+                    <li><strong>Robert McKeon Aloe:</strong> Independent DiFluid Omix technical review (Medium, 2024)</li>
+                    <li><strong>Scott Rao:</strong> Blog &mdash; weight loss + color measurement best practices</li>
+                    <li><strong>CoffeeTec / Coffee Equipment Pros:</strong> US retailer pricing for Agtron, Lighttells, ColorTrack</li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="section bg-inverse" style="padding:var(--space-12) var(--container-padding);text-align:center;">
+    <div class="section-inner">
+        <p style="font-family:var(--font-display);font-size:1.3rem;color:var(--color-text-inverse);margin-bottom:var(--space-4)">Tokyo Coffee &mdash; Premium Line Equipment Strategy</p>
+        <p style="font-size:0.82rem;color:rgba(245,240,232,0.5)">Research conducted March 2026 | Post-red-team confidence: 55% | Based on multi-stream research via Claude Code v3 pipeline</p>
+    </div>
+</footer>
+
+<script>
+// Progress bar
+window.addEventListener('scroll', () => {
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const progress = (scrollTop / scrollHeight) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+});
+
+// Sticky nav
+const nav = document.getElementById('stickyNav');
+window.addEventListener('scroll', () => {
+    nav.classList.toggle('visible', window.scrollY > 500);
+});
+
+// Active section highlighting
+const sections = document.querySelectorAll('.section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            navLinks.forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+            });
+        }
+    });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// Fade-in on scroll
+const fadeEls = document.querySelectorAll('.fade-in');
+const fadeObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); fadeObs.unobserve(e.target); }});
+}, { threshold: 0.1 });
+fadeEls.forEach(el => fadeObs.observe(el));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    });
+});
+</script>
+
+</body>
+</html>
